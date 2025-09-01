@@ -1,0 +1,7 @@
+Usecase: obs-overlay
+Name: NDC-2025-Overlay
+Version: 1.0
+Author: vivi
+CompatibleWith: tosu
+Resolution: 1920x1080
+authorLinks: https://x.com/happpy24
