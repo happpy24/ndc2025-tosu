@@ -6,7 +6,7 @@ import { SchedulingScreen } from "./Scheduling";
 import { WinnerScreen } from "./Winner";
 import { TosuProvider } from "./state/tosu";
 
-var state = 0;
+var state = 5;
 if (state === 0) {
   var loadstate = <StartScreen />;
 } else if (state === 1) {

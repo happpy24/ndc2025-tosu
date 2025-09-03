@@ -5,7 +5,7 @@ import logo from "./static/img/logo.png";
 import { motion } from "motion/react";
 
 export function StartScreen() {
-  const { player1, player2, tourney, beatmap, directPath } = useTosu();
+  const { player1, player2, tourney, beatmap } = useTosu();
 
   return (
     <div>
