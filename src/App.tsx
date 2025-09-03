@@ -1,7 +1,7 @@
 import { useWebSocket } from "partysocket/react";
 import { VersusScreen } from "./Versus";
 import { useEffect, useState } from "react";
-import { TosuDataSchema } from "./schemas/tosuData";
+import z from "zod";
 
 export type Player = {
   name: string;
@@ -12,6 +12,70 @@ export type TosuData = {
   player1: Player;
   player2: Player;
 };
+
+const TosuDataSchema = z.object({
+  tourney: z.object({
+    team: z.object({
+      left: z.string(),
+      right: z.string(),
+    }),
+    totalScore: z.object({
+      left: z.number(),
+      right: z.number(),
+    }),
+  }),
+  beatmap: z.object({
+    isKiai: z.boolean(),
+    isBreak: z.boolean(),
+    isConvert: z.boolean(),
+    time: z.object({
+      live: z.number(),
+      firstObject: z.number(),
+      lastObject: z.number(),
+      mp3Length: z.number(),
+    }),
+    status: z.object({
+      number: z.number(),
+      name: z.string(),
+    }),
+    id: z.number(),
+    set: z.number(),
+    artist: z.string(),
+    artistUnicode: z.string(),
+    title: z.string(),
+    titleUnicode: z.string(),
+    mapper: z.string(),
+    stats: z.object({
+      stars: z.object({
+        live: z.number(),
+        total: z.number(),
+      }),
+      ar: z.object({
+        original: z.number(),
+        converted: z.number(),
+      }),
+      cs: z.object({
+        original: z.number(),
+        converted: z.number(),
+      }),
+      od: z.object({
+        original: z.number(),
+        converted: z.number(),
+      }),
+      hp: z.object({
+        original: z.number(),
+        converted: z.number(),
+      }),
+      bpm: z.object({
+        realtime: z.number(),
+        common: z.number(),
+        min: z.number(),
+        max: z.number(),
+      }),
+      maxCombo: z.number(),
+    }),
+  }),
+});
 
 export function App() {
   const tosuSocket = useWebSocket("ws://127.0.0.1:24050/websocket/v2");
@@ -45,7 +109,7 @@ export function App() {
           },
         });
       } catch (e) {
-        console.error("failed to parse json schema:", e);
+        console.error("failed to parse tosu data schema:", e);
       }
     });
 

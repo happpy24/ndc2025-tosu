@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const TosuDataSchema = z.object({
+const TosuDataSchema = z.object({
   client: z.string(),
   server: z.string(),
   state: z.object({
@@ -195,11 +195,11 @@ export const TosuDataSchema = z.object({
     stats: z.object({
       stars: z.object({
         live: z.number(),
-        aim: z.number(),
-        speed: z.number(),
-        flashlight: z.number(),
-        sliderFactor: z.number(),
-        hitWindow: z.number(),
+        aim: z.number().optional(),
+        speed: z.number().optional(),
+        flashlight: z.number().optional(),
+        sliderFactor: z.number().optional(),
+        hitWindow: z.number().optional(),
         total: z.number(),
       }),
       ar: z.object({
