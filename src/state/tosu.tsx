@@ -175,8 +175,6 @@ export function TosuProvider({ children }: { children: ReactNode }) {
           "\\" +
           parsedData.directPath.beatmapBackground;
 
-        console.log(beatmapBackgroundPath);
-
         setTosuData({
           player1: {
             name: parsedData.tourney.team.left,

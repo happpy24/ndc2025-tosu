@@ -4,7 +4,7 @@ import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
 
 export function SchedulingScreen() {
-  const { player1, player2, tourney, beatmap, directPath } = useTosu();
+  const { player1, player2, tourney, beatmap } = useTosu();
 
   return (
     <div>
