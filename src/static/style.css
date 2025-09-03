@@ -24,7 +24,7 @@ body,html {
     color: white;
     width: 1920px;
     height: 1080px;
-    background-color: rgb(10, 4, 65);
+    background-image: url("./img/bg.png");
     position: relative;
     display: flex;
     flex-direction: column;
@@ -72,18 +72,29 @@ body,html {
     text-align: right !important;
 }
 
-#player-icon img {
+#red-player-icon img {
     margin: 16px;
     width: 116px;
     height: 116px;
     object-fit: cover;
+    outline: 7px solid #DC1F2B;
+    outline-offset: -7px;
+}
+
+#blue-player-icon img {
+    margin: 16px;
+    width: 116px;
+    height: 116px;
+    object-fit: cover;
+    outline: 7px solid #1F55DC;
+    outline-offset: -7px;
 }
 
 #player-info {
-    margin-top: 20px;
+    margin-top: 15px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 2px;
 }
 
 #player-name {
@@ -94,20 +105,56 @@ body,html {
 }
 
 #player-seed {
-    font-size: 24px;
+    font-size: 20px;
     font-family: BenderRegular, Helvetica, sans-serif;
     font-weight: normal;
-    color: white;
+    color: #FF962D;
 }
 
 #player-supporters {
-    font-size: 24px;
+    font-size: 20px;
     font-family: BenderRegular, Helvetica, sans-serif;
     font-weight: normal;
-    color: white;
+    color: #FF962D;
+}
+
+#player-pickems {
+    font-size: 20px;
+    font-family: BenderRegular, Helvetica, sans-serif;
+    font-weight: normal;
+    color: #FF962D;
 }
 
 /* Player MapWins */
+#red-maps-won, #blue-maps-won {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 27px;
+}
+
+#red-maps-won {
+    left: 450px;
+}
+
+#blue-maps-won {
+    flex-direction: row-reverse !important;
+    right: 450px;
+}
+
+.map-point {
+    width: 46px;
+    height: 15px;
+    border: 2px solid white;
+}
+
+.map-won {
+    background-color: #FF962D;
+}
+
 
 /* MIDDLE */
 
@@ -151,37 +198,57 @@ body,html {
 #scoring {
     position: absolute;
     left: 50%;
-    top: 50%;
+    top: 126px;
     transform: translate(-50%, -50%);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     width: 1920px;
+    transition: width 0.5s cubic-bezier(0.77, 0, 0.175, 1), height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+
 }
 
 #score-red {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    align-items: flex-end;
+    transition: width 0.5s cubic-bezier(0.77, 0, 0.175, 1), height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+
 }
 
 #score-blue {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    align-items: flex-start;
+    transition: width 0.5s cubic-bezier(0.77, 0, 0.175, 1), height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+
 }
 
 #score-values-red {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: left;
     gap: 20px;
-    width: 250px;
+    min-width: 250px;
+    align-items: flex-end;
+    bottom: 5px;
 }
 
 #score-values-blue {
+    position: relative;
     display: flex;
     flex-direction: row-reverse;
     justify-content: right;
     gap: 20px;
-    width: 600px;
+    min-width: 250px;
+    align-items: flex-end;
+    bottom: 5px;
 }
 
 #score-now-red, #score-now-blue {
@@ -196,27 +263,43 @@ body,html {
 #score-bar-blue {
     height: 10px;
     margin: 0;
+    transition: width 0.5s cubic-bezier(0.77, 0, 0.175, 1), height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+
 }
 
 #score-bar-red {
     background-color: #DC1F2B;
-    width: 250px;
 }
 
 #score-bar-blue {
     background-color: #1F55DC;
-    width: 600px;
 }
 
 #score-now-blue.winning, #score-now-red.winning {
     font-family: BenderBlack, Helvetica, sans-serif;
     font-weight: normal;
     color: #FF962D;
-    font-size: 36px !important;}
-
-.winning {
-    height: 20px !important;
+    font-size: 36px !important;
 }
+
+#score-bar-red.winning, #score-bar-blue.winning {
+    position: relative;
+    height: 20px !important;
+    bottom: 6px;
+    transition: width 0.5s cubic-bezier(0.77, 0, 0.175, 1), height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+#score-difference-red, #score-difference-blue {
+    font-size: 24px;
+    font-family: BenderRegular, Helvetica, sans-serif;
+    font-weight: normal;
+    color: white;
+    text-align: center;
+    position: relative;
+    top: -5px;
+    transition: width 0.5s cubic-bezier(0.77, 0, 0.175, 1), height 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+
+}   
 
 #gameplay {
     width: 1920px;
@@ -238,4 +321,22 @@ body,html {
 #bottom {
     width: 100%;
     height: 200px;
+}
+
+#ndc-logo img {
+    width: 275px;
+    height: 137px;
+    padding-top: 37px;
+    padding-left: 64px;
+}
+
+#current-map {
+    width: 930px;
+    height: 137px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
