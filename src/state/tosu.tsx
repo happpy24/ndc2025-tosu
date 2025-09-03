@@ -34,10 +34,7 @@ export type Beatmap = {
   stars: number;
   bpm: number;
   length: number;
-};
-
-export type DirectPath = {
-  beatmapBackground: string;
+  backgroundPath: string;
 };
 
 export type TosuData = {
@@ -45,7 +42,6 @@ export type TosuData = {
   player2: Player;
   tourney: Tourney;
   beatmap: Beatmap;
-  directPath: DirectPath;
 };
 
 const TosuDataSchema = z.object({
@@ -124,6 +120,12 @@ const TosuDataSchema = z.object({
   directPath: z.object({
     beatmapBackground: z.string(),
   }),
+  folders: z.object({
+    game: z.string(),
+    skin: z.string(),
+    songs: z.string(),
+    beatmap: z.string(),
+  }),
 });
 
 const TosuContext = createContext<TosuData | null>(null);
@@ -151,8 +153,8 @@ export function TosuProvider({ children }: { children: ReactNode }) {
       stars: 0,
       bpm: 0,
       length: 0,
+      backgroundPath: "",
     },
-    directPath: { beatmapBackground: "" },
   });
 
   useEffect(() => {
@@ -168,6 +170,12 @@ export function TosuProvider({ children }: { children: ReactNode }) {
       try {
         const json = JSON.parse(e.data);
         const parsedData = TosuDataSchema.parse(json);
+        const beatmapBackgroundPath =
+          parsedData.folders.songs +
+          "\\" +
+          parsedData.directPath.beatmapBackground;
+
+        console.log(beatmapBackgroundPath);
 
         setTosuData({
           player1: {
@@ -198,9 +206,7 @@ export function TosuProvider({ children }: { children: ReactNode }) {
             stars: parsedData.beatmap.stats.stars.total,
             bpm: parsedData.beatmap.stats.bpm.realtime,
             length: parsedData.beatmap.time.lastObject,
-          },
-          directPath: {
-            beatmapBackground: parsedData.directPath.beatmapBackground,
+            backgroundPath: beatmapBackgroundPath.replace(/\\/g, "/"),
           },
         });
       } catch (e) {
