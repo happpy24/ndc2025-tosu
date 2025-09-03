@@ -6,7 +6,7 @@ import logo from "./static/img/logo.png";
 export function VersusScreen() {
 	const { player1, player2, tourney, beatmap, directPath } = useTosu();
 
-	const maxScore = 1200000;
+	const maxScore = player1.score + player2.score;
 	const maxBarWidth = 600;
 
 	const redBarWidth =
@@ -42,9 +42,7 @@ export function VersusScreen() {
 								<img src={avatar} />
 							</div>
 							<div id="player-info">
-								<div id="player-name">
-									{player1.name ? "" : "Unknown player"}
-								</div>
+								<div id="player-name">{player1.name}</div>
 								<div id="player-seed">Seed: 22</div>
 								<div id="player-supporters">Supporters: 22</div>
 								<div id="player-pickems">Pickems: 50%</div>
@@ -141,7 +139,7 @@ export function VersusScreen() {
 									id="player-name"
 									className="align-right"
 								>
-									{player2.name ? "" : "Unknown player"}
+									{player2.name}
 								</div>
 								<div
 									id="player-seed"
@@ -168,7 +166,6 @@ export function VersusScreen() {
 				</div>
 				<div id="gameplay">
 					<div id="greenscreen"></div>
-					<div id="mappool"></div>
 				</div>
 				<div id="orange-line"></div>
 				<div id="bottom">

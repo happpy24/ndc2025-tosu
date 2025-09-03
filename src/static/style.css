@@ -439,3 +439,115 @@ p {
     color: #FF962D;
     text-align: center;
 }
+
+#ss-top {
+    width: 100%;
+    height: 870px;
+}
+
+#ss-title {
+    font-size: 64px;
+    font-family: BenderBlack, Helvetica, sans-serif;
+    font-weight: normal;
+    color: #FF962D;
+    text-align: center;
+    padding-top: 78px;
+}
+
+#ss-winner-loser {
+    font-size: 48px;
+    font-family: BenderBlack, Helvetica, sans-serif;
+    font-weight: normal;
+    color: #FF962D;
+    text-align: center;
+}
+
+#ss-upcoming {
+    font-size: 64px;
+    font-family: BenderBlack, Helvetica, sans-serif;
+    font-weight: normal;
+    color: white;
+    text-align: center;
+    margin-top: 80px;
+}
+
+#ss-vs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+#ss-red-player, #ss-blue-player {
+    display: flex;
+    flex-direction: row;
+    width: 885px;
+}
+
+#ss-red-player {
+    flex-direction: row-reverse !important;
+}
+
+#ss-red-player-icon img {
+    margin: 16px;
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    outline: 7px solid #DC1F2B;
+    outline-offset: -7px;
+}
+
+#ss-blue-player-icon img {
+    margin: 16px;
+    width: 240px;
+    height: 240px;
+    object-fit: cover;
+    outline: 7px solid #1F55DC;
+    outline-offset: -7px;
+}
+
+#ss-player-info {
+    margin-top: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#ss-player-name {
+    font-size: 64px;
+    font-family: BenderBlack, Helvetica, sans-serif;
+    font-weight: normal;
+    color: white;
+}
+
+#ss-player-seed {
+    font-size: 36px;
+    font-family: BenderRegular, Helvetica, sans-serif;
+    font-weight: normal;
+    color: white;
+}
+
+#ss-player-supporters {
+    font-size: 36px;
+    font-family: BenderRegular, Helvetica, sans-serif;
+    font-weight: normal;
+    color: white;
+}
+
+#ss-player-pickems {
+    font-size: 36px;
+    font-family: BenderRegular, Helvetica, sans-serif;
+    font-weight: normal;
+    color: white;
+}
+
+#ss-vs-text {
+    font-size: 48px;
+    font-family: BenderBlack, Helvetica, sans-serif;
+    font-weight: 900;
+    color: #FF962D;
+}
