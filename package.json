@@ -9,10 +9,13 @@
     "build": "bun run build.ts"
   },
   "dependencies": {
+    "@types/react-transition-group": "^4.4.12",
     "bun-plugin-tailwind": "^0.0.15",
+    "motion": "^12.23.12",
     "partysocket": "^1.1.5",
     "react": "^19",
     "react-dom": "^19",
+    "react-transition-group": "^4.4.5",
     "tailwindcss": "^4.1.11",
     "zod": "^4.1.5"
   },
