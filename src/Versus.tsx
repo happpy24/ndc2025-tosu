@@ -32,6 +32,15 @@ export function VersusScreen() {
     ></div>
   ));
 
+  function formatTime(ms: number): string {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const paddedMinutes = String(minutes).padStart(2, "0");
+    const paddedSeconds = String(seconds).padStart(2, "0");
+    return `${paddedMinutes}:${paddedSeconds}`;
+  }
+
   return (
     <div>
       <div id="main">
@@ -187,7 +196,7 @@ export function VersusScreen() {
               </div>
               <div id="current-map-length">
                 <p>Length</p>
-                <div id="length">{beatmap.length}</div>
+                <div id="length">{formatTime(beatmap.length)}</div>
               </div>
             </div>
           </div>

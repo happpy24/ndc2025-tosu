@@ -36,6 +36,19 @@ p {
   flex-direction: column;
 }
 
+#main-scheduling {
+  font-size: 20px;
+  font-family: BenderBold, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+  width: 1920px;
+  height: 1080px;
+  background-image: url("./img/bg-scheduling.png");
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
 /* TOP */
 
 #top {
