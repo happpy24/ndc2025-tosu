@@ -1,0 +1,24 @@
+{
+  "name": "ndc-overlay",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/server.ts",
+    "start": "NODE_ENV=production bun src/server.ts",
+    "build": "bun run build.ts"
+  },
+  "dependencies": {
+    "bun-plugin-tailwind": "^0.0.15",
+    "partysocket": "^1.1.5",
+    "react": "^19",
+    "react-dom": "^19",
+    "tailwindcss": "^4.1.11",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/bun": "latest"
+  }
+}
