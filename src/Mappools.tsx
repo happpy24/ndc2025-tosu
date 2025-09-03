@@ -33,7 +33,7 @@ export function MappoolScreen() {
               </div>
               <div id="player-info">
                 <div id="player-name">
-                  {player1.name ? "" : "Unknown player"}
+                  {player1.name !== "" ? player1.name : "Unknown player"}{" "}
                 </div>
                 <div id="player-seed">Seed: 22</div>
                 <div id="player-supporters">Supporters: 22</div>
@@ -49,7 +49,7 @@ export function MappoolScreen() {
               </div>
               <div id="player-info">
                 <div id="player-name" className="align-right">
-                  {player2.name ? "" : "Unknown player"}
+                  {player2.name !== "" ? player2.name : "Unknown player"}{" "}
                 </div>
                 <div id="player-seed" className="align-right">
                   Seed: 22

@@ -36,6 +36,19 @@ p {
   flex-direction: column;
 }
 
+#main-scheduling {
+  font-size: 20px;
+  font-family: BenderBold, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+  width: 1920px;
+  height: 1080px;
+  background-image: url("./img/bg-scheduling.png");
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
 /* TOP */
 
 #top {
@@ -809,4 +822,89 @@ p {
   width: 470px;
   font-size: 20px;
   padding-left: 10px;
+}
+
+#win-top {
+  width: 100%;
+  height: 870px;
+  display: flex;
+}
+
+#win-left {
+  margin-top: 200px;
+  margin-left: 296px;
+  width: 880px;
+}
+
+#win-text {
+  font-size: 96px;
+  font-family: BenderBlack, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #ff962d;
+}
+
+#win-player {
+  display: flex;
+  margin-top: 20px;
+}
+
+#win-player-icon img{
+  width: 240px;
+  height: 240px;
+  object-fit: cover;
+  outline: 7px solid #1f55dc;
+  outline-offset: -7px;
+}
+
+#win-player-info {
+  margin-top: 5px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#win-player-name {
+  font-size: 72px;
+  font-family: BenderBlack, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+}
+
+#win-player-seed {
+  font-size: 40px;
+  font-family: BenderRegular, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #ff962d;
+}
+
+#win-player-supporters {
+  font-size: 40px;
+  font-family: BenderRegular, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #ff962d;
+}
+
+#win-player-pickems {
+  font-size: 40px;
+  font-family: BenderRegular, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #ff962d;
+}
+
+#win-stage-info {
+  margin-top: 20px;
+  font-size: 40px;
+  font-family: BenderRegular, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#win-right {
+  margin-top: 120px;
+  margin-left: 150px;
+  width: 880px;
 }
