@@ -4,7 +4,7 @@ import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
 
 export function VersusScreen() {
-	const { player1, player2, tourney, beatmap } = useTosu();
+	const { player1, player2, tourney, beatmap, directPath } = useTosu();
 
 	const maxScore = 1200000;
 	const maxBarWidth = 600;
@@ -176,15 +176,22 @@ export function VersusScreen() {
 						<img src={logo} />
 					</div>
 					<div id="current-map">
+						<div id="overlay-opacity"></div>
+						<div
+							id="beatmap-background"
+							style={{
+								backgroundImage: `url(file:///${directPath.beatmapBackground})`
+							}}
+						></div>
 						<div id="current-map-info">
 							<div id="current-map-name">{beatmap.title}</div>
 							<div id="current-map-artist">{beatmap.artist}</div>
 							<div id="diff-mapper">
 								<div id="current-map-difficulty">
-									{beatmap.difficulty}
+									[{beatmap.difficulty}]
 								</div>
 								<div id="current-map-mapper">
-									{beatmap.mapper}
+									Mapped by: {beatmap.mapper}
 								</div>
 							</div>
 						</div>

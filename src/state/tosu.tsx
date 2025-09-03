@@ -36,11 +36,16 @@ export type Beatmap = {
 	length: number;
 };
 
+export type DirectPath = {
+	beatmapBackground: string;
+};
+
 export type TosuData = {
 	player1: Player;
 	player2: Player;
 	tourney: Tourney;
 	beatmap: Beatmap;
+	directPath: DirectPath;
 };
 
 const TosuDataSchema = z.object({
@@ -115,6 +120,9 @@ const TosuDataSchema = z.object({
 			}),
 			maxCombo: z.number()
 		})
+	}),
+	directPath: z.object({
+		beatmapBackground: z.string()
 	})
 });
 
@@ -143,7 +151,8 @@ export function TosuProvider({ children }: { children: ReactNode }) {
 			stars: 0,
 			bpm: 0,
 			length: 0
-		}
+		},
+		directPath: { beatmapBackground: "" }
 	});
 
 	useEffect(() => {
@@ -189,6 +198,10 @@ export function TosuProvider({ children }: { children: ReactNode }) {
 						stars: parsedData.beatmap.stats.stars.total,
 						bpm: parsedData.beatmap.stats.bpm.realtime,
 						length: parsedData.beatmap.time.lastObject
+					},
+					directPath: {
+						beatmapBackground:
+							parsedData.directPath.beatmapBackground
 					}
 				});
 			} catch (e) {
