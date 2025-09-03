@@ -1,13 +1,8 @@
-import type { TosuData } from "./App";
+import { useTosu } from "./state/tosu";
 import "./static/style.css";
 
-export type VersusScreenProps = {
-  data: TosuData;
-};
-
-export function VersusScreen(props: VersusScreenProps) {
-  const player1 = props.data.player1;
-  const player2 = props.data.player2;
+export function VersusScreen() {
+  const { player1, player2 } = useTosu();
 
   return (
     <div>
