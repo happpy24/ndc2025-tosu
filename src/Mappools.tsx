@@ -78,7 +78,7 @@ export function MappoolScreen() {
                     IYOSIS feat. Vivi - Happy's Perfecte Baby Bracket
                   </div>
                   <div className="mappool-map-difficulty">
-                    De Perfecte Baby Bracket!!!
+                    De Perfecte Baby Brackawfawfawfawffawfawfawfawet!!!
                   </div>
                 </div>
               </div>
@@ -318,15 +318,15 @@ export function MappoolScreen() {
             </div>
             <div id="tb-pool">
               <div className="mappool-map tb">
-                <div className="mappool-map-top">
+                <div className="mappool-map-top tb">
                   <div className="mappool-map-bg"></div>
                   <div className="mappool-map-id tb">TB</div>
                 </div>
-                <div className="mappool-map-bottom">
-                  <div className="mappool-map-artist-title">
+                <div className="mappool-map-bottom tb">
+                  <div className="mappool-map-artist-title tb">
                     IYOSIS feat. Vivi - Happy's Perfecte Baby Bracket
                   </div>
-                  <div className="mappool-map-difficulty">
+                  <div className="mappool-map-difficulty tb">
                     De Perfecte Baby Bracket!!!
                   </div>
                 </div>

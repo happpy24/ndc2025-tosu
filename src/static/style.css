@@ -636,14 +636,21 @@ p {
 #mappool {
   width: 1920px;
   height: 720px;
+  display: flex;
+  justify-content: space-between;
 }
 
-#nm-pool {
-  position: relative;
-  top: 35px;
-  left: 32px;
+#mappool-left {
+  display: flex;
+  flex-direction: column;
   width: 1183px;
-  height: 305px;
+  padding-left: 32px;
+  padding-top: 35px;
+  gap: 32px;
+}
+
+#nm-pool, #hd-pool, #hr-pool {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -651,6 +658,43 @@ p {
   justify-content: center;
   gap: 30px;
 }
+
+#nm-pool:has(:nth-child(5)):not(:has(:nth-child(6))) > :nth-child(3) {
+  margin-right: 100px;
+}
+
+#nm-pool:has(:nth-child(5)):not(:has(:nth-child(6))) > :nth-child(1) {
+  margin-left: 100px;
+}
+
+
+#nm-pool:has(:nth-child(6)):not(:has(:nth-child(7))) > :nth-child(3) {
+  margin-right: 100px;
+}
+
+#nm-pool:has(:nth-child(6)):not(:has(:nth-child(7))) > :nth-child(1) {
+  margin-left: 100px;
+}
+
+#mappool-right {
+  display: flex;
+  flex-direction: column;
+  width: 685px;
+  padding-top: 35px;
+  gap: 73px;
+}
+
+#dt-pool {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+
 
 .mappool-map {
   width: 253px;
@@ -675,6 +719,8 @@ p {
 }
 
 .mappool-map.tb {
+  width: 489px;
+  height: 266px;
   background: radial-gradient(100% 100% at 50% 0%, #553C1A 0%, #2F2218 100%);
 }
 
@@ -683,14 +729,17 @@ p {
   height: 83px;
 }
 
+.mappool-map-top.tb {
+  height: 160px;
+}
+
 .mappool-map-id {
   font-size: 36px;
   font-family: BenderBlack, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
-  width: 100%;
+  width: 245px;
   padding-top: 42px;
-  padding-right: 5px;
   text-align: right;
 }
 
@@ -711,7 +760,9 @@ p {
 }
 
 .mappool-map-id.tb {
+  width: 475px;
   color: #FFAB6E;
+  font-size: 80px !important;
 }
 
 .mappool-map-bottom {
@@ -735,6 +786,27 @@ p {
   -webkit-box-orient: vertical;
 }
 
+.mappool-map-artist-title.tb {
+  width: 470px;
+  height: 70px;
+  font-size: 30px;
+  padding-left: 10px;
+}
+
 .mappool-map-difficulty {
-  
+  width: 243px;
+  padding-left: 5px;
+  font-family: BenderBold, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #8E8E8E;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mappool-map-difficulty.tb {
+  width: 470px;
+  font-size: 20px;
+  padding-left: 10px;
 }
