@@ -14,13 +14,13 @@ export const sectionVariants = {
       initial: { opacity: 0 },
       animate: { opacity: 1 },
       exit: { opacity: 0 },
-      transition: { duration: 0.5 },
+      transition: { duration: 0.2 },
     },
     slide: (direction: 1 | -1) => ({
       initial: { x: SLIDE_DISTANCE * direction, opacity: 1 },
       animate: { x: 0, opacity: 1 },
       exit: { x: -SLIDE_DISTANCE * direction, opacity: 1 },
-      transition: { duration: 0.5 },
+      transition: { duration: 0.2 },
     }),
     none: {
       initial: { opacity: 1 },
@@ -34,13 +34,13 @@ export const sectionVariants = {
       initial: { opacity: 0 },
       animate: { opacity: 1 },
       exit: { opacity: 0 },
-      transition: { duration: 0.5 },
+      transition: { duration: 0.2 },
     },
     slide: (direction: 1 | -1) => ({
       initial: { x: SLIDE_DISTANCE * direction, opacity: 1 },
       animate: { x: 0, opacity: 1 },
       exit: { x: -SLIDE_DISTANCE * direction, opacity: 1 },
-      transition: { duration: 0.5 },
+      transition: { duration: 0.2 },
     }),
     none: {
       initial: { opacity: 1 },
@@ -54,13 +54,13 @@ export const sectionVariants = {
       initial: { opacity: 0 },
       animate: { opacity: 1 },
       exit: { opacity: 0 },
-      transition: { duration: 0.5 },
+      transition: { duration: 0.2 },
     },
     slide: (direction: 1 | -1) => ({
       initial: { x: SLIDE_DISTANCE * direction, opacity: 1 },
       animate: { x: 0, opacity: 1 },
       exit: { x: -SLIDE_DISTANCE * direction, opacity: 1 },
-      transition: { duration: 0.5 },
+      transition: { duration: 0.2 },
     }),
     none: {
       initial: { opacity: 1 },
@@ -101,12 +101,12 @@ export function getAnimations(from: string, to: string): AnimTypes {
     // Standby ↔ Mappool
     case "standby->mappool":
     case "mappool->standby":
-      return { header: "fade", main: "slide", footer: "none" };
+      return { header: "none", main: "slide", footer: "none" };
 
     // Standby ↔ Versus
     case "standby->versus":
     case "versus->standby":
-      return { header: "fade", main: "fade", footer: "fade" };
+      return { header: "none", main: "none", footer: "fade" };
 
     // Standby ↔ Winner
     case "standby->winner":

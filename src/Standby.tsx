@@ -17,7 +17,6 @@ interface StandbyScreenProps {
 export function StandbyScreen({ previous }: StandbyScreenProps) {
   const anims: AnimTypes = getAnimations(previous || "standby", "standby");
 
-  // Direction for slide animations: new slides in from right
   const slideDirection: 1 | -1 = 1;
 
   return (

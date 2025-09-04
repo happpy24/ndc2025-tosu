@@ -38,8 +38,6 @@ export function App() {
   });
   const [previous, setPrevious] = useState<string | undefined>(undefined);
 
-  const Screen = screens[activeScreen] ?? StartScreen;
-
   const changeScreen = (next: string) => {
     setPrevious(activeScreen);
     setActiveScreen(next);
@@ -52,8 +50,25 @@ export function App() {
         <div
           style={{ position: "relative", width: "1920px", height: "1080px" }}
         >
-          <AnimatePresence mode="sync">
-            <Screen key={activeScreen} previous={previous} />
+          <AnimatePresence mode="wait" initial={false}>
+            {activeScreen === "start" && (
+              <StartScreen key="startscreen" previous={previous} />
+            )}
+            {activeScreen === "standby" && (
+              <StandbyScreen key="standbyscreen" previous={previous} />
+            )}
+            {activeScreen === "versus" && (
+              <VersusScreen key="versusscreen" previous={previous} />
+            )}
+            {activeScreen === "mappool" && (
+              <MappoolScreen key="mappoolscreen" previous={previous} />
+            )}
+            {activeScreen === "scheduling" && (
+              <SchedulingScreen key="scheduling" previous={previous} />
+            )}
+            {activeScreen === "winner" && (
+              <WinnerScreen key="winnerscreen" previous={previous} />
+            )}
           </AnimatePresence>
         </div>
 
