@@ -35,7 +35,7 @@ function ModBracket(
             <img className={"mappool-map-bg"} src={map.bgUrl} />
             <div
               className={`mappool-map-id ${mod}`}
-            >{`${map.modBracket}${map.modBracketIndex}`}</div>
+            >{`${map.modBracket}${tb ? "" : map.modBracketIndex}`}</div>
           </div>
           <div className={clsx("mappool-map-bottom", tb)}>
             <div className={clsx("mappool-map-artist-title", tb)}>
