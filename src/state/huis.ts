@@ -282,6 +282,7 @@ const mappoolSchema = z
         diffName: diff_name,
         setId: set_id,
         mapId: map_id,
+        bgUrl: `https://assets.ppy.sh/beatmaps/${set_id}/covers/raw.jpg`,
         isCustomMap: is_custom_map,
         ...map,
       }),

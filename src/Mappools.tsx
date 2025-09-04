@@ -1,10 +1,53 @@
+import clsx from "clsx";
 import { Casters } from "./components/Casters";
 import { Chat } from "./components/Chat";
 import { Logo } from "./components/Logo";
 import { MainContent } from "./components/MainContent";
 import { PlayerInfo } from "./components/PlayerInfo";
 import { StageInfo } from "./components/StageInfo";
-import { useMappoolQuery } from "./state/huis";
+import { useMappoolQuery, type Beatmap } from "./state/huis";
+
+function ModBracket(
+  beatmaps: Beatmap[],
+  mod: Lowercase<Beatmap["modBracket"]>,
+) {
+  const tb = mod === "tb" && "tb";
+
+  return (
+    <div id={`${mod}-pool`}>
+      {beatmaps.map((map) => (
+        <div className={`mappool-map ${mod}`} key={map.mapId}>
+          <div className="picked-red ">
+            <div className="picked-indicator-red">PICKED BY RED</div>
+          </div>
+          <div className="picked-blue">
+            <div className="picked-indicator-blue">PICKED BY BLUE</div>
+          </div>
+          <div className="banned-red">
+            <div className="banned-indicator-red">Banned by Red</div>
+          </div>
+          <div className="banned-blue">
+            <div className="banned-indicator-blue">Banned by Blue</div>
+          </div>
+          <div className={clsx("mappool-map-top", tb)}>
+            <img className={"mappool-map-bg"} src={map.bgUrl} />
+            <div
+              className={`mappool-map-id ${mod}`}
+            >{`${map.modBracket}${map.modBracketIndex}`}</div>
+          </div>
+          <div className={clsx("mappool-map-bottom", tb)}>
+            <div className={clsx("mappool-map-artist-title", tb)}>
+              {`${map.artist} - ${map.title}`}
+            </div>
+            <div className={clsx("mappool-map-difficulty", tb)}>
+              {map.diffName}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export function MappoolScreen() {
   const { beatmaps } = useMappoolQuery();
@@ -28,167 +71,13 @@ export function MappoolScreen() {
         <MainContent>
           <div id="mappool">
             <div id="mappool-left">
-              <div id="nm-pool">
-                {beatmaps.NM.map((map) => (
-                  <div className="mappool-map nm" key={map.mapId}>
-                    <div className="picked-red ">
-                      <div className="picked-indicator-red">PICKED BY RED</div>
-                    </div>
-                    <div className="picked-blue">
-                      <div className="picked-indicator-blue">
-                        PICKED BY BLUE
-                      </div>
-                    </div>
-                    <div className="banned-red">
-                      <div className="banned-indicator-red">Banned by Red</div>
-                    </div>
-                    <div className="banned-blue">
-                      <div className="banned-indicator-blue">
-                        Banned by Blue
-                      </div>
-                    </div>
-                    <div className="mappool-map-top">
-                      <div className="mappool-map-bg"></div>
-                      <div className="mappool-map-id nm">{`${map.modBracket}${map.modBracketIndex}`}</div>
-                    </div>
-                    <div className="mappool-map-bottom">
-                      <div className="mappool-map-artist-title">
-                        {`${map.artist} - ${map.title}`}
-                      </div>
-                      <div className="mappool-map-difficulty">
-                        {map.diffName}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div id="hd-pool">
-                {beatmaps.HD.map((map) => (
-                  <div className="mappool-map hd" key={map.mapId}>
-                    <div className="picked-red ">
-                      <div className="picked-indicator-red">PICKED BY RED</div>
-                    </div>
-                    <div className="picked-blue">
-                      <div className="picked-indicator-blue">
-                        PICKED BY BLUE
-                      </div>
-                    </div>
-                    <div className="banned-red">
-                      <div className="banned-indicator-red">Banned by Red</div>
-                    </div>
-                    <div className="banned-blue">
-                      <div className="banned-indicator-blue">
-                        Banned by Blue
-                      </div>
-                    </div>
-                    <div className="mappool-map-top">
-                      <div className="mappool-map-bg"></div>
-                      <div className="mappool-map-id hd">{`${map.modBracket}${map.modBracketIndex}`}</div>
-                    </div>
-                    <div className="mappool-map-bottom">
-                      <div className="mappool-map-artist-title">
-                        {`${map.artist} - ${map.title}`}
-                      </div>
-                      <div className="mappool-map-difficulty">
-                        {map.diffName}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div id="hr-pool">
-                {beatmaps.HR.map((map) => (
-                  <div className="mappool-map hr" key={map.mapId}>
-                    <div className="picked-red ">
-                      <div className="picked-indicator-red">PICKED BY RED</div>
-                    </div>
-                    <div className="picked-blue">
-                      <div className="picked-indicator-blue">
-                        PICKED BY BLUE
-                      </div>
-                    </div>
-                    <div className="banned-red">
-                      <div className="banned-indicator-red">Banned by Red</div>
-                    </div>
-                    <div className="banned-blue">
-                      <div className="banned-indicator-blue">
-                        Banned by Blue
-                      </div>
-                    </div>
-                    <div className="mappool-map-top">
-                      <div className="mappool-map-bg"></div>
-                      <div className="mappool-map-id hr">{`${map.modBracket}${map.modBracketIndex}`}</div>
-                    </div>
-                    <div className="mappool-map-bottom">
-                      <div className="mappool-map-artist-title">
-                        {`${map.artist} - ${map.title}`}
-                      </div>
-                      <div className="mappool-map-difficulty">
-                        {map.diffName}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {ModBracket(beatmaps.NM, "nm")}
+              {ModBracket(beatmaps.HD, "hd")}
+              {ModBracket(beatmaps.HR, "hr")}
             </div>
             <div id="mappool-right">
-              <div id="dt-pool">
-                {beatmaps.DT.map((map) => (
-                  <div className="mappool-map dt" key={map.mapId}>
-                    <div className="picked-red ">
-                      <div className="picked-indicator-red">PICKED BY RED</div>
-                    </div>
-                    <div className="picked-blue">
-                      <div className="picked-indicator-blue">
-                        PICKED BY BLUE
-                      </div>
-                    </div>
-                    <div className="banned-red">
-                      <div className="banned-indicator-red">Banned by Red</div>
-                    </div>
-                    <div className="banned-blue">
-                      <div className="banned-indicator-blue">
-                        Banned by Blue
-                      </div>
-                    </div>
-                    <div className="mappool-map-top">
-                      <div className="mappool-map-bg"></div>
-                      <div className="mappool-map-id dt">{`${map.modBracket}${map.modBracketIndex}`}</div>
-                    </div>
-                    <div className="mappool-map-bottom">
-                      <div className="mappool-map-artist-title">
-                        {`${map.artist} - ${map.title}`}
-                      </div>
-                      <div className="mappool-map-difficulty">
-                        {map.diffName}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div id="tb-pool">
-                {beatmaps.TB.map((map) => (
-                  <div className="mappool-map tb" key={map.mapId}>
-                    <div className="picked-tb">
-                      <div className="picked-indicator-tb">
-                        TIEBREAKER HYPE!!!
-                      </div>
-                    </div>
-                    <div className="mappool-map-top tb">
-                      <div className="mappool-map-bg"></div>
-                      <div className="mappool-map-id tb">{map.modBracket}</div>
-                    </div>
-                    <div className="mappool-map-bottom tb">
-                      <div className="mappool-map-artist-title tb">
-                        {`${map.artist} - ${map.title}`}
-                      </div>
-                      <div className="mappool-map-difficulty tb">
-                        {map.diffName}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {ModBracket(beatmaps.DT, "dt")}
+              {ModBracket(beatmaps.TB, "tb")}
             </div>
           </div>
         </MainContent>

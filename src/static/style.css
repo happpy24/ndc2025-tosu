@@ -672,6 +672,18 @@ p {
   gap: 32px;
 }
 
+.mappool-map-top {
+  position: relative;
+}
+
+.mappool-map-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: brightness(36%);
+}
+
 #nm-pool,
 #hd-pool,
 #hr-pool {
@@ -722,6 +734,7 @@ p {
   width: 253px;
   height: 138px;
   border-radius: 15px 0px;
+  mask-image: radial-gradient(100% 100% at 50% 0%, #1a1a55 0%, #18182f 100%);
 }
 
 .mappool-map.nm {
@@ -879,6 +892,8 @@ p {
 }
 
 .mappool-map-id {
+  position: absolute;
+  top: 0px;
   font-size: 36px;
   font-family: BenderBlack, Helvetica, sans-serif;
   font-weight: normal;
@@ -917,7 +932,7 @@ p {
 
 .mappool-map-artist-title {
   width: 243px;
-  padding-top: 5px;
+  align-content: center;
   padding-left: 5px;
   font-size: 15px;
   font-family: BenderBlack, Helvetica, sans-serif;
