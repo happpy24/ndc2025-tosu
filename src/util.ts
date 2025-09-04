@@ -16,5 +16,5 @@ export function getBeatmapBgUrl(setId?: number) {
     return "";
   }
 
-  return `https://assets.ppy.sh/beatmaps/${setId}/covers/raw.jpg`;
+  return `https://assets.ppy.sh/beatmaps/${setId}/covers/cover.jpg`;
 }
