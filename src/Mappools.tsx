@@ -27,6 +27,18 @@ export function MappoolScreen() {
             <div id="nm-pool">
               {beatmaps.NM.map((map) => (
                 <div className="mappool-map nm" key={map.mapId}>
+                  <div className="picked-red ">
+                    <div className="picked-indicator-red">PICKED BY RED</div>
+                  </div>
+                  <div className="picked-blue">
+                    <div className="picked-indicator-blue">PICKED BY BLUE</div>
+                  </div>
+                  <div className="banned-red">
+                    <div className="banned-indicator-red">Banned by Red</div>
+                  </div>
+                  <div className="banned-blue">
+                    <div className="banned-indicator-blue">Banned by Blue</div>
+                  </div>
                   <div className="mappool-map-top">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id nm">{`${map.modBracket}${map.modBracketIndex}`}</div>
@@ -43,6 +55,18 @@ export function MappoolScreen() {
             <div id="hd-pool">
               {beatmaps.HD.map((map) => (
                 <div className="mappool-map hd" key={map.mapId}>
+                  <div className="picked-red ">
+                    <div className="picked-indicator-red">PICKED BY RED</div>
+                  </div>
+                  <div className="picked-blue">
+                    <div className="picked-indicator-blue">PICKED BY BLUE</div>
+                  </div>
+                  <div className="banned-red">
+                    <div className="banned-indicator-red">Banned by Red</div>
+                  </div>
+                  <div className="banned-blue">
+                    <div className="banned-indicator-blue">Banned by Blue</div>
+                  </div>
                   <div className="mappool-map-top">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id hd">{`${map.modBracket}${map.modBracketIndex}`}</div>
@@ -59,6 +83,18 @@ export function MappoolScreen() {
             <div id="hr-pool">
               {beatmaps.HR.map((map) => (
                 <div className="mappool-map hr" key={map.mapId}>
+                  <div className="picked-red ">
+                    <div className="picked-indicator-red">PICKED BY RED</div>
+                  </div>
+                  <div className="picked-blue">
+                    <div className="picked-indicator-blue">PICKED BY BLUE</div>
+                  </div>
+                  <div className="banned-red">
+                    <div className="banned-indicator-red">Banned by Red</div>
+                  </div>
+                  <div className="banned-blue">
+                    <div className="banned-indicator-blue">Banned by Blue</div>
+                  </div>
                   <div className="mappool-map-top">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id hr">{`${map.modBracket}${map.modBracketIndex}`}</div>
@@ -77,6 +113,18 @@ export function MappoolScreen() {
             <div id="dt-pool">
               {beatmaps.DT.map((map) => (
                 <div className="mappool-map dt" key={map.mapId}>
+                  <div className="picked-red ">
+                    <div className="picked-indicator-red">PICKED BY RED</div>
+                  </div>
+                  <div className="picked-blue">
+                    <div className="picked-indicator-blue">PICKED BY BLUE</div>
+                  </div>
+                  <div className="banned-red">
+                    <div className="banned-indicator-red">Banned by Red</div>
+                  </div>
+                  <div className="banned-blue">
+                    <div className="banned-indicator-blue">Banned by Blue</div>
+                  </div>
                   <div className="mappool-map-top">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id dt">{`${map.modBracket}${map.modBracketIndex}`}</div>
@@ -93,6 +141,11 @@ export function MappoolScreen() {
             <div id="tb-pool">
               {beatmaps.TB.map((map) => (
                 <div className="mappool-map tb" key={map.mapId}>
+                  <div className="picked-tb">
+                    <div className="picked-indicator-tb">
+                      TIEBREAKER HYPE!!!
+                    </div>
+                  </div>
                   <div className="mappool-map-top tb">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id tb">{map.modBracket}</div>
