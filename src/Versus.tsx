@@ -1,10 +1,11 @@
+import { PlayerInfo } from "./components/PlayerInfo";
+import { useMatchQuery } from "./state/huis";
 import { useTosu } from "./state/tosu";
-import "./static/style.css";
-import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
 
 export function VersusScreen() {
-  const { player1, player2, tourney, beatmap } = useTosu();
+  const { player1, player2, beatmap } = useTosu();
+  const { roundName, bracket } = useMatchQuery();
 
   const maxScore = player1.score + player2.score;
   const maxBarWidth = 600;
@@ -16,21 +17,6 @@ export function VersusScreen() {
 
   const redWinning = player1.score > player2.score;
   const blueWinning = player2.score > player1.score;
-
-  const totalMapPoints = Math.ceil(tourney.bestOF / 2);
-
-  const redMapPoints = Array.from({ length: totalMapPoints }, (_, i) => (
-    <div
-      key={i}
-      className={`map-point${i < tourney.points.left ? " map-won" : ""}`}
-    ></div>
-  ));
-  const blueMapPoints = Array.from({ length: totalMapPoints }, (_, i) => (
-    <div
-      key={i}
-      className={`map-point${i < tourney.points.right ? " map-won" : ""}`}
-    ></div>
-  ));
 
   function formatTime(ms: number): string {
     const totalSeconds = Math.floor(ms / 1000);
@@ -45,24 +31,11 @@ export function VersusScreen() {
     <div>
       <div id="main" className="mask">
         <div id="top">
-          <div id="red-player">
-            <div id="player">
-              <div id="red-player-icon">
-                <img src={avatar} />
-              </div>
-              <div id="player-info">
-                <div id="player-name">{player1.name}</div>
-                <div id="player-seed">Seed: 22</div>
-                <div id="player-supporters">Supporters: 22</div>
-                <div id="player-pickems">Pickems: 50%</div>
-              </div>
-            </div>
-            <div id="red-maps-won">{redMapPoints}</div>
-          </div>
+          <PlayerInfo playerNum={1} />
           <div id="middle">
             <div id="stage-info">
-              <div id="stage-name">Quarter Finals</div>
-              <div id="winner-loser">(Winners Bracket)</div>
+              <div id="stage-name">{roundName}</div>
+              <div id="winner-loser">({bracket} Bracket)</div>
             </div>
             <div id="scoring">
               <div id="score-red">
@@ -126,28 +99,7 @@ export function VersusScreen() {
               </div>
             </div>
           </div>
-          <div id="blue-player" className="flex-reverse">
-            <div id="player" className="flex-reverse">
-              <div id="blue-player-icon">
-                <img src={avatar} />
-              </div>
-              <div id="player-info">
-                <div id="player-name" className="align-right">
-                  {player2.name}
-                </div>
-                <div id="player-seed" className="align-right">
-                  Seed: 22
-                </div>
-                <div id="player-supporters" className="align-right">
-                  Supporters: 22
-                </div>
-                <div id="player-pickems" className="align-right">
-                  Pickems: 50%
-                </div>
-              </div>
-            </div>
-            <div id="blue-maps-won">{blueMapPoints}</div>
-          </div>
+          <PlayerInfo playerNum={2} />
         </div>
         <div id="gameplay"></div>
         <div id="orange-line"></div>

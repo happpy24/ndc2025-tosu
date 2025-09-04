@@ -1,69 +1,14 @@
-import { useTosu } from "./state/tosu";
-import "./static/style.css";
-import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
-import { motion } from "motion/react";
+import { PlayerInfo } from "./components/PlayerInfo";
+import { Chat } from "./components/Chat";
 
 export function StandbyScreen() {
-  const { player1, player2, tourney, beatmap } = useTosu();
-
-  const totalMapPoints = Math.ceil(tourney.bestOF / 2);
-
-  const redMapPoints = Array.from({ length: totalMapPoints }, (_, i) => (
-    <div
-      key={i}
-      className={`map-point${i < tourney.points.left ? " map-won" : ""}`}
-    ></div>
-  ));
-  const blueMapPoints = Array.from({ length: totalMapPoints }, (_, i) => (
-    <div
-      key={i}
-      className={`map-point${i < tourney.points.right ? " map-won" : ""}`}
-    ></div>
-  ));
-
   return (
     <div>
       <div id="main" className="mask">
         <div id="top">
-          <div id="red-player">
-            <div id="player">
-              <div id="red-player-icon">
-                <img src={avatar} />
-              </div>
-              <div id="player-info">
-                <div id="player-name">
-                  {player1.name ? "" : "Unknown player"}
-                </div>
-                <div id="player-seed">Seed: 22</div>
-                <div id="player-supporters">Supporters: 22</div>
-                <div id="player-pickems">Pickems: 50%</div>
-              </div>
-            </div>
-            <div id="red-maps-won">{redMapPoints}</div>
-          </div>
-          <div id="blue-player" className="flex-reverse">
-            <div id="player" className="flex-reverse">
-              <div id="blue-player-icon">
-                <img src={avatar} />
-              </div>
-              <div id="player-info">
-                <div id="player-name" className="align-right">
-                  {player2.name ? "" : "Unknown player"}
-                </div>
-                <div id="player-seed" className="align-right">
-                  Seed: 22
-                </div>
-                <div id="player-supporters" className="align-right">
-                  Supporters: 22
-                </div>
-                <div id="player-pickems" className="align-right">
-                  Pickems: 50%
-                </div>
-              </div>
-            </div>
-            <div id="blue-maps-won">{blueMapPoints}</div>
-          </div>
+          <PlayerInfo playerNum={1} />
+          <PlayerInfo playerNum={2} />
         </div>
         <div id="gameplay"></div>
         <div id="orange-line"></div>
@@ -71,35 +16,7 @@ export function StandbyScreen() {
           <div id="ndc-logo">
             <img src={logo} />
           </div>
-          <div id="chat">
-            {tourney.chat
-              .filter((msg: any) => msg.team !== "bot")
-              .map((msg: any, idx: number) => (
-                <motion.div
-                  className="chat-message"
-                  key={msg.id ?? idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  layout
-                >
-                  <div
-                    className="chat-username"
-                    style={{
-                      color:
-                        msg.team === "left"
-                          ? "#FD515C"
-                          : msg.team === "right"
-                            ? "#5583F9"
-                            : "#FF962D",
-                    }}
-                  >
-                    {msg.name}:
-                  </div>
-                  <div className="chat-text">{msg.message}</div>
-                </motion.div>
-              ))}
-          </div>
+          <Chat />
           <div id="casters">CASTERS</div>
         </div>
       </div>

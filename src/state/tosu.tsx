@@ -8,14 +8,14 @@ import {
 } from "react";
 import z from "zod";
 
-export type Player = {
+export type tosuPlayer = {
   name: string;
   score: number;
 };
 
-export type Tourney = {
+export type tosuTourney = {
   scoreVisible: boolean;
-  bestOF: number;
+  bestOf: number;
   points: {
     left: number;
     right: number;
@@ -23,7 +23,7 @@ export type Tourney = {
   chat: unknown[];
 };
 
-export type Beatmap = {
+export type tosuBeatmap = {
   title: string;
   artist: string;
   difficulty: string;
@@ -34,17 +34,17 @@ export type Beatmap = {
   stars: number;
   bpm: number;
   length: number;
-  backgroundPath: string;
+  backgroundPath?: string;
 };
 
-export type TosuData = {
-  player1: Player;
-  player2: Player;
-  tourney: Tourney;
-  beatmap: Beatmap;
+export type tosuData = {
+  player1: tosuPlayer;
+  player2: tosuPlayer;
+  tourney: tosuTourney;
+  beatmap: tosuBeatmap;
 };
 
-const TosuDataSchema = z.object({
+const tosuApiResponseSchema = z.object({
   tourney: z.object({
     scoreVisible: z.boolean(),
     starsVisible: z.boolean(),
@@ -128,17 +128,19 @@ const TosuDataSchema = z.object({
   }),
 });
 
-const TosuContext = createContext<TosuData | null>(null);
+const TosuContext = createContext<tosuData | null>(null);
+
+const TOSU_ADDRESS = "127.0.0.1:24050";
 
 export function TosuProvider({ children }: { children: ReactNode }) {
-  const tosuSocket = useWebSocket("ws://127.0.0.1:24050/websocket/v2");
+  const tosuSocket = useWebSocket(`ws://${TOSU_ADDRESS}/websocket/v2`);
 
-  const [tosuData, setTosuData] = useState<TosuData>({
+  const [tosuData, setTosuData] = useState<tosuData>({
     player1: { name: "loading...", score: 0 },
     player2: { name: "loading...", score: 0 },
     tourney: {
       scoreVisible: false,
-      bestOF: 0,
+      bestOf: 0,
       points: { left: 0, right: 0 },
       chat: [],
     },
@@ -153,7 +155,6 @@ export function TosuProvider({ children }: { children: ReactNode }) {
       stars: 0,
       bpm: 0,
       length: 0,
-      backgroundPath: "",
     },
   });
 
@@ -169,11 +170,12 @@ export function TosuProvider({ children }: { children: ReactNode }) {
     tosuSocket.addEventListener("message", (e) => {
       try {
         const json = JSON.parse(e.data);
-        const parsedData = TosuDataSchema.parse(json);
+        const parsedData = tosuApiResponseSchema.parse(json);
         const beatmapBackgroundPath =
-          parsedData.folders.songs +
-          "\\" +
-          parsedData.directPath.beatmapBackground;
+          `${parsedData.folders.songs}/${parsedData.directPath.beatmapBackground}`.replaceAll(
+            "\\",
+            "/",
+          );
 
         setTosuData({
           player1: {
@@ -186,7 +188,7 @@ export function TosuProvider({ children }: { children: ReactNode }) {
           },
           tourney: {
             scoreVisible: parsedData.tourney.scoreVisible,
-            bestOF: parsedData.tourney.bestOF,
+            bestOf: parsedData.tourney.bestOF,
             points: {
               left: parsedData.tourney.points.left,
               right: parsedData.tourney.points.right,
@@ -203,8 +205,10 @@ export function TosuProvider({ children }: { children: ReactNode }) {
             od: parsedData.beatmap.stats.od.converted,
             stars: parsedData.beatmap.stats.stars.total,
             bpm: parsedData.beatmap.stats.bpm.realtime,
-            length: parsedData.beatmap.time.lastObject,
-            backgroundPath: beatmapBackgroundPath.replace(/\\/g, "/"),
+            length:
+              parsedData.beatmap.time.lastObject -
+              parsedData.beatmap.time.firstObject,
+            backgroundPath: beatmapBackgroundPath,
           },
         });
       } catch (e) {
