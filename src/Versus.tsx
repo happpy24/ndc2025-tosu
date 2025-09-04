@@ -6,7 +6,7 @@ import { useMatchQuery } from "./state/huis";
 import { useTosu } from "./state/tosu";
 
 export function VersusScreen() {
-  const { player1, player2, beatmap } = useTosu();
+  const { player1, player2 } = useTosu();
   const { roundName, bracket } = useMatchQuery();
 
   const maxScore = player1.score + player2.score;
@@ -19,15 +19,6 @@ export function VersusScreen() {
 
   const redWinning = player1.score > player2.score;
   const blueWinning = player2.score > player1.score;
-
-  function formatTime(ms: number): string {
-    const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    const paddedMinutes = String(minutes).padStart(2, "0");
-    const paddedSeconds = String(seconds).padStart(2, "0");
-    return `${paddedMinutes}:${paddedSeconds}`;
-  }
 
   return (
     <div>
