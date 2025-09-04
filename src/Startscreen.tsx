@@ -28,12 +28,16 @@ export function StartScreen({ previous, next, isLeaving }: StartScreenProps) {
     <div id="main">
       {/* MainContent */}
       <motion.div
-        key={`main-${from}->${to}`}
-        {...(anims.main === "slide"
-          ? sectionVariants.main.slide(slideDirection)
-          : anims.main === "fade"
-            ? sectionVariants.main.fade
-            : sectionVariants.main.none)}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        variants={
+          anims.main === "slide"
+            ? sectionVariants.main.slide(slideDirection)
+            : anims.main === "fade"
+              ? sectionVariants.main.fade
+              : sectionVariants.main.none
+        }
       >
         <MainContent>
           <div id="ss-top">
@@ -84,12 +88,16 @@ export function StartScreen({ previous, next, isLeaving }: StartScreenProps) {
 
       {/* FooterContent */}
       <motion.div
-        key={`footer-${from}->${to}`}
-        {...(anims.footer === "slide"
-          ? sectionVariants.footer.slide(slideDirection)
-          : anims.footer === "fade"
-            ? sectionVariants.footer.fade
-            : sectionVariants.footer.none)}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        variants={
+          anims.footer === "slide"
+            ? sectionVariants.footer.slide(slideDirection)
+            : anims.footer === "fade"
+              ? sectionVariants.footer.fade
+              : sectionVariants.footer.none
+        }
       >
         <FooterContent>
           <div id="orange-line"></div>
