@@ -26,7 +26,7 @@ export function MappoolScreen() {
           <div id="mappool-left">
             <div id="nm-pool">
               {beatmaps.NM.map((map) => (
-                <div className="mappool-map nm">
+                <div className="mappool-map nm" key={map.mapId}>
                   <div className="mappool-map-top">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id nm">{`${map.modBracket}${map.modBracketIndex}`}</div>
@@ -42,7 +42,7 @@ export function MappoolScreen() {
             </div>
             <div id="hd-pool">
               {beatmaps.HD.map((map) => (
-                <div className="mappool-map hd">
+                <div className="mappool-map hd" key={map.mapId}>
                   <div className="mappool-map-top">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id hd">{`${map.modBracket}${map.modBracketIndex}`}</div>
@@ -58,7 +58,7 @@ export function MappoolScreen() {
             </div>
             <div id="hr-pool">
               {beatmaps.HR.map((map) => (
-                <div className="mappool-map hr">
+                <div className="mappool-map hr" key={map.mapId}>
                   <div className="mappool-map-top">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id hr">{`${map.modBracket}${map.modBracketIndex}`}</div>
@@ -76,7 +76,7 @@ export function MappoolScreen() {
           <div id="mappool-right">
             <div id="dt-pool">
               {beatmaps.DT.map((map) => (
-                <div className="mappool-map dt">
+                <div className="mappool-map dt" key={map.mapId}>
                   <div className="mappool-map-top">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id dt">{`${map.modBracket}${map.modBracketIndex}`}</div>
@@ -92,7 +92,7 @@ export function MappoolScreen() {
             </div>
             <div id="tb-pool">
               {beatmaps.TB.map((map) => (
-                <div className="mappool-map tb">
+                <div className="mappool-map tb" key={map.mapId}>
                   <div className="mappool-map-top tb">
                     <div className="mappool-map-bg"></div>
                     <div className="mappool-map-id tb">{map.modBracket}</div>
