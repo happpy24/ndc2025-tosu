@@ -1,6 +1,7 @@
-import logo from "./static/img/logo.png";
 import { PlayerInfo } from "./components/PlayerInfo";
 import { Chat } from "./components/Chat";
+import { Logo } from "./components/Logo";
+import { Casters } from "./components/Casters";
 
 export function StandbyScreen() {
   return (
@@ -13,11 +14,9 @@ export function StandbyScreen() {
         <div id="gameplay"></div>
         <div id="orange-line"></div>
         <div id="bottom">
-          <div id="ndc-logo">
-            <img src={logo} />
-          </div>
+          <Logo />
           <Chat />
-          <div id="casters">CASTERS</div>
+          <Casters />
         </div>
       </div>
     </div>

@@ -1,7 +1,8 @@
+import { Casters } from "./components/Casters";
 import { Chat } from "./components/Chat";
+import { Logo } from "./components/Logo";
 import { useTosu } from "./state/tosu";
 import avatar from "./static/img/happy.png";
-import logo from "./static/img/logo.png";
 import trophy from "./static/img/trophy.png";
 
 export function WinnerScreen() {
@@ -39,11 +40,9 @@ export function WinnerScreen() {
         </div>
         <div id="orange-line"></div>
         <div id="bottom">
-          <div id="ndc-logo">
-            <img src={logo} />
-          </div>
+          <Logo />
           <Chat />
-          <div id="casters">CASTERS</div>
+          <Casters />
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
-import logo from "./static/img/logo.png";
 import { useMatchQuery } from "./state/huis";
 import { Chat } from "./components/Chat";
+import { Logo } from "./components/Logo";
+import { Casters } from "./components/Casters";
 
 export function StartScreen() {
   const { player1, player2, ...match } = useMatchQuery();
@@ -50,11 +51,9 @@ export function StartScreen() {
         </div>
         <div id="orange-line"></div>
         <div id="bottom">
-          <div id="ndc-logo">
-            <img src={logo} />
-          </div>
+          <Logo />
           <Chat />
-          <div id="casters">CASTERS</div>
+          <Casters />
         </div>
       </div>
     </div>

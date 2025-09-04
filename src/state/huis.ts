@@ -1,4 +1,4 @@
-import { getAvatarUrl } from "@/util";
+import { getAvatarUrl, type WithRequired } from "@/util";
 import { useQuery } from "@tanstack/react-query";
 
 import { z } from "zod";
@@ -164,12 +164,6 @@ export function useMatchesQuery() {
     queryFn: () => fetchMatchesCurrentWeek(TOURNEY_ID),
   });
 }
-
-type WithOptional<T, U extends keyof T> = Pick<T, Exclude<keyof T, U>> & {
-  [K in U]?: T[K] | undefined;
-};
-
-type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
 export function useMatchQuery(): WithRequired<
   Partial<Match>,

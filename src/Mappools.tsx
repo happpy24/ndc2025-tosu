@@ -1,7 +1,7 @@
+import { Casters } from "./components/Casters";
 import { Chat } from "./components/Chat";
+import { Logo } from "./components/Logo";
 import { PlayerInfo } from "./components/PlayerInfo";
-import { useMappoolQuery } from "./state/huis";
-import logo from "./static/img/logo.png";
 
 export function MappoolScreen() {
   // const a = useMappoolQuery();
@@ -284,11 +284,9 @@ export function MappoolScreen() {
         </div>
         <div id="orange-line"></div>
         <div id="bottom">
-          <div id="ndc-logo">
-            <img src={logo} />
-          </div>
+          <Logo />
           <Chat />
-          <div id="casters">CASTERS</div>
+          <Casters />
         </div>
       </div>
     </div>
