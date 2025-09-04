@@ -1,12 +1,14 @@
+// App.tsx
+import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { TosuProvider } from "./state/tosu";
 import { StartScreen } from "./Startscreen";
 import { StandbyScreen } from "./Standby";
 import { VersusScreen } from "./Versus";
 import { MappoolScreen } from "./Mappools";
 import { SchedulingScreen } from "./Scheduling";
 import { WinnerScreen } from "./Winner";
-import { TosuProvider } from "./state/tosu";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
 import "./static/style.css";
 
 const screens: Record<string, React.FC> = {
@@ -40,10 +42,42 @@ export function App() {
     _setActiveScreen(screen);
   };
 
+  const slide = {
+    initial: { x: 1920 },
+    animate: { x: 0 },
+    exit: { x: -1920 },
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <TosuProvider>
-        <Screen />
+        <div
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            width: "100%",
+            height: "100vh",
+          }}
+        >
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={activeScreen}
+              initial={slide.initial}
+              animate={slide.animate}
+              exit={slide.exit}
+              transition={{ duration: 0.45, ease: "easeInOut" }}
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <Screen />
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
         <div
           style={{
             position: "absolute",
