@@ -3,6 +3,7 @@ import { Chat } from "./components/Chat";
 import { Logo } from "./components/Logo";
 import { Casters } from "./components/Casters";
 import { StageInfo } from "./components/StageInfo";
+import { MainContent } from "./components/MainContent";
 
 export function StandbyScreen() {
   return (
@@ -15,7 +16,9 @@ export function StandbyScreen() {
           </div>
           <PlayerInfo playerNum={2} />
         </div>
-        <div id="gameplay"></div>
+        <MainContent>
+          <div id="gameplay"></div>
+        </MainContent>
         <div id="orange-line"></div>
         <div id="bottom">
           <Logo />
