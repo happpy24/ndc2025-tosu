@@ -4,14 +4,15 @@ import { useTosu } from "./state/tosu";
 import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
 import clsx from "clsx";
+import { MainContent } from "./components/MainContent";
 
 export function SchedulingScreen() {
   const { roundName } = useMatchQuery();
   const { data: schedule, error, isPending } = useSchedulingQuery();
 
   return (
-    <div>
-      <div id="main-scheduling">
+    <div id="main-scheduling">
+      <MainContent>
         <div id="schedule">
           <div id="schedule-upcoming">
             <div id="schedule-upcoming-text">Upcoming Matches</div>
@@ -126,12 +127,12 @@ export function SchedulingScreen() {
             </div>
           </div>
         </div>
-        <div id="scheduling-right">
-          <div id="scheduling-text">Scheduling</div>
-          <div id="scheduling-stage">{roundName}</div>
-          <div id="scheduling-logo">
-            <img src={logo} />
-          </div>
+      </MainContent>
+      <div id="scheduling-right">
+        <div id="scheduling-text">Scheduling</div>
+        <div id="scheduling-stage">{roundName}</div>
+        <div id="scheduling-logo">
+          <img src={logo} />
         </div>
       </div>
     </div>
