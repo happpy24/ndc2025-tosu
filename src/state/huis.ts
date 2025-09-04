@@ -5,12 +5,15 @@ import { z } from "zod";
 
 const zodBinaryToBoolean = z.number().min(0).max(1).pipe(z.coerce.boolean());
 
-const zodParseHuisApiDate = z.preprocess((val) => {
-  if (typeof val === "string") {
-    return val.replace(" ", "T");
-  }
-  return val;
-}, z.coerce.date().nullable());
+const zodParseHuisApiDate = z.pipe(
+  z.preprocess((val) => {
+    if (typeof val === "string") {
+      return val.replace(" ", "T");
+    }
+    return val;
+  }, z.string()),
+  z.coerce.date(),
+);
 
 const staffSchema = z
   .object({
@@ -25,12 +28,32 @@ const staffSchema = z
     roleId: staff.role_uid,
   }));
 
+const ROUND_NAMES: Record<string, string> = {
+  ro32: "Round of 32",
+  ro16: "Round of 16",
+  qf: "Quarter Finals",
+  sf: "Semi Finals",
+  f: "Finals",
+  gf: "Grand Finals",
+  lr1: "Losers Round 1",
+  lr2: "Losers Round 2",
+  lr3: "Losers Round 3",
+  lr4: "Losers Round 4",
+  lr5: "Losers Round 5",
+  lr6: "Losers Round 6",
+  lr7: "Losers Round 7",
+  lr8: "Losers Round 8",
+  lr9: "Losers Round 9",
+  lr10: "Losers Round 10",
+  lr11: "Losers Round 11",
+  lr12: "Losers Round 12",
+  bracket_reset: "Bracket Reset",
+  br: "Bracket Reset",
+} as const;
+
 const matchSchema = z
   .object({
-    uid: z.number(),
     tourney_id: z.number(),
-    round_uid: z.number(),
-    custom_id: z.number(),
 
     match_date: zodParseHuisApiDate,
 
@@ -67,27 +90,6 @@ const matchSchema = z
     // mp_links: z.array(z.any()),
   })
   .transform((match) => {
-    const ROUND_NAMES: Record<string, string> = {
-      ro32: "Round of 32",
-      ro16: "Round of 16",
-      qf: "Quarter Finals",
-      sf: "Semi Finals",
-      f: "Finals",
-      gf: "Grand Finals",
-      lr1: "Losers Round 1",
-      lr2: "Losers Round 2",
-      lr3: "Losers Round 3",
-      lr4: "Losers Round 4",
-      lr5: "Losers Round 5",
-      lr6: "Losers Round 6",
-      lr7: "Losers Round 7",
-      lr8: "Losers Round 8",
-      lr9: "Losers Round 9",
-      lr10: "Losers Round 10",
-      lr11: "Losers Round 11",
-      lr12: "Losers Round 12",
-    } as const;
-
     const supporters = match.pickems.reduce(
       ({ player1, player2 }, cur) =>
         cur.pickems_winner === 1
@@ -111,13 +113,10 @@ const matchSchema = z
     >;
 
     return {
-      huisId: match.uid,
       tourneyId: match.tourney_id,
-      roundId: match.round_uid,
       roundAbbr: match.round_acronym,
       roundName: ROUND_NAMES[match.round_acronym] ?? "???",
       bracket: match.is_loser_bracket ? "losers" : "winners",
-      customId: match.custom_id,
       date: match.match_date,
       player1: getPlayer(1) as Player,
       player2: getPlayer(2) as Player,
@@ -126,10 +125,20 @@ const matchSchema = z
     };
   });
 
-const matchesSchema = z.object({
-  confirmed: z.array(matchSchema),
-  conditionals: z.array(z.any()),
-});
+const matchesSchema = z
+  .object({
+    confirmed: z.array(matchSchema),
+    conditionals: z.array(
+      z.object({
+        options: z.array(matchSchema),
+      }),
+    ),
+  })
+  .transform((matches) =>
+    matches.confirmed
+      .concat(matches.conditionals.flatMap((e) => e.options))
+      .toSorted((a, b) => Number(a.date) - Number(b.date)),
+  );
 
 export type Match = z.infer<typeof matchSchema>;
 
@@ -151,16 +160,14 @@ async function fetchMatchesCurrentWeek(tourneyId: string) {
   }
 
   const data = await response.json();
-  const parsedData = matchesSchema.parse(data);
-  const matches = parsedData.confirmed;
-  return matches;
+  return matchesSchema.parse(data);
 }
 
-const TOURNEY_ID = "31"; // TODO: add tourney selection
+const TOURNEY_ID = "32"; // TODO: add tourney selection
 
 export function useMatchesQuery() {
   return useQuery({
-    queryKey: ["huis", "matches", TOURNEY_ID],
+    queryKey: ["huis", { tournament: TOURNEY_ID, type: "matches" }],
     queryFn: () => fetchMatchesCurrentWeek(TOURNEY_ID),
   });
 }
@@ -201,6 +208,39 @@ export function useMatchQuery(): WithRequired<
   }
 
   return data[0];
+}
+
+const tournamentSchema = z.object({
+  rounds: z.array(
+    z.object({
+      acronym: z.string(),
+      start_date: zodParseHuisApiDate,
+      end_date: zodParseHuisApiDate,
+    }),
+  ),
+});
+
+async function fetchTournament() {
+  console.log("fetching tournament");
+  const response = await fetch(
+    `https://api.tourney.huismetbenen.nl/tournament/get/${TOURNEY_ID}`,
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `${response.status} ${response.statusText}: ${response.text}`,
+    );
+  }
+
+  const data = await response.json();
+  return tournamentSchema.parse(data);
+}
+
+export function useTournamentQuery() {
+  return useQuery({
+    queryKey: ["huis", { tournament: TOURNEY_ID }],
+    queryFn: fetchTournament,
+  });
 }
 
 const mappoolSchema = z
@@ -269,8 +309,7 @@ async function fetchMappool(tourneyId: string, roundAbbr: string) {
   }
 
   const data = await response.json();
-  const parsedData = mappoolSchema.parse(data);
-  return parsedData;
+  return mappoolSchema.parse(data);
 }
 
 export function useMappoolQuery() {
@@ -278,17 +317,30 @@ export function useMappoolQuery() {
 
   return useQuery({
     enabled: !!roundAbbr,
-    queryKey: ["huis", "mappool", TOURNEY_ID, roundAbbr],
+    queryKey: [
+      "huis",
+      { tournament: TOURNEY_ID, type: "mappool", round: roundAbbr },
+    ],
     queryFn: () => (roundAbbr ? fetchMappool(TOURNEY_ID, roundAbbr) : []),
   });
 }
 
 export function useSchedulingQuery() {
-  const matches = useMatchesQuery();
+  const { data, ...matches } = useMatchesQuery();
+  const { roundAbbr } = useMatchQuery();
 
-  const data = matches.data;
+  if (!data) {
+    return [];
+  }
+
+  const now = new Date();
+  const splitAt = data.findIndex((match) => Number(match.date) > Number(now));
+  const recent = data.slice(0, splitAt);
+  const upcoming = data.slice(splitAt);
+  const splitMatches = { upcoming, recent };
+  console.log({ splitMatches });
 
   // const data = matches.data?.map()
 
-  return { ...matches, data };
+  return { ...matches, data: splitMatches };
 }

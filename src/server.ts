@@ -1,9 +1,11 @@
 import { serve } from "bun";
 import index from "./index.html";
+import dashboard from "./dashboard.html";
 
 const server = serve({
   port: "7270",
   routes: {
+    "/dashboard": dashboard,
     "/*": index,
   },
   fetch(req, server) {
