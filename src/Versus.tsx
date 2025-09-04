@@ -43,7 +43,7 @@ export function VersusScreen() {
 
   return (
     <div>
-      <div id="main">
+      <div id="main" className="mask">
         <div id="top">
           <div id="red-player">
             <div id="player">
@@ -149,9 +149,7 @@ export function VersusScreen() {
             <div id="blue-maps-won">{blueMapPoints}</div>
           </div>
         </div>
-        <div id="gameplay">
-          <div id="greenscreen"></div>
-        </div>
+        <div id="gameplay"></div>
         <div id="orange-line"></div>
         <div id="bottom">
           <div id="ndc-logo">
