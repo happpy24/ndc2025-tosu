@@ -21,9 +21,8 @@ const screens: Record<string, React.FC> = {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // staleTime: 1000 * 60,
+      staleTime: 1000 * 60,
       gcTime: 1000 * 60 * 10,
-      staleTime: 1000,
       throwOnError: true,
     },
   },
