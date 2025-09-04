@@ -1,9 +1,11 @@
 import { PlayerInfo } from "./components/PlayerInfo";
+import { useMatchQuery } from "./state/huis";
 import { useTosu } from "./state/tosu";
 import logo from "./static/img/logo.png";
 
 export function VersusScreen() {
   const { player1, player2, beatmap } = useTosu();
+  const { roundName, bracket } = useMatchQuery();
 
   const maxScore = player1.score + player2.score;
   const maxBarWidth = 600;
@@ -32,8 +34,8 @@ export function VersusScreen() {
           <PlayerInfo playerNum={1} />
           <div id="middle">
             <div id="stage-info">
-              <div id="stage-name">Quarter Finals</div>
-              <div id="winner-loser">(Winners Bracket)</div>
+              <div id="stage-name">{roundName}</div>
+              <div id="winner-loser">({bracket} Bracket)</div>
             </div>
             <div id="scoring">
               <div id="score-red">
