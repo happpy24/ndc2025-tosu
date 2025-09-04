@@ -1,5 +1,6 @@
 import { useMatchQuery } from "@/state/huis";
 import { useTosu } from "@/state/tosu";
+import { StageInfo } from "./StageInfo";
 
 export function ScoreBars() {
   const { player1, player2 } = useTosu();
@@ -18,10 +19,7 @@ export function ScoreBars() {
 
   return (
     <div id="middle">
-      <div id="stage-info">
-        <div id="stage-name">{roundName}</div>
-        <div id="winner-loser">({bracket} Bracket)</div>
-      </div>
+      <StageInfo />
       <div id="scoring">
         <div id="score-red">
           <div
