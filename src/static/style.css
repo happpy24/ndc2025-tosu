@@ -942,6 +942,7 @@ p {
 .mappool-map-bottom {
   width: 100%;
   height: 55px;
+  align-content: center;
 }
 
 .mappool-map-artist-title {
