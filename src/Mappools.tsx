@@ -17,18 +17,20 @@ function ModBracket(
     <div id={`${mod}-pool`}>
       {beatmaps.map((map) => (
         <div className={`mappool-map ${mod}`} key={map.mapId}>
-          <div className="picked-red ">
-            <div className="picked-indicator-red">PICKED BY RED</div>
-          </div>
-          <div className="picked-blue">
-            <div className="picked-indicator-blue">PICKED BY BLUE</div>
-          </div>
-          <div className="banned-red">
-            <div className="banned-indicator-red">Banned by Red</div>
-          </div>
-          <div className="banned-blue">
-            <div className="banned-indicator-blue">Banned by Blue</div>
-          </div>
+          {["red", "blue"].map((side) => (
+            <>
+              <div className={`picked-${side}`} key={`picked-${side}`}>
+                <div className={`picked-indicator-${side}`}>
+                  Picked by {side}
+                </div>
+              </div>
+              <div className={`banned-${side}`} key={`banned-${side}`}>
+                <div className={`banned-indicator-${side}`}>
+                  Banned by {side}
+                </div>
+              </div>
+            </>
+          ))}
           <div className={clsx("mappool-map-top", tb)}>
             <img className={"mappool-map-bg"} src={map.bgUrl} />
             <div

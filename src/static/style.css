@@ -777,6 +777,7 @@ p {
   justify-content: center;
   align-items: center;
   text-align: center;
+  text-transform: uppercase;
   background-color: #dc1f2b;
   position: absolute;
   border-radius: 0px 0px 15px 0px;
@@ -802,6 +803,7 @@ p {
   justify-content: center;
   align-items: center;
   text-align: center;
+  text-transform: uppercase;
   background-color: #1f55dc;
   position: absolute;
   border-radius: 0px 0px 15px 0px;
@@ -855,6 +857,7 @@ p {
   border-radius: 15px 0px;
   transition: opacity 0.5s ease;
   font-size: 24px;
+  text-transform: capitalize;
   color: #dc1f2b;
   font-family: BenderBlack, Helvetica, sans-serif;
   display: flex;
@@ -871,6 +874,7 @@ p {
   border-radius: 15px 0px;
   transition: opacity 0.5s ease;
   font-size: 24px;
+  text-transform: capitalize;
   color: #1f55dc;
   font-family: BenderBlack, Helvetica, sans-serif;
   display: flex;
