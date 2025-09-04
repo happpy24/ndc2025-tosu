@@ -10,17 +10,11 @@ import { FooterContent } from "./components/FooterContent";
 
 interface StartScreenProps {
   previous?: string;
-  next?: string;
-  isLeaving?: boolean;
 }
 
-export function StartScreen({ previous, next, isLeaving }: StartScreenProps) {
+export function StartScreen({ previous }: StartScreenProps) {
   const { player1, player2, ...match } = useMatchQuery();
-
-  const current = "start";
-  const from = isLeaving ? current : previous || current;
-  const to = isLeaving ? next || current : current;
-  const anims: AnimTypes = getAnimations(from, to);
+  const anims: AnimTypes = getAnimations(previous || "start", "start");
 
   const slideDirection: 1 | -1 = 1;
 
@@ -28,16 +22,12 @@ export function StartScreen({ previous, next, isLeaving }: StartScreenProps) {
     <div id="main">
       {/* MainContent */}
       <motion.div
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        variants={
-          anims.main === "slide"
-            ? sectionVariants.main.slide(slideDirection)
-            : anims.main === "fade"
-              ? sectionVariants.main.fade
-              : sectionVariants.main.none
-        }
+        key={`main-${previous}`}
+        {...(anims.main === "slide"
+          ? sectionVariants.main.slide(slideDirection)
+          : anims.main === "fade"
+            ? sectionVariants.main.fade
+            : sectionVariants.main.none)}
       >
         <MainContent>
           <div id="ss-top">
@@ -88,16 +78,12 @@ export function StartScreen({ previous, next, isLeaving }: StartScreenProps) {
 
       {/* FooterContent */}
       <motion.div
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        variants={
-          anims.footer === "slide"
-            ? sectionVariants.footer.slide(slideDirection)
-            : anims.footer === "fade"
-              ? sectionVariants.footer.fade
-              : sectionVariants.footer.none
-        }
+        key={`footer-${previous}`}
+        {...(anims.footer === "slide"
+          ? sectionVariants.footer.slide(slideDirection)
+          : anims.footer === "fade"
+            ? sectionVariants.footer.fade
+            : sectionVariants.footer.none)}
       >
         <FooterContent>
           <div id="orange-line"></div>

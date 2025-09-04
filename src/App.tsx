@@ -32,33 +32,32 @@ const queryClient = new QueryClient({
 });
 
 export function App() {
-  const [activeScreen, _setActiveScreen] = useState(() => {
+  const [activeScreen, setActiveScreen] = useState(() => {
     const stored = localStorage.getItem("activeScreen");
     return stored && stored in screens ? stored : "start";
   });
+  const [previous, setPrevious] = useState<string | undefined>(undefined);
+
   const Screen = screens[activeScreen] ?? StartScreen;
 
-  const setActiveScreen = (screen: string) => {
-    localStorage.setItem("activeScreen", screen);
-    _setActiveScreen(screen);
+  const changeScreen = (next: string) => {
+    setPrevious(activeScreen);
+    setActiveScreen(next);
+    localStorage.setItem("activeScreen", next);
   };
 
   return (
     <QueryClientProvider client={queryClient}>
       <TosuProvider>
         <div
-          style={{
-            position: "relative",
-            overflow: "hidden",
-            width: "100%",
-            height: "100vh",
-          }}
+          style={{ position: "relative", width: "1920px", height: "1080px" }}
         >
-          <AnimatePresence mode="wait" initial={false}>
-            <Screen />
+          <AnimatePresence mode="sync">
+            <Screen key={activeScreen} previous={previous} />
           </AnimatePresence>
         </div>
 
+        {/* debug buttons */}
         <div
           style={{
             position: "absolute",
@@ -73,7 +72,7 @@ export function App() {
             <button
               style={{ fontSize: "48px" }}
               key={screenName}
-              onClick={() => setActiveScreen(screenName)}
+              onClick={() => changeScreen(screenName)}
             >
               {screenName}
             </button>

@@ -12,36 +12,24 @@ import { FooterContent } from "./components/FooterContent";
 
 interface StandbyScreenProps {
   previous?: string;
-  next?: string;
-  isLeaving?: boolean;
 }
 
-export function StandbyScreen({
-  previous,
-  next,
-  isLeaving,
-}: StandbyScreenProps) {
-  const current = "standby";
-  const from = isLeaving ? current : previous || current;
-  const to = isLeaving ? next || current : current;
-  const anims: AnimTypes = getAnimations(from, to);
+export function StandbyScreen({ previous }: StandbyScreenProps) {
+  const anims: AnimTypes = getAnimations(previous || "standby", "standby");
 
+  // Direction for slide animations: new slides in from right
   const slideDirection: 1 | -1 = 1;
 
   return (
     <div id="main">
       {/* Header */}
       <motion.div
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        variants={
-          anims.header === "slide"
-            ? sectionVariants.header.slide(slideDirection)
-            : anims.header === "fade"
-              ? sectionVariants.header.fade
-              : sectionVariants.header.none
-        }
+        key={`header-${previous}`}
+        {...(anims.header === "slide"
+          ? sectionVariants.header.slide(slideDirection)
+          : anims.header === "fade"
+            ? sectionVariants.header.fade
+            : sectionVariants.header.none)}
       >
         <HeaderContent>
           <div id="top">
@@ -56,16 +44,12 @@ export function StandbyScreen({
 
       {/* Main */}
       <motion.div
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        variants={
-          anims.main === "slide"
-            ? sectionVariants.main.slide(slideDirection)
-            : anims.main === "fade"
-              ? sectionVariants.main.fade
-              : sectionVariants.main.none
-        }
+        key={`main-${previous}`}
+        {...(anims.main === "slide"
+          ? sectionVariants.main.slide(slideDirection)
+          : anims.main === "fade"
+            ? sectionVariants.main.fade
+            : sectionVariants.main.none)}
       >
         <MainContent>
           <div id="gameplay"></div>
@@ -74,16 +58,12 @@ export function StandbyScreen({
 
       {/* Footer */}
       <motion.div
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        variants={
-          anims.footer === "slide"
-            ? sectionVariants.footer.slide(slideDirection)
-            : anims.footer === "fade"
-              ? sectionVariants.footer.fade
-              : sectionVariants.footer.none
-        }
+        key={`footer-${previous}`}
+        {...(anims.footer === "slide"
+          ? sectionVariants.footer.slide(slideDirection)
+          : anims.footer === "fade"
+            ? sectionVariants.footer.fade
+            : sectionVariants.footer.none)}
       >
         <FooterContent>
           <div id="orange-line"></div>

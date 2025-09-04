@@ -75,13 +75,16 @@ export const sectionVariants = {
  * Determine animation type per section for a transition
  */
 export function getAnimations(from: string, to: string): AnimTypes {
-  // Scheduling to/from anything => full fade
+  // Default fade
+  const anim: AnimTypes = { header: "fade", main: "fade", footer: "fade" };
+
+  // Scheduling → always full fade
   if (from === "scheduling" || to === "scheduling") {
     return { header: "fade", main: "fade", footer: "fade" };
   }
 
   switch (from + "->" + to) {
-    // Start ↔ Standby, Mappool, Winner -> Slide top & middle, instant bottom
+    // Start ↔ Standby, Mappool, Winner
     case "start->standby":
     case "standby->start":
     case "start->mappool":
@@ -90,43 +93,42 @@ export function getAnimations(from: string, to: string): AnimTypes {
     case "winner->start":
       return { header: "slide", main: "slide", footer: "none" };
 
-    // Start ↔ Versus -> Slide top & middle, Fade bottom
+    // Start ↔ Versus
     case "start->versus":
     case "versus->start":
       return { header: "slide", main: "slide", footer: "fade" };
 
-    // Standby ↔ Mappool -> Fade top, Slide middle, instant bottom
+    // Standby ↔ Mappool
     case "standby->mappool":
     case "mappool->standby":
       return { header: "fade", main: "slide", footer: "none" };
 
-    // Standby ↔ Versus -> Fade top & bottom in (full fade)
+    // Standby ↔ Versus
     case "standby->versus":
     case "versus->standby":
       return { header: "fade", main: "fade", footer: "fade" };
 
-    // Standby ↔ Winner -> Slide top & middle, instant bottom
+    // Standby ↔ Winner
     case "standby->winner":
     case "winner->standby":
       return { header: "slide", main: "slide", footer: "none" };
 
-    // Versus ↔ Mappool -> Slide middle, Fade bottom in
+    // Versus ↔ Mappool
     case "versus->mappool":
     case "mappool->versus":
       return { header: "fade", main: "slide", footer: "fade" };
 
-    // Versus ↔ Winner -> Slide top & middle, Fade bottom in
+    // Versus ↔ Winner
     case "versus->winner":
     case "winner->versus":
       return { header: "slide", main: "slide", footer: "fade" };
 
-    // Mappool ↔ Winner -> Slide top & middle, instant bottom
+    // Mappool ↔ Winner
     case "mappool->winner":
     case "winner->mappool":
       return { header: "slide", main: "slide", footer: "none" };
 
-    // Default -> full fade
     default:
-      return { header: "fade", main: "fade", footer: "fade" };
+      return anim;
   }
 }
