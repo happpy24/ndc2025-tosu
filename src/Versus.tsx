@@ -1,3 +1,4 @@
+import { CurrentMapStats } from "./components/CurrentMapStats";
 import { PlayerInfo } from "./components/PlayerInfo";
 import { useMatchQuery } from "./state/huis";
 import { useTosu } from "./state/tosu";
@@ -109,49 +110,7 @@ export function VersusScreen() {
           <div id="ndc-logo">
             <img src={logo} />
           </div>
-          <div id="current-map">
-            <div id="overlay-opacity"></div>
-            <div
-              id="beatmap-background"
-              style={{
-                backgroundImage: `url('file:///${beatmap.backgroundPath}')`,
-              }}
-            ></div>
-            <div id="current-map-info">
-              <div id="current-map-name">{beatmap.title}</div>
-              <div id="current-map-artist">{beatmap.artist}</div>
-              <div id="diff-mapper">
-                <div id="current-map-difficulty">[{beatmap.difficulty}]</div>
-                <div id="current-map-mapper">Mapped by: {beatmap.mapper}</div>
-              </div>
-            </div>
-            <div id="current-map-stats">
-              <div id="current-map-cs">
-                <p>CS</p>
-                <div id="cs">{beatmap.cs}</div>
-              </div>
-              <div id="current-map-ar">
-                <p>AR</p>
-                <div id="ar">{beatmap.ar}</div>
-              </div>
-              <div id="current-map-od">
-                <p>OD</p>
-                <div id="od">{beatmap.od}</div>
-              </div>
-              <div id="current-map-sr">
-                <p>SR</p>
-                <div id="sr">{beatmap.stars}</div>
-              </div>
-              <div id="current-map-bpm">
-                <p>BPM</p>
-                <div id="bpm">{beatmap.bpm}</div>
-              </div>
-              <div id="current-map-length">
-                <p>Length</p>
-                <div id="length">{formatTime(beatmap.length)}</div>
-              </div>
-            </div>
-          </div>
+          <CurrentMapStats />
           <div id="casters">CASTERS</div>
         </div>
       </div>
