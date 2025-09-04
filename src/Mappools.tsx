@@ -1,3 +1,4 @@
+import { Casters } from "./components/Casters";
 import { Chat } from "./components/Chat";
 import { Logo } from "./components/Logo";
 import { PlayerInfo } from "./components/PlayerInfo";
@@ -285,7 +286,7 @@ export function MappoolScreen() {
         <div id="bottom">
           <Logo />
           <Chat />
-          <div id="casters">CASTERS</div>
+          <Casters />
         </div>
       </div>
     </div>

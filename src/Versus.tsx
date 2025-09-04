@@ -1,3 +1,4 @@
+import { Casters } from "./components/Casters";
 import { CurrentMapStats } from "./components/CurrentMapStats";
 import { Logo } from "./components/Logo";
 import { PlayerInfo } from "./components/PlayerInfo";
@@ -109,7 +110,7 @@ export function VersusScreen() {
         <div id="bottom">
           <Logo />
           <CurrentMapStats />
-          <div id="casters">CASTERS</div>
+          <Casters />
         </div>
       </div>
     </div>

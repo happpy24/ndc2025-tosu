@@ -1,6 +1,7 @@
 import { PlayerInfo } from "./components/PlayerInfo";
 import { Chat } from "./components/Chat";
 import { Logo } from "./components/Logo";
+import { Casters } from "./components/Casters";
 
 export function StandbyScreen() {
   return (
@@ -17,7 +18,7 @@ export function StandbyScreen() {
         <div id="bottom">
           <Logo />
           <Chat />
-          <div id="casters">CASTERS</div>
+          <Casters />
         </div>
       </div>
     </div>

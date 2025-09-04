@@ -1,3 +1,4 @@
+import { Casters } from "./components/Casters";
 import { Chat } from "./components/Chat";
 import { Logo } from "./components/Logo";
 import { useTosu } from "./state/tosu";
@@ -41,7 +42,7 @@ export function WinnerScreen() {
         <div id="bottom">
           <Logo />
           <Chat />
-          <div id="casters">CASTERS</div>
+          <Casters />
         </div>
       </div>
     </div>

@@ -475,6 +475,7 @@ p {
   font-weight: normal;
   color: #ff962d;
   text-align: center;
+  text-transform: uppercase;
 }
 
 #chat {
