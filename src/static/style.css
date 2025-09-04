@@ -123,6 +123,7 @@ p {
 
 #player-name {
   font-size: 36px;
+  width: 325px;
   font-family: BenderBlack, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
@@ -152,22 +153,16 @@ p {
 /* Player MapWins */
 #red-maps-won,
 #blue-maps-won {
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: row;
-  align-items: center;
   justify-content: center;
   gap: 6px;
   margin-top: 27px;
 }
 
-#red-maps-won {
-  left: 450px;
-}
-
 #blue-maps-won {
   flex-direction: row-reverse !important;
-  right: 500px;
 }
 
 .map-point {
@@ -881,6 +876,7 @@ p {
 
 #win-player-name {
   font-size: 72px;
+  width: 700px;
   font-family: BenderBlack, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
@@ -933,19 +929,22 @@ p {
   justify-content: space-between;
 }
 
-#schedule-upcoming, #schedule-previous {
+#schedule-upcoming,
+#schedule-previous {
   width: 526px;
   height: 984px;
 }
 
-#schedule-upcoming-text, #schedule-previous-text {
+#schedule-upcoming-text,
+#schedule-previous-text {
   font-size: 48px;
   font-family: BenderBlack, Helvetica, sans-serif;
   font-weight: normal;
   color: #ff962d;
 }
 
-#upcoming-matches, #previous-matches {
+#upcoming-matches,
+#previous-matches {
   margin-top: 36px;
   display: flex;
   flex-direction: column;
@@ -964,15 +963,22 @@ p {
   width: 348px;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, rgba(75, 31, 31, 0.4) 0%, rgba(31, 31, 31, 0.4) 50%, rgba(38, 29, 70, 0.4) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(75, 31, 31, 0.4) 0%,
+    rgba(31, 31, 31, 0.4) 50%,
+    rgba(38, 29, 70, 0.4) 100%
+  );
 }
 
-.match-red-player, .match-blue-player {
+.match-red-player,
+.match-blue-player {
   display: flex;
   flex-direction: row;
 }
 
-.match-red-player-icon, .match-blue-player-icon {
+.match-red-player-icon,
+.match-blue-player-icon {
   width: 67px;
   height: 67px;
 }
@@ -998,7 +1004,7 @@ p {
   font-size: 24px;
   font-family: BenderBold, Helvetica, sans-serif;
   font-weight: normal;
-  color: #FFFFFF;
+  color: #ffffff;
   text-align: center;
   padding-top: 23px;
 }
@@ -1012,7 +1018,7 @@ p {
   font-size: 48px;
   font-family: BenderBold, Helvetica, sans-serif;
   font-weight: normal;
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: #353535;
 }
 
@@ -1047,7 +1053,7 @@ p {
   font-size: 16px;
   font-family: BenderBold, Helvetica, sans-serif;
   font-weight: normal;
-  color: #B5B5B5;
+  color: #b5b5b5;
   display: flex;
   flex-direction: column;
   gap: 5px;
