@@ -1,4 +1,4 @@
-import { getAvatarUrl, type WithRequired } from "@/util";
+import { getAvatarUrl, getBeatmapBgUrl, type WithRequired } from "@/util";
 import { useQuery } from "@tanstack/react-query";
 
 import { z } from "zod";
@@ -282,7 +282,7 @@ const mappoolSchema = z
         diffName: diff_name,
         setId: set_id,
         mapId: map_id,
-        bgUrl: `https://assets.ppy.sh/beatmaps/${set_id}/covers/raw.jpg`,
+        bgUrl: getBeatmapBgUrl(set_id),
         isCustomMap: is_custom_map,
         ...map,
       }),

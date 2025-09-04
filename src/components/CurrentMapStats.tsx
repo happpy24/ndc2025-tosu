@@ -14,13 +14,7 @@ export function CurrentMapStats() {
 
   return (
     <div id="current-map">
-      <div id="overlay-opacity"></div>
-      <div
-        id="beatmap-background"
-        style={{
-          backgroundImage: `url('file:///${beatmap.backgroundPath}')`,
-        }}
-      ></div>
+      <img id="beatmap-background" src={beatmap.bgUrl}></img>
       <div id="current-map-info">
         <div id="current-map-name">{beatmap.title}</div>
         <div id="current-map-artist">{beatmap.artist}</div>

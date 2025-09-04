@@ -1,3 +1,4 @@
+import { getBeatmapBgUrl } from "@/util";
 import { useWebSocket } from "partysocket/react";
 import {
   createContext,
@@ -26,6 +27,8 @@ export type tosuTourney = {
 export type tosuBeatmap = {
   title: string;
   artist: string;
+  setId?: number;
+  bgUrl?: string;
   difficulty: string;
   mapper: string;
   cs: number;
@@ -198,6 +201,8 @@ export function TosuProvider({ children }: { children: ReactNode }) {
           beatmap: {
             title: parsedData.beatmap.title,
             artist: parsedData.beatmap.artist,
+            setId: parsedData.beatmap.set,
+            bgUrl: getBeatmapBgUrl(parsedData.beatmap.set),
             difficulty: parsedData.beatmap.version,
             mapper: parsedData.beatmap.mapper,
             cs: parsedData.beatmap.stats.cs.converted,

@@ -23,6 +23,7 @@ const screens: Record<string, React.FC> = {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      experimental_prefetchInRender: true,
       staleTime: 1000 * 60,
       gcTime: 1000 * 60 * 10,
       throwOnError: true,

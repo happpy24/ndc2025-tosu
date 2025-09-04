@@ -10,3 +10,11 @@ export type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 export function getAvatarUrl(userId?: number) {
   return `https://a.ppy.sh/${userId}`;
 }
+
+export function getBeatmapBgUrl(setId?: number) {
+  if (!setId) {
+    return "";
+  }
+
+  return `https://assets.ppy.sh/beatmaps/${setId}/covers/raw.jpg`;
+}
