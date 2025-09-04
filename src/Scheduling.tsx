@@ -5,6 +5,7 @@ import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
 import clsx from "clsx";
 import { MainContent } from "./components/MainContent";
+import { FooterContent } from "./components/FooterContent";
 
 export function SchedulingScreen() {
   const { roundName } = useMatchQuery();
@@ -128,13 +129,15 @@ export function SchedulingScreen() {
           </div>
         </div>
       </MainContent>
-      <div id="scheduling-right">
-        <div id="scheduling-text">Scheduling</div>
-        <div id="scheduling-stage">{roundName}</div>
-        <div id="scheduling-logo">
-          <img src={logo} />
+      <FooterContent>
+        <div id="scheduling-right">
+          <div id="scheduling-text">Scheduling</div>
+          <div id="scheduling-stage">{roundName}</div>
+          <div id="scheduling-logo">
+            <img src={logo} />
+          </div>
         </div>
-      </div>
+      </FooterContent>
     </div>
   );
 }

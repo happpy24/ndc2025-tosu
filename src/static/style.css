@@ -30,13 +30,13 @@ p {
   color: white;
   width: 1920px;
   height: 1080px;
-  background-image: url("./img/bg.png");
+  /* background-image: url("./img/bg.png"); */
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
-#main.mask {
+#gameplay.mask {
   -webkit-mask-image: url("./img/mask.png");
   mask-image: url("./img/mask.png");
 }

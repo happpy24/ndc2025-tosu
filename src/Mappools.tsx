@@ -2,6 +2,8 @@ import { Casters } from "./components/Casters";
 import { Chat } from "./components/Chat";
 import { Logo } from "./components/Logo";
 import { MainContent } from "./components/MainContent";
+import { HeaderContent } from "./components/HeaderContent";
+import { FooterContent } from "./components/FooterContent";
 import { PlayerInfo } from "./components/PlayerInfo";
 import { StageInfo } from "./components/StageInfo";
 import { useMappoolQuery } from "./state/huis";
@@ -12,19 +14,20 @@ export function MappoolScreen() {
   return (
     <div>
       <div id="main">
-        <div id="top">
-          <PlayerInfo playerNum={1} />
-          <div id="middle">
-            <StageInfo />
+        <HeaderContent>
+          <div id="top">
+            <PlayerInfo playerNum={1} />
+            <div id="middle">
+              <StageInfo />
+            </div>
+            <PlayerInfo playerNum={2} />
           </div>
-          <PlayerInfo playerNum={2} />
-        </div>
 
-        <div id="current-status">
-          <div id="current-status-pb">MAPPOOL - Next to pick: </div>
-          <div id="current-status-player blue">KawaiiSniperBoy</div>
-        </div>
-
+          <div id="current-status">
+            <div id="current-status-pb">MAPPOOL - Next to pick: </div>
+            <div id="current-status-player blue">KawaiiSniperBoy</div>
+          </div>
+        </HeaderContent>
         <MainContent>
           <div id="mappool">
             <div id="mappool-left">
@@ -192,12 +195,14 @@ export function MappoolScreen() {
             </div>
           </div>
         </MainContent>
-        <div id="orange-line"></div>
-        <div id="bottom">
-          <Logo />
-          <Chat />
-          <Casters />
-        </div>
+        <FooterContent>
+          <div id="orange-line"></div>
+          <div id="bottom">
+            <Logo />
+            <Chat />
+            <Casters />
+          </div>
+        </FooterContent>
       </div>
     </div>
   );

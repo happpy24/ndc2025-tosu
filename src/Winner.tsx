@@ -5,6 +5,7 @@ import { MainContent } from "./components/MainContent";
 import { useTosu } from "./state/tosu";
 import avatar from "./static/img/happy.png";
 import trophy from "./static/img/trophy.png";
+import { FooterContent } from "./components/FooterContent";
 
 export function WinnerScreen() {
   const { player1 } = useTosu();
@@ -41,12 +42,14 @@ export function WinnerScreen() {
             </div>
           </div>
         </MainContent>
-        <div id="orange-line"></div>
-        <div id="bottom">
-          <Logo />
-          <Chat />
-          <Casters />
-        </div>
+        <FooterContent>
+          <div id="orange-line"></div>
+          <div id="bottom">
+            <Logo />
+            <Chat />
+            <Casters />
+          </div>
+        </FooterContent>
       </div>
     </div>
   );
