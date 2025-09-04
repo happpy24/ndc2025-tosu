@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { StrictMode } from "react";
+import "./dayjs";
 
 function start() {
   const rootEl = document.getElementById("root");

@@ -53,6 +53,7 @@ const ROUND_NAMES: Record<string, string> = {
 
 const matchSchema = z
   .object({
+    uid: z.number(),
     tourney_id: z.number(),
 
     match_date: zodParseHuisApiDate,
@@ -80,9 +81,15 @@ const matchSchema = z
     name1: z.string(),
     name2: z.string(),
 
+    team1_score: z.number(),
+    team2_score: z.number(),
+    winner: z.number().min(1).max(2).nullable(),
+
     staff: z.array(staffSchema),
 
-    pickems: z.array(z.object({ pickems_winner: 1 | 2 })),
+    pickems: z.array(
+      z.object({ pickems_winner: z.number().min(1).max(2).nullable() }),
+    ),
     pickems_rate1: z.number(),
     pickems_rate2: z.number(),
     pickems_multiplier: z.number(),
@@ -103,7 +110,9 @@ const matchSchema = z
       osuId: match[`player${i}_id`],
       seed: match[`seed${i}`],
       avatarUrl: getAvatarUrl(match[`player${i}_id`]),
-      pickemsRate: match[`pickems_rate${i}`],
+      pickemsRate: match[`pickems_rate${i}`].toFixed(2),
+      score: match[`team${i}_score`],
+      winner: match.winner === i,
       supporters: supporters[`player${i}`],
     });
 
@@ -113,6 +122,7 @@ const matchSchema = z
     >;
 
     return {
+      uid: match.uid,
       tourneyId: match.tourney_id,
       roundAbbr: match.round_acronym,
       roundName: ROUND_NAMES[match.round_acronym] ?? "???",
@@ -144,12 +154,12 @@ export type Match = z.infer<typeof matchSchema>;
 
 export type Player = Match["player1"];
 
-async function fetchMatchesCurrentWeek(tourneyId: string) {
+async function fetchMatches(round: string = "current-week") {
   console.log("fetching matches");
   const response = await fetch(
-    "https://api.tourney.huismetbenen.nl/matches/list/current-week",
+    `https://api.tourney.huismetbenen.nl/matches/list/${round}`,
     {
-      headers: { "x-tourney-id": tourneyId },
+      headers: { "x-tourney-id": TOURNEY_ID },
     },
   );
 
@@ -163,12 +173,12 @@ async function fetchMatchesCurrentWeek(tourneyId: string) {
   return matchesSchema.parse(data);
 }
 
-const TOURNEY_ID = "32"; // TODO: add tourney selection
+const TOURNEY_ID = "31"; // TODO: add tourney selection
 
-export function useMatchesQuery() {
+export function useCurrentMatchesQuery() {
   return useQuery({
-    queryKey: ["huis", { tournament: TOURNEY_ID, type: "matches" }],
-    queryFn: () => fetchMatchesCurrentWeek(TOURNEY_ID),
+    queryKey: ["huis", { tournament: TOURNEY_ID, type: "current_matches" }],
+    queryFn: () => fetchMatches(),
   });
 }
 
@@ -176,7 +186,7 @@ export function useMatchQuery(): WithRequired<
   Partial<Match>,
   "roundName" | "bracket" | "player1" | "player2"
 > {
-  const { data, error, isPending } = useMatchesQuery();
+  const { data, error, isPending } = useCurrentMatchesQuery();
   const SELECTED_MATCH = 0;
 
   const avatarUrl = getAvatarUrl();
@@ -185,8 +195,8 @@ export function useMatchQuery(): WithRequired<
     return {
       roundName: "???",
       bracket: "???",
-      player1: { name: "???", avatarUrl, pickemsRate: 0 },
-      player2: { name: "???", avatarUrl, pickemsRate: 0 },
+      player1: { name: "???", avatarUrl, pickemsRate: "0.00" },
+      player2: { name: "???", avatarUrl, pickemsRate: "0.00" },
     };
   }
 
@@ -197,12 +207,12 @@ export function useMatchQuery(): WithRequired<
       player1: {
         name: "Unknown player",
         avatarUrl,
-        pickemsRate: 0,
+        pickemsRate: "0.00",
       },
       player2: {
         name: "Unknown player",
         avatarUrl,
-        pickemsRate: 0,
+        pickemsRate: "0.00",
       },
     };
   }
@@ -211,37 +221,24 @@ export function useMatchQuery(): WithRequired<
 }
 
 const tournamentSchema = z.object({
-  rounds: z.array(
-    z.object({
-      acronym: z.string(),
-      start_date: zodParseHuisApiDate,
-      end_date: zodParseHuisApiDate,
-    }),
-  ),
+  rounds: z
+    .array(
+      z
+        .object({
+          acronym: z.string(),
+          start_date: zodParseHuisApiDate,
+          end_date: zodParseHuisApiDate,
+        })
+        .transform(({ start_date, end_date, ...round }) => ({
+          startDate: start_date,
+          endDate: end_date,
+          ...round,
+        })),
+    )
+    .transform((rounds) =>
+      rounds.toSorted((a, b) => Number(a.startDate) - Number(b.startDate)),
+    ),
 });
-
-async function fetchTournament() {
-  console.log("fetching tournament");
-  const response = await fetch(
-    `https://api.tourney.huismetbenen.nl/tournament/get/${TOURNEY_ID}`,
-  );
-
-  if (!response.ok) {
-    throw new Error(
-      `${response.status} ${response.statusText}: ${response.text}`,
-    );
-  }
-
-  const data = await response.json();
-  return tournamentSchema.parse(data);
-}
-
-export function useTournamentQuery() {
-  return useQuery({
-    queryKey: ["huis", { tournament: TOURNEY_ID }],
-    queryFn: fetchTournament,
-  });
-}
 
 const mappoolSchema = z
   .object({
@@ -293,6 +290,8 @@ const mappoolSchema = z
 
 export type Mappool = z.infer<typeof mappoolSchema>;
 
+export type Beatmap = Mappool[number];
+
 async function fetchMappool(tourneyId: string, roundAbbr: string) {
   console.log("fetching mappool");
   const response = await fetch(
@@ -315,7 +314,7 @@ async function fetchMappool(tourneyId: string, roundAbbr: string) {
 export function useMappoolQuery() {
   const { roundAbbr } = useMatchQuery();
 
-  return useQuery({
+  const { data: mappool } = useQuery({
     enabled: !!roundAbbr,
     queryKey: [
       "huis",
@@ -323,24 +322,82 @@ export function useMappoolQuery() {
     ],
     queryFn: () => (roundAbbr ? fetchMappool(TOURNEY_ID, roundAbbr) : []),
   });
+
+  const mappoolGrouped: Record<Beatmap["modBracket"], Beatmap[]> = {
+    NM: [],
+    HD: [],
+    HR: [],
+    DT: [],
+    TB: [],
+  };
+
+  for (const beatmap of mappool ?? []) {
+    mappoolGrouped[beatmap.modBracket].push(beatmap);
+  }
+
+  return {
+    beatmaps: mappoolGrouped,
+  };
+}
+
+async function fetchTournament() {
+  console.log("fetching tournament");
+  const response = await fetch(
+    `https://api.tourney.huismetbenen.nl/tournament/get/${TOURNEY_ID}`,
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `${response.status} ${response.statusText}: ${response.text}`,
+    );
+  }
+
+  const data = await response.json();
+  return tournamentSchema.parse(data);
 }
 
 export function useSchedulingQuery() {
-  const { data, ...matches } = useMatchesQuery();
-  const { roundAbbr } = useMatchQuery();
-
-  if (!data) {
-    return [];
-  }
+  const tournament = useQuery({
+    queryKey: ["huis", { tournament: TOURNEY_ID }],
+    queryFn: fetchTournament,
+  });
 
   const now = new Date();
-  const splitAt = data.findIndex((match) => Number(match.date) > Number(now));
-  const recent = data.slice(0, splitAt);
-  const upcoming = data.slice(splitAt);
-  const splitMatches = { upcoming, recent };
-  console.log({ splitMatches });
+  const currentRound = tournament.data?.rounds.find(
+    (round) => Number(round.endDate) > Number(now),
+  );
 
-  // const data = matches.data?.map()
+  const matches = useQuery({
+    enabled: !!currentRound?.acronym,
+    queryKey: [
+      "huis",
+      { tournament: TOURNEY_ID, type: "round_matches", round: currentRound },
+    ],
+    queryFn: () => fetchMatches(currentRound?.acronym),
+  });
 
-  return { ...matches, data: splitMatches };
+  if (!matches.data) {
+    return {
+      ...matches,
+      data: { round: currentRound?.acronym ?? "???", upcoming: [], recent: [] },
+    };
+  }
+
+  const splitMatches: { upcoming: Match[]; recent: Match[] } = {
+    upcoming: [],
+    recent: [],
+  };
+
+  for (const match of matches.data) {
+    if (match.date < now) {
+      splitMatches.recent.unshift(match);
+    } else {
+      splitMatches.upcoming.unshift(match);
+    }
+  }
+
+  return {
+    ...matches,
+    data: splitMatches,
+  };
 }
