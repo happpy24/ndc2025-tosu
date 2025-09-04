@@ -1,11 +1,10 @@
 import { useTosu } from "./state/tosu";
-import "./static/style.css";
 import logo from "./static/img/logo.png";
 import { motion } from "motion/react";
 import { useMatchQuery } from "./state/huis";
 
 export function StartScreen() {
-  const { tourney, beatmap } = useTosu();
+  const { tourney } = useTosu();
   const { player1, player2, ...match } = useMatchQuery();
 
   return (

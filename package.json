@@ -9,7 +9,11 @@
     "build": "bun run build.ts"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.85.9",
+    "@tanstack/react-router": "^1.131.34",
     "bun-plugin-tailwind": "^0.0.15",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.18",
     "motion": "^12.23.12",
     "partysocket": "^1.1.5",
     "react": "^19",
@@ -18,9 +22,16 @@
     "zod": "^4.1.5"
   },
   "devDependencies": {
+    "@eslint-react/eslint-plugin": "^1.52.9",
+    "@eslint/js": "^9.34.0",
+    "@tanstack/eslint-plugin-query": "^5.83.1",
+    "@tanstack/react-query-devtools": "^5.85.9",
     "@types/bun": "latest",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "prettier": "^3.6.2"
+    "eslint": "^9.34.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.42.0"
   }
 }

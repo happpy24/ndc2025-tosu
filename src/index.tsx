@@ -3,14 +3,14 @@ import { App } from "./App";
 import { StrictMode } from "react";
 
 function start() {
-  console.log("start");
   const rootEl = document.getElementById("root");
 
   if (!rootEl) {
     throw "root element missing";
   }
 
-  createRoot(rootEl).render(
+  const root = (import.meta.hot.data.root ??= createRoot(rootEl));
+  root.render(
     <StrictMode>
       <App />
     </StrictMode>,

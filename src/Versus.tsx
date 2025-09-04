@@ -1,5 +1,5 @@
+import { PlayerInfo } from "./components/PlayerInfo";
 import { useTosu } from "./state/tosu";
-import "./static/style.css";
 import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
 
@@ -17,7 +17,7 @@ export function VersusScreen() {
   const redWinning = player1.score > player2.score;
   const blueWinning = player2.score > player1.score;
 
-  const totalMapPoints = Math.ceil(tourney.bestOF / 2);
+  const totalMapPoints = Math.ceil(tourney.bestOf / 2);
 
   const redMapPoints = Array.from({ length: totalMapPoints }, (_, i) => (
     <div
@@ -45,20 +45,7 @@ export function VersusScreen() {
     <div>
       <div id="main">
         <div id="top">
-          <div id="red-player">
-            <div id="player">
-              <div id="red-player-icon">
-                <img src={avatar} />
-              </div>
-              <div id="player-info">
-                <div id="player-name">{player1.name}</div>
-                <div id="player-seed">Seed: 22</div>
-                <div id="player-supporters">Supporters: 22</div>
-                <div id="player-pickems">Pickems: 50%</div>
-              </div>
-            </div>
-            <div id="red-maps-won">{redMapPoints}</div>
-          </div>
+          <PlayerInfo playerNum={1} />
           <div id="middle">
             <div id="stage-info">
               <div id="stage-name">Quarter Finals</div>
@@ -126,28 +113,7 @@ export function VersusScreen() {
               </div>
             </div>
           </div>
-          <div id="blue-player" className="flex-reverse">
-            <div id="player" className="flex-reverse">
-              <div id="blue-player-icon">
-                <img src={avatar} />
-              </div>
-              <div id="player-info">
-                <div id="player-name" className="align-right">
-                  {player2.name}
-                </div>
-                <div id="player-seed" className="align-right">
-                  Seed: 22
-                </div>
-                <div id="player-supporters" className="align-right">
-                  Supporters: 22
-                </div>
-                <div id="player-pickems" className="align-right">
-                  Pickems: 50%
-                </div>
-              </div>
-            </div>
-            <div id="blue-maps-won">{blueMapPoints}</div>
-          </div>
+          <PlayerInfo playerNum={2} />
         </div>
         <div id="gameplay">
           <div id="greenscreen"></div>

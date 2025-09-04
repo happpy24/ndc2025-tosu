@@ -1,10 +1,11 @@
+import { useSchedulingQuery } from "./state/huis";
 import { useTosu } from "./state/tosu";
-import "./static/style.css";
 import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
 
 export function SchedulingScreen() {
   const { player1, player2, tourney, beatmap } = useTosu();
+  const { data: schedule, error, isPending } = useSchedulingQuery();
 
   return (
     <div>

@@ -1,5 +1,4 @@
 import { useTosu } from "./state/tosu";
-import "./static/style.css";
 import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
 import trophy from "./static/img/trophy.png";

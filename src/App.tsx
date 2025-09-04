@@ -5,22 +5,59 @@ import { MappoolScreen } from "./Mappools";
 import { SchedulingScreen } from "./Scheduling";
 import { WinnerScreen } from "./Winner";
 import { TosuProvider } from "./state/tosu";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
+import "./static/style.css";
 
-var state = 4;
-if (state === 0) {
-  var loadstate = <StartScreen />;
-} else if (state === 1) {
-  var loadstate = <StandbyScreen />;
-} else if (state === 2) {
-  var loadstate = <VersusScreen />;
-} else if (state === 3) {
-  var loadstate = <MappoolScreen />;
-} else if (state === 4) {
-  var loadstate = <SchedulingScreen />;
-} else if (state === 5) {
-  var loadstate = <WinnerScreen />;
-}
+const screens: Record<string, React.FC> = {
+  start: StartScreen,
+  standby: StandbyScreen,
+  versus: VersusScreen,
+  mappool: MappoolScreen,
+  scheduling: SchedulingScreen,
+  winner: WinnerScreen,
+};
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // staleTime: 1000 * 60,
+      gcTime: 1000 * 60 * 10,
+      staleTime: 1000,
+      throwOnError: true,
+    },
+  },
+});
 
 export function App() {
-  return <TosuProvider>{loadstate}</TosuProvider>;
+  const [activeScreen, _setActiveScreen] = useState(() => {
+    const stored = localStorage.getItem("activeScreen");
+    return stored && stored in screens ? stored : "start";
+  });
+  const Screen = screens[activeScreen] ?? StartScreen;
+
+  const setActiveScreen = (screen: string) => {
+    localStorage.setItem("activeScreen", screen);
+    _setActiveScreen(screen);
+  };
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TosuProvider>
+        <Screen />
+        <div
+          style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
+        >
+          {Object.keys(screens).map((screenName) => (
+            <button
+              key={screenName}
+              onClick={() => setActiveScreen(screenName)}
+            >
+              {screenName}
+            </button>
+          ))}
+        </div>
+      </TosuProvider>
+    </QueryClientProvider>
+  );
 }
