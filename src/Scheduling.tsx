@@ -5,7 +5,6 @@ import logo from "./static/img/logo.png";
 
 export function SchedulingScreen() {
   const { player1, player2 } = useTosu();
-  const { data: schedule, error, isPending } = useSchedulingQuery();
 
   return (
     <div>

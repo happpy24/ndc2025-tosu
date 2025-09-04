@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import { Dashboard } from "./Dashboard.tsx";
 import { StrictMode } from "react";
+import "./dashboard.css";
 
 function start() {
   const rootEl = document.getElementById("root");

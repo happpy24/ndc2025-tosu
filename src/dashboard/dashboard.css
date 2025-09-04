@@ -1,0 +1,465 @@
+@font-face {
+  font-family: "BenderBlack";
+  src: url("../fonts/Bender-Black.otf");
+}
+@font-face {
+  font-family: "BenderBold";
+  src: url("../fonts/Bender-Bold.otf");
+}
+@font-face {
+  font-family: "BenderRegular";
+  src: url("../fonts/Bender-Regular.otf");
+}
+
+body,
+html {
+  padding: 0;
+  margin: 0;
+  overflow-y: hidden;
+  background-color: #0f0321;
+  scrollbar-width: thin;
+  scrollbar-color: #0f0321 #4c2980;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+#main {
+  font-size: 20px;
+  font-family: BenderBold, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+  width: 500px;
+  height: 1080px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+#title {
+  font-size: 36px;
+  font-family: BenderBlack, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #ff962d;
+  text-align: center;
+  margin-top: 20px;
+}
+
+#match-select {
+  font-size: 24px;
+  font-family: BenderRegular, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+  text-align: left;
+  margin-top: 20px;
+  padding-left: 70px;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+#match-select-id {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+#match-select-id-input {
+  position: relative;
+  width: 113px;
+  height: 40px;
+  background: #4c2980;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-family: "BenderBold", sans-serif;
+  font-size: 24px;
+  color: white;
+  bottom: 8px;
+}
+
+#match-select-id-input::after {
+  content: "";
+  display: inline-block;
+  margin-left: 8px;
+  border: 6px solid transparent;
+  border-top-color: #fff;
+  transition: transform 0.2s ease;
+}
+
+#match-select-id-input.open::after {
+  transform: rotate(180deg);
+}
+
+.dropdown-group {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+}
+
+.match-select-dropdown-options {
+  position: absolute;
+  top: 100%;
+  width: 133px;
+  background: #643ba1;
+  display: none;
+  flex-direction: column;
+  margin-top: -8px;
+  margin-left: 206px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.match-select-dropdown-options div {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+}
+
+.match-select-dropdown-options div:hover {
+  background: #5b34a0;
+}
+
+.match-select-dropdown-options.show {
+  display: flex;
+}
+
+#match-select-auto {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#match-select-auto-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #8454ca;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#match-select-auto-checkbox.checked {
+  background-color: #4c2980;
+}
+
+#match-select-auto-checkbox.checked::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: #8454ca;
+  display: block;
+}
+
+.divider {
+  position: relative;
+  width: 444px;
+  margin-top: 30px;
+  height: 0px;
+  left: 25px;
+  border: 2px dashed #3b1474;
+}
+
+#scene-switcher-text,
+#mappool-controls-text,
+#countdown-text {
+  font-size: 36px;
+  font-family: BenderBold, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+  text-align: center;
+  margin-top: 20px;
+  padding-left: 10px;
+  padding-bottom: 20px;
+}
+
+#scene-switcher-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 500px;
+  justify-content: center;
+}
+
+.scene-switcher-option {
+  width: 207px;
+  height: 52px;
+  background: #4c297f;
+  color: white;
+  font-family: "BenderRegular", sans-serif;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+}
+
+.scene-switcher-option:hover {
+  background: #5b34a0;
+}
+
+.scene-switcher-option.selected {
+  background: #8454ca;
+  font-family: "BenderBlack", sans-serif;
+}
+
+#player-select {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#player-select button {
+  width: 207px;
+  height: 52px;
+  border: none;
+  font-family: "BenderRegular", sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+#player-select button.red {
+  background-color: #7f2929;
+}
+
+#player-select button.blue {
+  background-color: #29347f;
+}
+
+#player-select button.active.red {
+  background-color: #bf3d3d;
+  font-family: "BenderBlack", sans-serif;
+}
+
+#player-select button.active.blue {
+  background-color: #4254c5;
+  font-family: "BenderBlack", sans-serif;
+}
+
+#mappool-select {
+  display: flex;
+  gap: 10px;
+  width: 500px;
+  justify-content: center;
+}
+
+#picks,
+#bans {
+  width: 207px;
+}
+
+#bans-text,
+#picks-text {
+  font-size: 24px;
+  font-family: BenderBold, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+  text-align: center;
+  padding-left: 10px;
+  padding-bottom: 20px;
+}
+
+#ban-select-id-input {
+  position: relative;
+  width: 187px;
+  height: 52px;
+  background: #4c2980;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-family: "BenderBold", sans-serif;
+  font-size: 24px;
+  color: white;
+  bottom: 8px;
+}
+
+#ban-select-id-input::after {
+  content: "";
+  display: inline-block;
+  margin-left: 8px;
+  border: 6px solid transparent;
+  border-top-color: #fff;
+  transition: transform 0.2s ease;
+}
+
+#ban-select-id-input.open::after {
+  transform: rotate(180deg);
+}
+
+.ban-select-dropdown-options {
+  position: absolute;
+  width: 207px;
+  background: #643ba1;
+  display: none;
+  flex-direction: column;
+  margin-top: -8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.ban-select-dropdown-options div {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+}
+
+.ban-select-dropdown-options div:hover {
+  background: #5b34a0;
+}
+
+.ban-select-dropdown-options.show {
+  display: flex;
+}
+
+#pick-select-id-input {
+  position: relative;
+  width: 187px;
+  height: 52px;
+  background: #4c2980;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  font-family: "BenderBold", sans-serif;
+  font-size: 24px;
+  color: white;
+  bottom: 8px;
+}
+
+#pick-select-id-input::after {
+  content: "";
+  display: inline-block;
+  margin-left: 8px;
+  border: 6px solid transparent;
+  border-top-color: #fff;
+  transition: transform 0.2s ease;
+}
+
+#pick-select-id-input.open::after {
+  transform: rotate(180deg);
+}
+
+.pick-select-dropdown-options {
+  position: absolute;
+  width: 207px;
+  background: #643ba1;
+  display: none;
+  flex-direction: column;
+  margin-top: -8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.pick-select-dropdown-options div {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+}
+
+.pick-select-dropdown-options div:hover {
+  background: #5b34a0;
+}
+
+.pick-select-dropdown-options.show {
+  display: flex;
+}
+
+#bans-confirm {
+  width: 207px;
+  height: 52px;
+  background-color: #4c2980;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "BenderBold", sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+  margin-top: 10px;
+}
+
+#bans-confirm:hover {
+  background-color: #5b34a0;
+}
+
+#picks-confirm {
+  width: 207px;
+  height: 52px;
+  background-color: #4c2980;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "BenderBold", sans-serif;
+  font-size: 20px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s ease;
+  margin-top: 10px;
+}
+
+#picks-confirm:hover {
+  background-color: #5b34a0;
+}
+
+#countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#countdown-input {
+  width: 429px;
+  height: 61px;
+  background: #4c2980;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-family: BenderBold, Helvetica, sans-serif;
+  font-weight: normal;
+  cursor: pointer;
+  color: white;
+  outline: none;
+  box-shadow: none;
+  border: none;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+#countdown-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+#countdown-input::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
