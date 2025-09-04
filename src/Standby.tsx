@@ -1,26 +1,10 @@
 import { useTosu } from "./state/tosu";
 import logo from "./static/img/logo.png";
 import { motion } from "motion/react";
-import { useMatchQuery } from "./state/huis";
 import { PlayerInfo } from "./components/PlayerInfo";
 
 export function StandbyScreen() {
   const { tourney } = useTosu();
-
-  const totalMapPoints = Math.ceil(tourney.bestOf / 2);
-
-  const redMapPoints = Array.from({ length: totalMapPoints }, (_, i) => (
-    <div
-      key={`map-points-left-${i}`}
-      className={`map-point${i < tourney.points.left ? " map-won" : ""}`}
-    ></div>
-  ));
-  const blueMapPoints = Array.from({ length: totalMapPoints }, (_, i) => (
-    <div
-      key={`map-points-right-${i}`}
-      className={`map-point${i < tourney.points.right ? " map-won" : ""}`}
-    ></div>
-  ));
 
   return (
     <div>
