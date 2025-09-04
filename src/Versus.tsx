@@ -1,8 +1,8 @@
 import { CurrentMapStats } from "./components/CurrentMapStats";
+import { Logo } from "./components/Logo";
 import { PlayerInfo } from "./components/PlayerInfo";
 import { useMatchQuery } from "./state/huis";
 import { useTosu } from "./state/tosu";
-import logo from "./static/img/logo.png";
 
 export function VersusScreen() {
   const { player1, player2, beatmap } = useTosu();
@@ -107,9 +107,7 @@ export function VersusScreen() {
         </div>
         <div id="orange-line"></div>
         <div id="bottom">
-          <div id="ndc-logo">
-            <img src={logo} />
-          </div>
+          <Logo />
           <CurrentMapStats />
           <div id="casters">CASTERS</div>
         </div>
