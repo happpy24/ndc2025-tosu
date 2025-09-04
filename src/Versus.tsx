@@ -1,10 +1,9 @@
 import { PlayerInfo } from "./components/PlayerInfo";
 import { useTosu } from "./state/tosu";
-import avatar from "./static/img/happy.png";
 import logo from "./static/img/logo.png";
 
 export function VersusScreen() {
-  const { player1, player2, tourney, beatmap } = useTosu();
+  const { player1, player2, beatmap } = useTosu();
 
   const maxScore = player1.score + player2.score;
   const maxBarWidth = 600;
@@ -16,21 +15,6 @@ export function VersusScreen() {
 
   const redWinning = player1.score > player2.score;
   const blueWinning = player2.score > player1.score;
-
-  const totalMapPoints = Math.ceil(tourney.bestOf / 2);
-
-  const redMapPoints = Array.from({ length: totalMapPoints }, (_, i) => (
-    <div
-      key={i}
-      className={`map-point${i < tourney.points.left ? " map-won" : ""}`}
-    ></div>
-  ));
-  const blueMapPoints = Array.from({ length: totalMapPoints }, (_, i) => (
-    <div
-      key={i}
-      className={`map-point${i < tourney.points.right ? " map-won" : ""}`}
-    ></div>
-  ));
 
   function formatTime(ms: number): string {
     const totalSeconds = Math.floor(ms / 1000);
