@@ -1,7 +1,6 @@
 import { Chat } from "./components/Chat";
 import { PlayerInfo } from "./components/PlayerInfo";
 import { useMappoolQuery } from "./state/huis";
-import { useTosu } from "./state/tosu";
 import logo from "./static/img/logo.png";
 
 export function MappoolScreen() {

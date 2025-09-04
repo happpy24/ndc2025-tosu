@@ -45,10 +45,18 @@ export function App() {
       <TosuProvider>
         <Screen />
         <div
-          style={{ width: "100%", display: "flex", justifyContent: "flex-end" }}
+          style={{
+            position: "absolute",
+            bottom: "24px",
+            width: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: "8px",
+          }}
         >
           {Object.keys(screens).map((screenName) => (
             <button
+              style={{ fontSize: "48px" }}
               key={screenName}
               onClick={() => setActiveScreen(screenName)}
             >
