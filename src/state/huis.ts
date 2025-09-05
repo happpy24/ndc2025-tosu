@@ -2,6 +2,7 @@ import { getAvatarUrl, getBeatmapBgUrl, type WithRequired } from "@/util";
 import { useQuery } from "@tanstack/react-query";
 
 import { z } from "zod";
+import { useSettings } from "./dashboard";
 
 const zodBinaryToBoolean = z.number().min(0).max(1).pipe(z.coerce.boolean());
 
@@ -187,7 +188,8 @@ export function useMatchQuery(): WithRequired<
   "roundName" | "bracket" | "player1" | "player2"
 > {
   const { data, error, isPending } = useCurrentMatchesQuery();
-  const SELECTED_MATCH = 0;
+  const [settings] = useSettings();
+  const matchId = settings.matchId;
 
   const avatarUrl = getAvatarUrl();
 
@@ -200,7 +202,9 @@ export function useMatchQuery(): WithRequired<
     };
   }
 
-  if (!data?.[SELECTED_MATCH]) {
+  const match = data?.find((m) => m.uid === matchId);
+
+  if (!match) {
     return {
       roundName: "Unknown round",
       bracket: "???",
@@ -217,7 +221,7 @@ export function useMatchQuery(): WithRequired<
     };
   }
 
-  return data[0];
+  return match;
 }
 
 const tournamentSchema = z.object({
@@ -357,7 +361,7 @@ async function fetchTournament() {
   return tournamentSchema.parse(data);
 }
 
-export function useSchedulingQuery() {
+export function useScheduleQuery() {
   const tournament = useQuery({
     queryKey: ["huis", { tournament: TOURNEY_ID }],
     queryFn: fetchTournament,

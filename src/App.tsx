@@ -1,25 +1,8 @@
-// App.tsx
-import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import "./static/style.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TosuProvider } from "./state/tosu";
-import { StartScreen } from "./Startscreen";
-import { StandbyScreen } from "./Standby";
-import { VersusScreen } from "./Versus";
-import { MappoolScreen } from "./Mappools";
-import { SchedulingScreen } from "./Scheduling";
-import { WinnerScreen } from "./Winner";
-import "./static/style.css";
-
-// Remove the type annotation so we can pass custom props
-const screens = {
-  start: StartScreen,
-  standby: StandbyScreen,
-  versus: VersusScreen,
-  mappool: MappoolScreen,
-  scheduling: SchedulingScreen,
-  winner: WinnerScreen,
-};
+import { DashboardSettingsProvider } from "./state/dashboard";
+import { Screens } from "./Screens";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -33,72 +16,13 @@ const queryClient = new QueryClient({
 });
 
 export function App() {
-  const [activeScreen, setActiveScreen] = useState(() => {
-    const stored = localStorage.getItem("activeScreen");
-    return stored && stored in screens ? stored : "start";
-  });
-  const [previous, setPrevious] = useState<string | undefined>(undefined);
-
-  const changeScreen = (next: string) => {
-    setPrevious(activeScreen);
-    setActiveScreen(next);
-    localStorage.setItem("activeScreen", next);
-  };
-
   return (
     <QueryClientProvider client={queryClient}>
-      <TosuProvider>
-        <div
-          style={{ position: "relative", width: "1920px", height: "1080px" }}
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {activeScreen === "start" && (
-              <StartScreen key="start" from={previous} to="start" />
-            )}
-            {activeScreen === "standby" && (
-              <StandbyScreen key="standby" from={previous} to="standby" />
-            )}
-            {activeScreen === "versus" && (
-              <VersusScreen key="versus" from={previous} to="versus" />
-            )}
-            {activeScreen === "mappool" && (
-              <MappoolScreen key="mappool" from={previous} to="mappool" />
-            )}
-            {activeScreen === "scheduling" && (
-              <SchedulingScreen
-                key="scheduling"
-                from={previous}
-                to="scheduling"
-              />
-            )}
-            {activeScreen === "winner" && (
-              <WinnerScreen key="winner" from={previous} to="winner" />
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* debug buttons */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "24px",
-            width: "100%",
-            display: "flex",
-            justifyContent: "flex-end",
-            gap: "8px",
-          }}
-        >
-          {Object.keys(screens).map((screenName) => (
-            <button
-              style={{ fontSize: "48px" }}
-              key={screenName}
-              onClick={() => changeScreen(screenName)}
-            >
-              {screenName}
-            </button>
-          ))}
-        </div>
-      </TosuProvider>
+      <DashboardSettingsProvider>
+        <TosuProvider>
+          <Screens />
+        </TosuProvider>
+      </DashboardSettingsProvider>
     </QueryClientProvider>
   );
 }

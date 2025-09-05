@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { sectionVariants, getAnimations } from "./animations";
 import type { AnimTypes } from "./animations";
 import clsx from "clsx";
@@ -11,25 +11,43 @@ import { FooterContent } from "./components/FooterContent";
 import { PlayerInfo } from "./components/PlayerInfo";
 import { StageInfo } from "./components/StageInfo";
 import { useMappoolQuery, type Beatmap } from "./state/huis";
+import { useSettings } from "./state/dashboard";
 
 function ModBracket(
   beatmaps: Beatmap[],
   mod: Lowercase<Beatmap["modBracket"]>,
 ) {
+  const [settings] = useSettings();
   const tb = mod === "tb" && "tb";
 
   return (
     <div id={`${mod}-pool`}>
       {beatmaps.map((map) => (
         <div className={`mappool-map ${mod}`} key={map.mapId}>
-          {["red", "blue"].map((side) => (
+          {(["red", "blue"] as const).map((side) => (
             <>
-              <div className={`picked-${side}`} key={`picked-${side}`}>
-                <div className={`picked-indicator-${side}`}>
-                  Picked by {side}
+              <div
+                className={clsx(
+                  `picked-${tb || side}`,
+                  settings.picks[side].includes(
+                    `${map.modBracket}${map.modBracketIndex}`,
+                  ) && "picked-active",
+                )}
+                key={`picked-${tb || side}-${map.mapId}`}
+              >
+                <div className={`picked-indicator-${tb || side}`}>
+                  {tb ? "TIEBREAKER HYPE!!!" : `Picked by ${side}`}
                 </div>
               </div>
-              <div className={`banned-${side}`} key={`banned-${side}`}>
+              <div
+                className={clsx(
+                  `banned-${side}`,
+                  settings.bans[side].includes(
+                    `${map.modBracket}${map.modBracketIndex}`,
+                  ) && "banned-active",
+                )}
+                key={`banned-${tb || side}-${map.mapId}`}
+              >
                 <div className={`banned-indicator-${side}`}>
                   Banned by {side}
                 </div>
@@ -89,7 +107,7 @@ export function MappoolScreen({ from, to }: MappoolScreenProps) {
               <PlayerInfo playerNum={2} />
             </div>
 
-            <div id="current-status">
+            <div id="current-status" style={{ visibility: "hidden" }}>
               <div id="current-status-pb">MAPPOOL - Next to pick: </div>
               <div id="current-status-player" className="blue">
                 KawaiiSniperBoy

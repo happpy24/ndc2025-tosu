@@ -1,46 +1,69 @@
+import { screenNames, type ScreenName } from "@/schemas/screens";
+import { useSettings } from "@/state/dashboard";
+import { useCurrentMatchesQuery, useMappoolQuery } from "@/state/huis";
 import { useState, useRef, useEffect } from "react";
 
 export function Dashboard() {
+  const { data: matches } = useCurrentMatchesQuery();
+  const [settings, setSettings] = useSettings();
+
   // Match ID dropdown
   const [matchIsOpen, matchSetOpen] = useState(false);
-  const [matchSelected, matchSetSelected] = useState("Select");
+  const [matchSelected, matchSetSelected] = useState<number>();
   const matchDropdownRef = useRef<HTMLDivElement | null>(null);
-  const matchOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const matchOptions = matches?.map((match) => match.uid) ?? [];
 
   // Checkbox
   const [autoSelect, setAutoSelect] = useState(false);
 
   // Scene switcher
-  const [selectedScene, setSelectedScene] = useState("start");
-  const scenes = [
-    "start",
-    "standby",
-    "versus",
-    "mappool",
-    "scheduling",
-    "winner",
-  ];
+  const [selectedScene, _setSelectedScene] = useState<ScreenName>("start");
+  const setSelectedScene = (scene: ScreenName) => {
+    setSettings({ activeScreen: scene, previousScreen: selectedScene });
+    _setSelectedScene(scene);
+  };
+  const scenes = screenNames;
 
   // Red/Blue buttons
   const [activePlayer, setActivePlayer] = useState<"red" | "blue">("red");
+
+  const { beatmaps } = useMappoolQuery();
+  const pickbanOptions = Object.values(beatmaps)
+    .flat()
+    .map((map) => map.modBracket + map.modBracketIndex);
 
   // Bans & Picks dropdown
   const [bansSelection, setBansSelection] = useState("Select");
   const [bansOpen, setBansOpen] = useState(false);
   const [picksSelection, setPicksSelection] = useState("Select");
   const [picksOpen, setPicksOpen] = useState(false);
-  const pickbanOptions = ["Map 1", "Map 2", "Map 3", "Map 4", "Map 5", "Map 6"];
   const bansDropdownRef = useRef<HTMLDivElement | null>(null);
   const picksDropdownRef = useRef<HTMLDivElement | null>(null);
 
   const handleBanConfirm = () => {
     if (bansSelection === "Confirmed!" || bansSelection === "Select") return;
+    const bans = settings.bans[activePlayer];
+    const newBansActivePlayer = bans.includes(bansSelection)
+      ? bans.filter((b) => b !== bansSelection)
+      : bans.concat([bansSelection]);
+    const newBans = structuredClone(settings.bans);
+    newBans[activePlayer] = newBansActivePlayer;
+
+    setSettings({ bans: newBans });
     setBansSelection("Confirmed!");
     console.log("Ban confirmed");
   };
 
   const handlePickConfirm = () => {
     if (picksSelection === "Confirmed!" || picksSelection === "Select") return;
+    const picks = settings.picks[activePlayer];
+    const newPicksActivePlayer = picks.includes(picksSelection)
+      ? picks.filter((b) => b !== picksSelection)
+      : picks.concat([picksSelection]);
+    const newPicks = structuredClone(settings.picks);
+    newPicks[activePlayer] = newPicksActivePlayer;
+
+    setSettings({ picks: newPicks });
     setPicksSelection("Confirmed!");
     console.log("Pick confirmed");
   };
@@ -50,6 +73,7 @@ export function Dashboard() {
   const handleDateTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setDateTime(value);
+    setSettings({ countdown: new Date(value) });
     console.log("Selected date and time:", value);
   };
 
@@ -89,7 +113,7 @@ export function Dashboard() {
             className={matchIsOpen ? "open" : ""}
             onClick={() => matchSetOpen(!matchIsOpen)}
           >
-            {matchSelected}
+            {matchSelected ?? "Select"}
           </div>
           <div
             className={`match-select-dropdown-options ${matchIsOpen ? "show" : ""}`}
@@ -100,6 +124,7 @@ export function Dashboard() {
                 onClick={() => {
                   matchSetSelected(opt);
                   matchSetOpen(false);
+                  setSettings({ matchId: opt });
                 }}
               >
                 {opt}

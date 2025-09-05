@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { sectionVariants, getAnimations } from "./animations";
 import type { AnimTypes } from "./animations";
 import { useMatchQuery } from "./state/huis";
@@ -7,7 +7,6 @@ import { Logo } from "./components/Logo";
 import { Casters } from "./components/Casters";
 import { MainContent } from "./components/MainContent";
 import { FooterContent } from "./components/FooterContent";
-import { section } from "motion/react-client";
 
 interface StartScreenProps {
   from?: string;

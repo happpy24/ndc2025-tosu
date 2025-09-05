@@ -1,15 +1,11 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { sectionVariants, getAnimations } from "./animations";
 import type { AnimTypes } from "./animations";
 import dayjs from "dayjs";
-import { useMatchQuery, useSchedulingQuery } from "./state/huis";
-import { useTosu } from "./state/tosu";
-import avatar from "./static/img/happy.png";
+import { useMatchQuery, useScheduleQuery } from "./state/huis";
 import logo from "./static/img/logo.png";
 import clsx from "clsx";
 import { MainContent } from "./components/MainContent";
-import { HeaderContent } from "./components/HeaderContent";
-import { FooterContent } from "./components/FooterContent";
 import { Casters } from "./components/Casters";
 
 interface SchedulingScreenProps {
@@ -24,7 +20,7 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
   const slideDirection: 1 | -1 = 1;
 
   const { roundName } = useMatchQuery();
-  const { data: schedule, error, isPending } = useSchedulingQuery();
+  const { data: schedule, error, isPending } = useScheduleQuery();
 
   return (
     <div id="main-scheduling">

@@ -806,6 +806,7 @@ p {
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
+  z-index: 1;
 }
 
 .picked-indicator-red {
@@ -832,6 +833,7 @@ p {
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
+  z-index: 1;
 }
 
 .picked-indicator-blue {
@@ -901,6 +903,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .banned-blue {
@@ -918,6 +921,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .banned-active {

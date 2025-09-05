@@ -2,6 +2,8 @@ import { createRoot } from "react-dom/client";
 import { Dashboard } from "./Dashboard.tsx";
 import { StrictMode } from "react";
 import "./dashboard.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { DashboardSettingsProvider } from "@/state/dashboard.tsx";
 
 function start() {
   const rootEl = document.getElementById("root");
@@ -10,10 +12,25 @@ function start() {
     throw "root element missing";
   }
 
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        experimental_prefetchInRender: true,
+        staleTime: 1000 * 60,
+        gcTime: 1000 * 60 * 10,
+        throwOnError: true,
+      },
+    },
+  });
+
   const root = (import.meta.hot.data.root ??= createRoot(rootEl));
   root.render(
     <StrictMode>
-      <Dashboard />
+      <QueryClientProvider client={queryClient}>
+        <DashboardSettingsProvider>
+          <Dashboard />
+        </DashboardSettingsProvider>
+      </QueryClientProvider>
     </StrictMode>,
   );
 }

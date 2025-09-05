@@ -1,32 +1,38 @@
 import { serve } from "bun";
 import index from "./index.html";
 import dashboard from "./dashboard/dashboard.html";
+import { type SettingsMessage } from "./schemas/settings";
+
+let lastSettings: SettingsMessage | null = null;
 
 const server = serve({
   port: "7270",
   routes: {
     "/dashboard": dashboard,
+    "/ws": (req, server) => {
+      if (server.upgrade(req)) {
+        return;
+      }
+      return new Response("Upgrade failed", { status: 400 });
+    },
     "/*": index,
-  },
-  fetch(req, server) {
-    if (server.upgrade(req)) {
-      return;
-    }
-    return new Response("websocket upgrade error", { status: 400 });
   },
   websocket: {
     open(ws) {
-      ws.subscribe("messages");
-      console.log("client connected to websocket");
-    },
-    message(ws, message) {
-      // rebroadcast incoming messages to all clients https://bun.com/docs/api/websockets#pub-sub
-      server.publish("messages", message);
+      console.log(`client has connected`);
+      ws.subscribe("settings");
+      if (lastSettings) {
+        ws.send(JSON.stringify(lastSettings));
+      }
     },
     close(ws) {
-      ws.unsubscribe("messages");
-      console.log("client disconnected from websocket");
+      console.log(`client has disconnected`);
+      ws.unsubscribe("settings");
     },
+    message(ws, message) {
+      ws.publish("settings", message);
+    },
+    idleTimeout: 30,
   },
   development: process.env.NODE_ENV !== "production" && {
     hmr: true,

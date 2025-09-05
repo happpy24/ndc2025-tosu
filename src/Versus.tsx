@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { sectionVariants, getAnimations } from "./animations";
 import type { AnimTypes } from "./animations";
 import { Casters } from "./components/Casters";

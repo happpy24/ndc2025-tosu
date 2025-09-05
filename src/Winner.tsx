@@ -1,11 +1,10 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { sectionVariants, getAnimations } from "./animations";
 import type { AnimTypes } from "./animations";
 import { Casters } from "./components/Casters";
 import { Chat } from "./components/Chat";
 import { Logo } from "./components/Logo";
 import { MainContent } from "./components/MainContent";
-import { HeaderContent } from "./components/HeaderContent";
 import { FooterContent } from "./components/FooterContent";
 import { useTosu } from "./state/tosu";
 import { useMatchQuery } from "@/state/huis";
