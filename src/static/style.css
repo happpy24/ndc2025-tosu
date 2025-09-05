@@ -657,6 +657,17 @@ p {
   color: #ff962d;
 }
 
+#ss-time-to-start {
+  font-size: 64px;
+  font-family: BenderBlack, Helvetica, sans-serif;
+  font-weight: normal;
+  color: white;
+  text-align: left;
+  position: absolute;
+  left: 20px;
+  bottom: 224px;
+}
+
 #current-status {
   font-size: 32px;
   font-family: BenderBlack, Helvetica, sans-serif;

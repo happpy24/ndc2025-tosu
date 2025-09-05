@@ -73,6 +73,7 @@ export function StartScreen({ previous }: StartScreenProps) {
                 </div>
               </div>
             </div>
+            <div id="ss-time-to-start">Time to start: 01:40</div>
           </div>
         </MainContent>
       </motion.div>
