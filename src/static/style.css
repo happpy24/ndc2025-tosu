@@ -1077,7 +1077,7 @@ p {
   width: 880px;
 }
 
-#schedule {
+#schedule-left {
   display: flex;
   width: 1082px;
   height: 984px;
@@ -1217,11 +1217,20 @@ p {
   margin-top: 15px;
 }
 
+#schedule {
+  width: 1920px;
+  height: 1080px;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 #scheduling-right {
   display: flex;
   flex-direction: column;
   margin-top: 78px;
-  width: 600px;
+  width: 603px;
 }
 
 #scheduling-text {
@@ -1247,4 +1256,10 @@ p {
   height: 217px;
   margin-left: 45px;
   margin-top: 61px;
+}
+
+#scheduling-casters {
+  margin-left: 13px;
+  margin-top: 376px;
+  text-align: center;
 }
