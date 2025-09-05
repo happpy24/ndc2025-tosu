@@ -1044,6 +1044,16 @@ p {
   width: 240px;
   height: 240px;
   object-fit: cover;
+  outline: 7px solid #ff962d;
+  outline-offset: -7px;
+}
+
+#win-player-icon.red img {
+  outline: 7px solid #dc1f2b;
+  outline-offset: -7px;
+}
+
+#win-player-icon.blue img {
   outline: 7px solid #1f55dc;
   outline-offset: -7px;
 }

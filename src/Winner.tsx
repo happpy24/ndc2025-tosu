@@ -8,7 +8,7 @@ import { MainContent } from "./components/MainContent";
 import { HeaderContent } from "./components/HeaderContent";
 import { FooterContent } from "./components/FooterContent";
 import { useTosu } from "./state/tosu";
-import avatar from "./static/img/happy.png";
+import { useMatchQuery } from "@/state/huis";
 import trophy from "./static/img/trophy.png";
 
 interface WinnerScreenProps {
@@ -22,7 +22,23 @@ export function WinnerScreen({ from, to }: WinnerScreenProps) {
 
   const slideDirection: 1 | -1 = 1;
 
-  const { player1 } = useTosu();
+  const { tourney } = useTosu();
+  const match = useMatchQuery();
+
+  const [player1, player2] = [match.player1, match.player2];
+
+  const totalPoints = Math.ceil(tourney.bestOf / 2);
+
+  let winner = match.player1;
+  let winnerTeam = "red";
+
+  if (tourney.points.left == totalPoints) {
+    winner = match.player1;
+    winnerTeam = "red";
+  } else if (tourney.points.right == totalPoints) {
+    winner = match.player2;
+    winnerTeam = "blue";
+  }
 
   return (
     <div>
@@ -40,16 +56,20 @@ export function WinnerScreen({ from, to }: WinnerScreenProps) {
               <div id="win-left">
                 <div id="win-text">Winner</div>
                 <div id="win-player">
-                  <div id="win-player-icon">
-                    <img src={avatar} />
+                  <div id="win-player-icon" className={winnerTeam}>
+                    <img src={winner.avatarUrl} />
                   </div>
                   <div id="win-player-info">
                     <div id="win-player-name">
-                      {player1.name !== "" ? player1.name : "Unknown player"}
+                      {winner.name !== "" ? winner.name : "Unknown player"}
                     </div>
-                    <div id="win-player-seed">Seed: 22</div>
-                    <div id="win-player-supporters">Supporters: 22</div>
-                    <div id="win-player-pickems">Pickems: 50%</div>
+                    <div id="win-player-seed">Seed: {winner.seed}</div>
+                    <div id="win-player-supporters">
+                      Supporters: {winner.supporters}
+                    </div>
+                    <div id="win-player-pickems">
+                      Pickems: {winner.pickemsRate}%
+                    </div>
                   </div>
                 </div>
                 <div id="win-stage-info">
