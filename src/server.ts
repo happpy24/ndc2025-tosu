@@ -2,6 +2,7 @@ import { serve } from "bun";
 import index from "./index.html";
 import dashboard from "./dashboard/dashboard.html";
 import { type SettingsMessage } from "./schemas/settings";
+import open from "open";
 
 let lastSettings: SettingsMessage | null = null;
 
@@ -40,4 +41,7 @@ const server = serve({
   },
 });
 
-console.log(`Server listening at ${server.url}`);
+console.log(
+  `Server listening at ${server.url}. Dashboard at ${server.url}dashboard`,
+);
+open(server.url.toString() + "dashboard");

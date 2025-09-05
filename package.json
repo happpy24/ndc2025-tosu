@@ -17,6 +17,7 @@
     "dayjs": "^1.11.18",
     "immer": "^10.1.3",
     "motion": "^12.23.12",
+    "open": "^10.2.0",
     "partysocket": "^1.1.5",
     "react": "^19",
     "react-countdown": "^2.3.6",
