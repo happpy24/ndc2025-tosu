@@ -7,14 +7,31 @@ import { Logo } from "./components/Logo";
 import { Casters } from "./components/Casters";
 import { MainContent } from "./components/MainContent";
 import { FooterContent } from "./components/FooterContent";
+import Countdown, { zeroPad } from "react-countdown";
+import { useSettings } from "./state/dashboard";
 
 interface StartScreenProps {
   from?: string;
   to: string;
 }
 
+const renderer = ({
+  hours,
+  minutes,
+  seconds,
+}: {
+  hours: number;
+  minutes: number;
+  seconds: number;
+}) => (
+  <span>
+    {zeroPad(hours)}:{zeroPad(minutes)}:{zeroPad(seconds)}
+  </span>
+);
+
 export function StartScreen({ from, to }: StartScreenProps) {
   const { player1, player2, ...match } = useMatchQuery();
+  const [settings] = useSettings();
   // treat this component as self (to) and other as from
   const anims: AnimTypes = getAnimations(to, from ?? "");
 
@@ -74,7 +91,13 @@ export function StartScreen({ from, to }: StartScreenProps) {
                 </div>
               </div>
             </div>
-            <div id="ss-time-to-start">Time to start: 01:40</div>
+            <div id="ss-time-to-start">
+              Time to start:{" "}
+              <Countdown
+                renderer={renderer}
+                date={settings.countdown ?? new Date()}
+              />
+            </div>
           </div>
         </MainContent>
       </motion.div>
