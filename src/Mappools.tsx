@@ -89,7 +89,9 @@ export function MappoolScreen({ previous }: MappoolScreenProps) {
 
             <div id="current-status">
               <div id="current-status-pb">MAPPOOL - Next to pick: </div>
-              <div id="current-status-player blue">KawaiiSniperBoy</div>
+              <div id="current-status-player" className="blue">
+                KawaiiSniperBoy
+              </div>
             </div>
           </HeaderContent>
         </motion.div>

@@ -675,9 +675,24 @@ p {
   color: white;
   text-align: center;
   position: absolute;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
   width: 100%;
   height: 0;
   top: 100px;
+}
+
+#current-status-player.blue {
+  color: #1f55dc;
+}
+
+#current-status-player.red {
+  color: #dc1f2b;
+}
+
+#current-status-player.tb {
+  color: #ff962d;
 }
 
 #mappool {
