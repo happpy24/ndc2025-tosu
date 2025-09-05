@@ -11,11 +11,13 @@ import { HeaderContent } from "./components/HeaderContent";
 import { FooterContent } from "./components/FooterContent";
 
 interface StandbyScreenProps {
-  previous?: string;
+  from?: string;
+  to: string;
 }
 
-export function StandbyScreen({ previous }: StandbyScreenProps) {
-  const anims: AnimTypes = getAnimations(previous || "standby", "standby");
+export function StandbyScreen({ from, to }: StandbyScreenProps) {
+  // treat this component as self (to) and other as from
+  const anims: AnimTypes = getAnimations(to, from ?? "");
 
   const slideDirection: 1 | -1 = 1;
 
@@ -23,7 +25,7 @@ export function StandbyScreen({ previous }: StandbyScreenProps) {
     <div id="main">
       {/* Header */}
       <motion.div
-        key={`header-${previous}`}
+        key={`header-${to}`}
         {...(anims.header === "slide"
           ? sectionVariants.header.slide(slideDirection)
           : anims.header === "fade"
@@ -43,7 +45,7 @@ export function StandbyScreen({ previous }: StandbyScreenProps) {
 
       {/* Main */}
       <motion.div
-        key={`main-${previous}`}
+        key={`main-${to}`}
         {...(anims.main === "slide"
           ? sectionVariants.main.slide(slideDirection)
           : anims.main === "fade"
@@ -57,7 +59,7 @@ export function StandbyScreen({ previous }: StandbyScreenProps) {
 
       {/* Footer */}
       <motion.div
-        key={`footer-${previous}`}
+        key={`footer-${to}`}
         {...(anims.footer === "slide"
           ? sectionVariants.footer.slide(slideDirection)
           : anims.footer === "fade"

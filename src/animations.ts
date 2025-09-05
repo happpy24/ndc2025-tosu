@@ -78,57 +78,66 @@ export function getAnimations(from: string, to: string): AnimTypes {
   // Default fade
   const anim: AnimTypes = { header: "fade", main: "fade", footer: "fade" };
 
-  // Scheduling → always full fade
-  if (from === "scheduling" || to === "scheduling") {
+  // Normalize inputs
+  const a = (from || "").toLowerCase();
+  const b = (to || "").toLowerCase();
+  const key = `${a}->${b}`;
+  const rev = `${b}->${a}`;
+
+  // Scheduling: always full fade in/out
+  if (a === "scheduling" || b === "scheduling") {
+    // eslint-disable-next-line no-console
+    console.debug("getAnimations(scheduling)", { from: a, to: b });
     return { header: "fade", main: "fade", footer: "fade" };
   }
 
-  switch (from + "->" + to) {
-    // Start ↔ Standby, Mappool, Winner
-    case "start->standby":
-    case "standby->start":
-    case "start->mappool":
-    case "mappool->start":
-    case "start->winner":
-    case "winner->start":
-      return { header: "slide", main: "slide", footer: "none" };
+  // Helper to test both directions
+  const either = (...pairs: string[]) => pairs.some((p) => p === key || p === rev);
 
-    // Start ↔ Versus
-    case "start->versus":
-    case "versus->start":
-      return { header: "slide", main: "slide", footer: "fade" };
-
-    // Standby ↔ Mappool
-    case "standby->mappool":
-    case "mappool->standby":
-      return { header: "none", main: "slide", footer: "none" };
-
-    // Standby ↔ Versus
-    case "standby->versus":
-    case "versus->standby":
-      return { header: "none", main: "none", footer: "fade" };
-
-    // Standby ↔ Winner
-    case "standby->winner":
-    case "winner->standby":
-      return { header: "slide", main: "slide", footer: "none" };
-
-    // Versus ↔ Mappool
-    case "versus->mappool":
-    case "mappool->versus":
-      return { header: "fade", main: "slide", footer: "fade" };
-
-    // Versus ↔ Winner
-    case "versus->winner":
-    case "winner->versus":
-      return { header: "slide", main: "slide", footer: "fade" };
-
-    // Mappool ↔ Winner
-    case "mappool->winner":
-    case "winner->mappool":
-      return { header: "slide", main: "slide", footer: "none" };
-
-    default:
-      return anim;
+  // Start ↔ Standby, Mappool, Winner: Slide top & middle, instantly change bottom (no animation)
+  if (either(
+    "start->standby", "start->mappool", "start->winner",
+  )) {
+    return { header: "slide", main: "slide", footer: "none" };
   }
+
+  // Start ↔ Versus: Slide top & middle, Fade bottom in
+  if (either("start->versus")) {
+    return { header: "slide", main: "slide", footer: "fade" };
+  }
+
+  // Standby ↔ Mappool: Fade top, Slide middle, instantly change bottom (no animation)
+  if (either("standby->mappool")) {
+    return { header: "fade", main: "slide", footer: "none" };
+  }
+
+  // Standby ↔ Versus: Fade top & bottom in, main no animation
+  if (either("standby->versus")) {
+    return { header: "fade", main: "none", footer: "fade" };
+  }
+
+  // Standby ↔ Winner: Slide top & middle, instantly change bottom (no animation)
+  if (either("standby->winner")) {
+    return { header: "slide", main: "slide", footer: "none" };
+  }
+
+  // Versus ↔ Mappool: Instantly change top (no animation), Slide middle, Fade bottom in
+  if (either("versus->mappool")) {
+    return { header: "none", main: "slide", footer: "fade" };
+  }
+
+  // Versus ↔ Winner: Slide top & middle, Fade bottom in
+  if (either("versus->winner")) {
+    return { header: "slide", main: "slide", footer: "fade" };
+  }
+
+  // Mappool ↔ Winner: Slide top & middle, instantly change bottom (no animation)
+  if (either("mappool->winner")) {
+    return { header: "slide", main: "slide", footer: "none" };
+  }
+
+  // default
+  // eslint-disable-next-line no-console
+  console.debug("getAnimations(default)", { from: a, to: b, key, rev });
+  return anim;
 }

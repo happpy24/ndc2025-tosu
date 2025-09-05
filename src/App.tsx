@@ -11,7 +11,8 @@ import { SchedulingScreen } from "./Scheduling";
 import { WinnerScreen } from "./Winner";
 import "./static/style.css";
 
-const screens: Record<string, React.FC> = {
+// Remove the type annotation so we can pass custom props
+const screens = {
   start: StartScreen,
   standby: StandbyScreen,
   versus: VersusScreen,
@@ -52,22 +53,26 @@ export function App() {
         >
           <AnimatePresence mode="wait" initial={false}>
             {activeScreen === "start" && (
-              <StartScreen key="startscreen" previous={previous} />
+              <StartScreen key="start" from={previous} to="start" />
             )}
             {activeScreen === "standby" && (
-              <StandbyScreen key="standbyscreen" previous={previous} />
+              <StandbyScreen key="standby" from={previous} to="standby" />
             )}
             {activeScreen === "versus" && (
-              <VersusScreen key="versusscreen" previous={previous} />
+              <VersusScreen key="versus" from={previous} to="versus" />
             )}
             {activeScreen === "mappool" && (
-              <MappoolScreen key="mappoolscreen" previous={previous} />
+              <MappoolScreen key="mappool" from={previous} to="mappool" />
             )}
             {activeScreen === "scheduling" && (
-              <SchedulingScreen key="scheduling" previous={previous} />
+              <SchedulingScreen
+                key="scheduling"
+                from={previous}
+                to="scheduling"
+              />
             )}
             {activeScreen === "winner" && (
-              <WinnerScreen key="winnerscreen" previous={previous} />
+              <WinnerScreen key="winner" from={previous} to="winner" />
             )}
           </AnimatePresence>
         </div>

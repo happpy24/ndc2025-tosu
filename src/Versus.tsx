@@ -11,18 +11,20 @@ import { PlayerInfo } from "./components/PlayerInfo";
 import { ScoreBars } from "./components/ScoreBars";
 
 interface VersusScreenProps {
-  previous?: string;
+  from?: string;
+  to: string;
 }
 
-export function VersusScreen({ previous }: VersusScreenProps) {
-  const anims: AnimTypes = getAnimations(previous || "standby", "standby");
+export function VersusScreen({ from, to }: VersusScreenProps) {
+  // treat this component as self (to) and other as from
+  const anims: AnimTypes = getAnimations(to, from ?? "");
 
   const slideDirection: 1 | -1 = 1;
   return (
     <div>
       <div id="main">
         <motion.div
-          key={`header-${previous}`}
+          key={`header-${to}`}
           {...(anims.header === "slide"
             ? sectionVariants.header.slide(slideDirection)
             : anims.header === "fade"
@@ -38,7 +40,7 @@ export function VersusScreen({ previous }: VersusScreenProps) {
           </HeaderContent>
         </motion.div>
         <motion.div
-          key={`main-${previous}`}
+          key={`main-${to}`}
           {...(anims.main === "slide"
             ? sectionVariants.main.slide(slideDirection)
             : anims.main === "fade"
@@ -50,7 +52,7 @@ export function VersusScreen({ previous }: VersusScreenProps) {
           </MainContent>
         </motion.div>
         <motion.div
-          key={`footer-${previous}`}
+          key={`footer-${to}`}
           {...(anims.footer === "slide"
             ? sectionVariants.footer.slide(slideDirection)
             : anims.footer === "fade"

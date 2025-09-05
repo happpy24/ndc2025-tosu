@@ -13,11 +13,13 @@ import { FooterContent } from "./components/FooterContent";
 import { Casters } from "./components/Casters";
 
 interface SchedulingScreenProps {
-  previous?: string;
+  from?: string;
+  to: string;
 }
 
-export function SchedulingScreen({ previous }: SchedulingScreenProps) {
-  const anims: AnimTypes = getAnimations(previous || "standby", "standby");
+export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
+  // treat this component as self (to) and other as from
+  const anims: AnimTypes = getAnimations(to, from ?? "");
 
   const slideDirection: 1 | -1 = 1;
 
@@ -27,7 +29,7 @@ export function SchedulingScreen({ previous }: SchedulingScreenProps) {
   return (
     <div id="main-scheduling">
       <motion.div
-        key={`main-${previous}`}
+        key={`main-${to}`}
         {...(anims.main === "slide"
           ? sectionVariants.main.slide(slideDirection)
           : anims.main === "fade"

@@ -663,9 +663,8 @@ p {
   font-weight: normal;
   color: white;
   text-align: left;
-  position: absolute;
-  left: 20px;
-  bottom: 224px;
+  padding-top: 120px;
+  padding-left: 20px;
 }
 
 #current-status {

@@ -10,12 +10,14 @@ import { FooterContent } from "./components/FooterContent";
 import { section } from "motion/react-client";
 
 interface StartScreenProps {
-  previous?: string;
+  from?: string;
+  to: string;
 }
 
-export function StartScreen({ previous }: StartScreenProps) {
+export function StartScreen({ from, to }: StartScreenProps) {
   const { player1, player2, ...match } = useMatchQuery();
-  const anims: AnimTypes = getAnimations(previous || "start", "start");
+  // treat this component as self (to) and other as from
+  const anims: AnimTypes = getAnimations(to, from ?? "");
 
   const slideDirection: 1 | -1 = 1;
 
@@ -23,7 +25,7 @@ export function StartScreen({ previous }: StartScreenProps) {
     <div id="main">
       {/* MainContent */}
       <motion.div
-        key={`main-${previous}`}
+        key={`main-${to}`}
         {...(anims.main === "slide"
           ? sectionVariants.main.slide(slideDirection)
           : anims.main === "fade"
@@ -80,7 +82,7 @@ export function StartScreen({ previous }: StartScreenProps) {
 
       {/* FooterContent */}
       <motion.div
-        key={`footer-${previous}`}
+        key={`footer-${to}`}
         {...(anims.footer === "slide"
           ? sectionVariants.footer.slide(slideDirection)
           : anims.footer === "fade"
