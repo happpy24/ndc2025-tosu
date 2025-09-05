@@ -98,42 +98,42 @@ export function getAnimations(from: string, to: string): AnimTypes {
   if (either(
     "start->standby", "start->mappool", "start->winner",
   )) {
-    return { header: "slide", main: "slide", footer: "none" };
+    return { header: "fade", main: "fade", footer: "fade" };
   }
 
   // Start ↔ Versus: Slide top & middle, Fade bottom in
   if (either("start->versus")) {
-    return { header: "slide", main: "slide", footer: "fade" };
+    return { header: "fade", main: "fade", footer: "fade" };
   }
 
   // Standby ↔ Mappool: Fade top, Slide middle, instantly change bottom (no animation)
   if (either("standby->mappool")) {
-    return { header: "fade", main: "slide", footer: "none" };
+    return { header: "fade", main: "fade", footer: "fade" };
   }
 
   // Standby ↔ Versus: Fade top & bottom in, main no animation
   if (either("standby->versus")) {
-    return { header: "fade", main: "none", footer: "fade" };
+    return { header: "fade", main: "fade", footer: "fade" };
   }
 
   // Standby ↔ Winner: Slide top & middle, instantly change bottom (no animation)
   if (either("standby->winner")) {
-    return { header: "slide", main: "slide", footer: "none" };
+    return { header: "fade", main: "fade", footer: "none" };
   }
 
   // Versus ↔ Mappool: Instantly change top (no animation), Slide middle, Fade bottom in
   if (either("versus->mappool")) {
-    return { header: "none", main: "slide", footer: "fade" };
+    return { header: "fade", main: "fade", footer: "fade" };
   }
 
   // Versus ↔ Winner: Slide top & middle, Fade bottom in
   if (either("versus->winner")) {
-    return { header: "slide", main: "slide", footer: "fade" };
+    return { header: "fade", main: "fade", footer: "fade" };
   }
 
   // Mappool ↔ Winner: Slide top & middle, instantly change bottom (no animation)
   if (either("mappool->winner")) {
-    return { header: "slide", main: "slide", footer: "none" };
+    return { header: "fade", main: "fade", footer: "fade" };
   }
 
   // default
