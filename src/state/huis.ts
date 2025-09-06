@@ -3,18 +3,16 @@ import { useQuery } from "@tanstack/react-query";
 
 import { z } from "zod";
 import { useSettings } from "./dashboard";
+import dayjs from "dayjs";
 
 const zodBinaryToBoolean = z.number().min(0).max(1).pipe(z.coerce.boolean());
 
-const zodParseHuisApiDate = z.pipe(
-  z.preprocess((val) => {
-    if (typeof val === "string") {
-      return val.replace(" ", "T");
-    }
-    return val;
-  }, z.string()),
-  z.coerce.date(),
-);
+const zodParseHuisApiDate = z.preprocess((val) => {
+  if (typeof val === "string") {
+    return dayjs(val, { utc: true }).toDate();
+  }
+  return val;
+}, z.date());
 
 const staffSchema = z
   .object({
