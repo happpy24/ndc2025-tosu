@@ -51,6 +51,7 @@ export function Dashboard() {
 
     setSettings({ bans: newBans });
     setBansSelection("Confirmed!");
+    setActivePlayer((p) => (p === "red" ? "blue" : "red"));
     console.log("Ban confirmed");
   };
 
@@ -65,6 +66,7 @@ export function Dashboard() {
 
     setSettings({ picks: newPicks });
     setPicksSelection("Confirmed!");
+    setActivePlayer((p) => (p === "red" ? "blue" : "red"));
     console.log("Pick confirmed");
   };
 
