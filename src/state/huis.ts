@@ -92,18 +92,8 @@ const matchSchema = z
     pickems_rate1: z.number(),
     pickems_rate2: z.number(),
     pickems_multiplier: z.number(),
-
-    // mp_links: z.array(z.any()),
   })
   .transform((match) => {
-    const supporters = match.pickems.reduce(
-      ({ player1, player2 }, cur) =>
-        cur.pickems_winner === 1
-          ? { player1: player1 + 1, player2 }
-          : { player1, player2: player2 + 1 },
-      { player1: 0, player2: 0 },
-    );
-
     const getPlayer = (i: 1 | 2) => ({
       name: match[`name${i}`],
       osuId: match[`player${i}_id`],
@@ -112,7 +102,7 @@ const matchSchema = z
       pickemsRate: match[`pickems_rate${i}`].toFixed(2),
       score: match[`team${i}_score`],
       winner: match.winner === i,
-      supporters: supporters[`player${i}`],
+      supporters: 0, // TODO: add
     });
 
     type Player = WithRequired<
