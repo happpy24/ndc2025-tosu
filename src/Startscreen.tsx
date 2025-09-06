@@ -64,9 +64,11 @@ export function StartScreen({ from, to }: StartScreenProps) {
                 <div id="ss-player-info" className="align-right">
                   <div id="ss-player-name">{player1.name}</div>
                   <div id="ss-player-seed">Seed: {player1.seed}</div>
+                  {/*
                   <div id="ss-player-supporters">
                     Supporters: {player1.supporters}
                   </div>
+                  */}
                   <div id="ss-player-pickems">
                     Pickems: {player1.pickemsRate}%
                   </div>
@@ -82,9 +84,11 @@ export function StartScreen({ from, to }: StartScreenProps) {
                 <div id="ss-player-info">
                   <div id="ss-player-name">{player2.name}</div>
                   <div id="ss-player-seed">Seed: {player2.seed}</div>
+                  {/*
                   <div id="ss-player-supporters">
                     Supporters: {player2.supporters}
                   </div>
+                  */}
                   <div id="ss-player-pickems">
                     Pickems: {player2.pickemsRate}%
                   </div>

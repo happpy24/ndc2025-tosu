@@ -63,9 +63,9 @@ export function WinnerScreen({ from, to }: WinnerScreenProps) {
                       {winner.name !== "" ? winner.name : "Unknown player"}
                     </div>
                     <div id="win-player-seed">Seed: {winner.seed}</div>
-                    <div id="win-player-supporters">
+                    {/* <div id="win-player-supporters">
                       Supporters: {winner.supporters}
-                    </div>
+                    </div> */}
                     <div id="win-player-pickems">
                       Pickems: {winner.pickemsRate}%
                     </div>
