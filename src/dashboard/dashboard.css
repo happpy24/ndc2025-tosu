@@ -19,6 +19,7 @@ html {
   background-color: #0f0321;
   scrollbar-width: thin;
   scrollbar-color: #0f0321 #4c2980;
+  -webkit-font-smoothing: antialiased;
 }
 
 p {
