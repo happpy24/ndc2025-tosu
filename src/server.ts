@@ -1,7 +1,10 @@
 import { serve } from "bun";
 import index from "./index.html";
 import dashboard from "./dashboard/dashboard.html";
-import { type SettingsMessage } from "./schemas/settings";
+import {
+  settingsMessageSchema,
+  type SettingsMessage,
+} from "./schemas/settings";
 import open from "open";
 
 let lastSettings: SettingsMessage | null = null;
@@ -25,13 +28,25 @@ const server = serve({
       if (lastSettings) {
         ws.send(JSON.stringify(lastSettings));
       }
+      ws.ping();
     },
     close(ws) {
       console.log(`client has disconnected`);
       ws.unsubscribe("settings");
     },
     message(ws, message) {
-      ws.publish("settings", message);
+      try {
+        const parsedMessage = settingsMessageSchema.parse(
+          JSON.parse(message.toString()),
+        );
+        ws.publish("settings", JSON.stringify(parsedMessage));
+        lastSettings = parsedMessage;
+      } catch (e) {
+        console.error(
+          "failed to forward settings sent by either overlay or dashboard:",
+          e,
+        );
+      }
     },
     idleTimeout: 30,
   },

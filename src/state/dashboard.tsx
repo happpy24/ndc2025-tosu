@@ -1,4 +1,5 @@
 import {
+  settingsMessageSchema,
   type DashboardSettings,
   type SettingsMessage,
 } from "@/schemas/settings";
@@ -42,15 +43,12 @@ export function DashboardSettingsProvider({
         ...settings,
       };
 
-      if (!receive) {
-        const message = {
-          type: "SETTINGS",
-          settings: mergedSettings,
-        } satisfies SettingsMessage;
+      const message: SettingsMessage = {
+        type: "SETTINGS",
+        settings: mergedSettings,
+      };
 
-        ws.send(JSON.stringify(message));
-      }
-
+      ws.send(JSON.stringify(message));
       return mergedSettings;
     });
   }
@@ -72,7 +70,18 @@ export function DashboardSettingsProvider({
     });
 
     ws.addEventListener("message", (e) => {
-      setSettings(JSON.parse(e.data).settings, true);
+      const { success, data, error } = settingsMessageSchema.safeParse(
+        JSON.parse(e.data),
+      );
+
+      if (success) {
+        _setSettings(data.settings);
+      } else {
+        console.error(
+          "error on parsing settings received from websocket server:",
+          error.message,
+        );
+      }
     });
   }, [ws]);
 

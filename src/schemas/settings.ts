@@ -1,11 +1,11 @@
 import z from "zod";
-import { screenNames } from "./screens";
+import { screenNameSchema } from "./screens";
 
 export const settingsSchema = z.object({
   matchId: z.number(),
   automaticSelect: z.boolean(),
-  activeScreen: z.literal(screenNames),
-  previousScreen: z.literal(screenNames).optional(),
+  activeScreen: screenNameSchema,
+  previousScreen: screenNameSchema.nullish(),
   countdown: z.date().nullish(),
   bans: z.object({
     red: z.array(z.string()),
@@ -20,7 +20,7 @@ export const settingsSchema = z.object({
 export type DashboardSettings = z.infer<typeof settingsSchema>;
 
 export const settingsMessageSchema = z.object({
-  type: "SETTINGS",
+  type: z.literal("SETTINGS"),
   settings: settingsSchema,
 });
 
