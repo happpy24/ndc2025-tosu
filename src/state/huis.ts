@@ -385,7 +385,7 @@ export function useScheduleQuery() {
     if (match.date < now) {
       splitMatches.recent.unshift(match);
     } else {
-      splitMatches.upcoming.unshift(match);
+      splitMatches.upcoming.push(match);
     }
   }
 
