@@ -59,4 +59,8 @@ const server = serve({
 console.log(
   `Server listening at ${server.url}. Dashboard at ${server.url}dashboard`,
 );
-open(server.url.toString() + "dashboard");
+
+if (import.meta.hot.data.openedDashboard === true) {
+  open(server.url.toString() + "dashboard");
+  import.meta.hot.data.openedDashboard = true;
+}
