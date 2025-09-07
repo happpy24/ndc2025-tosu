@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { sectionVariants, getAnimations } from "./animations";
 import type { AnimTypes } from "./animations";
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
 import { useMatchQuery, useScheduleQuery } from "./state/huis";
 import logo from "./static/img/logo.png";
 import clsx from "clsx";
@@ -15,8 +14,6 @@ interface SchedulingScreenProps {
 }
 
 export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
-  dayjs.extend(utc);
-
   // treat this component as self (to) and other as from
   const anims: AnimTypes = getAnimations(to, from ?? "");
 
@@ -91,8 +88,14 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
                           {dayjs(match.date).fromNow()}
                         </div>
                         <div className="match-timestamp">
-                          {dayjs(match.date).utc().format("dddd HH:mm")}
-                          <span className="match-timestamp-tz">UTC</span>
+                          {dayjs(match.date)
+                            .tz("Europe/Amsterdam")
+                            .format("dddd HH:mm")}
+                          <span className="match-timestamp-tz">
+                            {dayjs(match.date)
+                              .tz("Europe/Amsterdam")
+                              .format("z")}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -152,8 +155,14 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
                           {dayjs(match.date).fromNow()}
                         </div>
                         <div className="match-timestamp">
-                          {dayjs(match.date).utc().format("dddd HH:mm")}
-                          <span className="match-timestamp-tz">UTC</span>
+                          {dayjs(match.date)
+                            .tz("Europe/Amsterdam")
+                            .format("dddd HH:mm")}
+                          <span className="match-timestamp-tz">
+                            {dayjs(match.date)
+                              .tz("Europe/Amsterdam")
+                              .format("z")}
+                          </span>
                         </div>
                       </div>
                     </div>
