@@ -28,6 +28,7 @@ export type tosuBeatmap = {
   title: string;
   artist: string;
   setId?: number;
+  mapId?: number;
   bgUrl?: string;
   difficulty: string;
   mapper: string;
@@ -202,6 +203,7 @@ export function TosuProvider({ children }: { children: ReactNode }) {
             title: parsedData.beatmap.title,
             artist: parsedData.beatmap.artist,
             setId: parsedData.beatmap.set,
+            mapId: parsedData.beatmap.id,
             bgUrl: getBeatmapBgUrl(parsedData.beatmap.set),
             difficulty: parsedData.beatmap.version,
             mapper: parsedData.beatmap.mapper,

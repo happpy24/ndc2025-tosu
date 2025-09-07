@@ -369,7 +369,16 @@ p {
   justify-content: center;
   gap: 20px;
   outline: 6px solid #ff962d;
+  transition: outline 0.5s ease;
   position: relative;
+}
+
+.current-map-picked-player1 {
+  outline: 6px solid #dc1f2b !important;
+}
+
+.current-map-picked-player2 {
+  outline: 6px solid #1f55dc !important;
 }
 
 #current-map-info {
