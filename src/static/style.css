@@ -1267,6 +1267,19 @@ p {
   margin-top: 15px;
 }
 
+.match-timestamp {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+}
+
+.match-timestamp-tz {
+  font-size: 10px;
+  font-family: BenderBold, Helvetica, sans-serif;
+  font-weight: normal;
+  color: #999999;
+}
+
 #schedule {
   width: 1920px;
   height: 1080px;

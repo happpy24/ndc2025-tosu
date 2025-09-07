@@ -88,7 +88,14 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
                           {dayjs(match.date).fromNow()}
                         </div>
                         <div className="match-timestamp">
-                          {dayjs(match.date).format("dddd HH:mm")}
+                          {dayjs(match.date)
+                            .tz("Europe/Amsterdam")
+                            .format("dddd HH:mm")}
+                          <span className="match-timestamp-tz">
+                            {dayjs(match.date)
+                              .tz("Europe/Amsterdam")
+                              .format("z")}
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -148,7 +155,14 @@ export function SchedulingScreen({ from, to }: SchedulingScreenProps) {
                           {dayjs(match.date).fromNow()}
                         </div>
                         <div className="match-timestamp">
-                          {dayjs(match.date).format("dddd HH:mm")}
+                          {dayjs(match.date)
+                            .tz("Europe/Amsterdam")
+                            .format("dddd HH:mm")}
+                          <span className="match-timestamp-tz">
+                            {dayjs(match.date)
+                              .tz("Europe/Amsterdam")
+                              .format("z")}
+                          </span>
                         </div>
                       </div>
                     </div>
