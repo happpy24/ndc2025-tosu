@@ -4,6 +4,7 @@ import { StrictMode } from "react";
 import "./dashboard.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { DashboardSettingsProvider } from "@/state/dashboard.tsx";
+import "@/dayjs.ts";
 
 function start() {
   const rootEl = document.getElementById("root");

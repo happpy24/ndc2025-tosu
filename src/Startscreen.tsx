@@ -95,13 +95,17 @@ export function StartScreen({ from, to }: StartScreenProps) {
                 </div>
               </div>
             </div>
-            <div id="ss-time-to-start">
-              Time to start:{" "}
-              <Countdown
-                renderer={renderer}
-                date={settings.countdown ?? new Date()}
-              />
-            </div>
+            {settings.countdown && (
+              <div id="ss-time-to-start">
+                Time to start:{" "}
+                <Countdown
+                  key={`countdown-${Number(settings.countdown)}`}
+                  renderer={renderer}
+                  date={settings.countdown}
+                  autoStart={true}
+                />
+              </div>
+            )}
           </div>
         </MainContent>
       </motion.div>

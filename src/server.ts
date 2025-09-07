@@ -28,7 +28,6 @@ const server = serve({
       if (lastSettings) {
         ws.send(JSON.stringify(lastSettings));
       }
-      ws.ping();
     },
     close(ws) {
       console.log(`client has disconnected`);

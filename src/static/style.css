@@ -662,6 +662,7 @@ p {
   font-size: 64px;
   font-family: BenderBlack, Helvetica, sans-serif;
   font-weight: normal;
+  font-variant-numeric: tabular-nums;
   color: white;
   text-align: left;
   padding-top: 120px;
@@ -700,6 +701,7 @@ p {
   height: 720px;
   display: flex;
   justify-content: space-between;
+  text-wrap-style: pretty;
 }
 
 #mappool-left {
@@ -798,7 +800,7 @@ p {
   background: radial-gradient(100% 100% at 50% 0%, #553c1a 0%, #2f2218 100%);
 }
 
-.picked-red {
+.picked-player1 {
   outline: 8px solid #dc1f2b;
   position: absolute;
   width: 253px;
@@ -810,7 +812,7 @@ p {
   z-index: 1;
 }
 
-.picked-indicator-red {
+.picked-indicator-player1 {
   width: 180px;
   height: 32px;
   display: flex;
@@ -825,7 +827,7 @@ p {
   transition: transform 0.5s ease;
 }
 
-.picked-blue {
+.picked-player2 {
   outline: 8px solid #1f55dc;
   position: absolute;
   width: 253px;
@@ -837,7 +839,7 @@ p {
   z-index: 1;
 }
 
-.picked-indicator-blue {
+.picked-indicator-player2 {
   width: 180px;
   height: 32px;
   display: flex;
@@ -883,13 +885,13 @@ p {
   opacity: 1 !important;
 }
 
-.picked-active .picked-indicator-red,
-.picked-active .picked-indicator-blue,
+.picked-active .picked-indicator-player1,
+.picked-active .picked-indicator-player2,
 .picked-active .picked-indicator-tb {
   transform: translateX(0);
 }
 
-.banned-red {
+.banned-player1 {
   position: absolute;
   opacity: 0;
   width: 253px;
@@ -898,16 +900,16 @@ p {
   border-radius: 15px 0px;
   transition: opacity 0.5s ease;
   font-size: 24px;
-  text-transform: capitalize;
   color: #dc1f2b;
   font-family: BenderBlack, Helvetica, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   z-index: 1;
 }
 
-.banned-blue {
+.banned-player2 {
   position: absolute;
   opacity: 0;
   width: 253px;
@@ -916,13 +918,21 @@ p {
   border-radius: 15px 0px;
   transition: opacity 0.5s ease;
   font-size: 24px;
-  text-transform: capitalize;
   color: #1f55dc;
   font-family: BenderBlack, Helvetica, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   z-index: 1;
+}
+
+.mappool-player-name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 237px;
 }
 
 .banned-active {

@@ -10,7 +10,7 @@ import { HeaderContent } from "./components/HeaderContent";
 import { FooterContent } from "./components/FooterContent";
 import { PlayerInfo } from "./components/PlayerInfo";
 import { StageInfo } from "./components/StageInfo";
-import { useMappoolQuery, type Beatmap } from "./state/huis";
+import { useMappoolQuery, useMatchQuery, type Beatmap } from "./state/huis";
 import { useSettings } from "./state/dashboard";
 
 function ModBracket(
@@ -18,38 +18,44 @@ function ModBracket(
   mod: Lowercase<Beatmap["modBracket"]>,
 ) {
   const [settings] = useSettings();
+  const match = useMatchQuery();
   const tb = mod === "tb" && "tb";
 
   return (
     <div id={`${mod}-pool`}>
       {beatmaps.map((map) => (
         <div className={`mappool-map ${mod}`} key={map.mapId}>
-          {(["red", "blue"] as const).map((side) => (
+          {(["player1", "player2"] as const).map((player) => (
             <>
               <div
                 className={clsx(
-                  `picked-${tb || side}`,
-                  settings.picks[side].includes(
+                  `picked-${tb || player}`,
+                  settings[player].picks.includes(
                     `${map.modBracket}${map.modBracketIndex}`,
                   ) && "picked-active",
                 )}
-                key={`picked-${tb || side}-${map.mapId}`}
+                key={`picked-${tb || player}-${map.mapId}`}
               >
-                <div className={`picked-indicator-${tb || side}`}>
-                  {tb ? "TIEBREAKER HYPE!!!" : `Picked by ${side}`}
+                <div className={`picked-indicator-${tb || player}`}>
+                  {tb
+                    ? "TIEBREAKER HYPE!!!"
+                    : `Picked by ${player === "player1" ? "Red" : "Blue"}`}
                 </div>
               </div>
               <div
                 className={clsx(
-                  `banned-${side}`,
-                  settings.bans[side].includes(
+                  `banned-${player}`,
+                  settings[player].bans.includes(
                     `${map.modBracket}${map.modBracketIndex}`,
                   ) && "banned-active",
                 )}
-                key={`banned-${tb || side}-${map.mapId}`}
+                key={`banned-${tb || player}-${map.mapId}`}
               >
-                <div className={`banned-indicator-${side}`}>
-                  Banned by {side}
+                <div className={`banned-indicator-${player}`}>
+                  <div>Banned by {player === "player1" ? "Red" : "Blue"}</div>
+                  {/*<div className="mappool-player-name">
+                  {match[player].name}
+                  </div>*/}
                 </div>
               </div>
             </>

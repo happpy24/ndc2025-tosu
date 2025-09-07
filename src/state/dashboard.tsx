@@ -6,15 +6,18 @@ import {
 import { useWebSocket } from "partysocket/react";
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useState,
+  type Dispatch,
   type ReactNode,
+  type SetStateAction,
 } from "react";
 
 const DashboardContext = createContext<{
   settings: DashboardSettings;
-  setSettings: (settings: Partial<DashboardSettings>) => void;
+  setSettings: Dispatch<SetStateAction<DashboardSettings>>;
 } | null>(null);
 
 export function DashboardSettingsProvider({
@@ -28,30 +31,32 @@ export function DashboardSettingsProvider({
     matchId: 0,
     automaticSelect: false,
     activeScreen: "start",
-    countdown: null,
-    bans: { red: [], blue: [] },
-    picks: { red: [], blue: [] },
+    player1: {
+      bans: [],
+      picks: [],
+    },
+    player2: {
+      bans: [],
+      picks: [],
+    },
+    activePlayer: "player1",
   });
 
-  function setSettings(
-    settings: Partial<DashboardSettings>,
-    receive?: boolean,
-  ) {
-    return _setSettings((currentSettings) => {
-      const mergedSettings: DashboardSettings = {
-        ...currentSettings,
-        ...settings,
-      };
-
-      const message: SettingsMessage = {
-        type: "SETTINGS",
-        settings: mergedSettings,
-      };
-
-      ws.send(JSON.stringify(message));
-      return mergedSettings;
-    });
-  }
+  const setSettings = useCallback(
+    (update: SetStateAction<DashboardSettings>) => {
+      _setSettings((currentSettings) => {
+        const nextState =
+          typeof update === "function" ? update(currentSettings) : update;
+        const message: SettingsMessage = {
+          type: "SETTINGS",
+          settings: nextState,
+        };
+        ws.send(JSON.stringify(message));
+        return nextState;
+      });
+    },
+    [ws],
+  );
 
   useEffect(() => {
     ws.addEventListener("open", () => {

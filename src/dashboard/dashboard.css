@@ -19,6 +19,7 @@ html {
   background-color: #0f0321;
   scrollbar-width: thin;
   scrollbar-color: #0f0321 #4c2980;
+  font-size: 20px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -27,8 +28,27 @@ p {
   padding: 0;
 }
 
-#main {
+button {
+  display: inline-block;
+  border: none;
+  padding: 10px 20px;
+  margin: 0;
+  text-decoration: none;
+  color: #000;
+  font-family: sans-serif;
   font-size: 20px;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    background 200ms ease-in-out,
+    transform 150ms ease;
+}
+
+button:active {
+  transform: scale(0.99);
+}
+
+#main {
   font-family: BenderBold, Helvetica, sans-serif;
   font-weight: normal;
   color: white;
@@ -55,8 +75,8 @@ p {
   color: white;
   text-align: left;
   margin-top: 20px;
-  padding-left: 70px;
   display: flex;
+  align-items: center;
   gap: 10px;
   flex-direction: column;
 }
@@ -64,32 +84,39 @@ p {
 #match-select-id {
   position: relative;
   display: flex;
-  flex-direction: row;
-  gap: 10px;
+  flex-direction: column;
+  gap: 18px;
 }
 
 #match-select-id-input {
   position: relative;
-  width: 113px;
+  width: 409px;
   height: 40px;
   background: #4c2980;
   cursor: pointer;
-  display: flex;
-  align-items: center;
+  align-content: center;
   justify-content: space-between;
   padding: 0 10px;
   font-family: "BenderBold", sans-serif;
   font-size: 24px;
   color: white;
   bottom: 8px;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  font-variant-numeric: tabular-nums;
 }
 
 #match-select-id-input::after {
   content: "";
   display: inline-block;
+  position: absolute;
   margin-left: 8px;
   border: 6px solid transparent;
   border-top-color: #fff;
+  transform-origin: center 3px;
+  top: 17px;
+  right: 17px;
   transition: transform 0.2s ease;
 }
 
@@ -97,30 +124,24 @@ p {
   transform: rotate(180deg);
 }
 
-.dropdown-group {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  gap: 0px;
-}
-
 .match-select-dropdown-options {
   position: absolute;
   top: 100%;
-  width: 133px;
+  width: 429px;
   background: #643ba1;
   display: none;
   flex-direction: column;
   margin-top: -8px;
-  margin-left: 206px;
+  text-indent: 10px;
   max-height: 200px;
   overflow-y: auto;
   z-index: 1000;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
 }
 
 .match-select-dropdown-options div {
-  padding: 10px;
-  cursor: pointer;
+  padding: 10px 0;
   font-size: 16px;
   font-weight: 500;
   color: white;
@@ -140,28 +161,43 @@ p {
   gap: 10px;
 }
 
+[type="checkbox"] {
+  appearance: none;
+  aspect-ratio: 1;
+  box-sizing: border-box;
+  font-size: 1em;
+  width: 1em;
+  padding: 0;
+  margin: 0;
+}
+
 #match-select-auto-checkbox {
-  width: 20px;
-  height: 20px;
   border: 2px solid #8454ca;
   background-color: transparent;
   cursor: pointer;
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 200ms ease;
 }
 
-#match-select-auto-checkbox.checked {
-  background-color: #4c2980;
-}
-
-#match-select-auto-checkbox.checked::after {
+#match-select-auto-checkbox::after {
   content: "";
   width: 10px;
   height: 10px;
+  transform: scale(0);
   background-color: #8454ca;
-  display: block;
+  transition: transform 150ms ease-in-out;
+}
+
+#match-select-auto-checkbox:checked {
+  background-color: #4c2980;
+}
+
+#match-select-auto-checkbox:checked::after {
+  content: "";
+  transform: scale(1);
+  display: inline-block;
 }
 
 .divider {
@@ -207,6 +243,7 @@ p {
   cursor: pointer;
   user-select: none;
   transition: background 0.2s ease;
+  text-transform: capitalize;
 }
 
 .scene-switcher-option:hover {

@@ -1,34 +1,59 @@
 import { screenNames, type ScreenName } from "@/schemas/screens";
 import { useSettings } from "@/state/dashboard";
-import { useCurrentMatchesQuery, useMappoolQuery } from "@/state/huis";
-import { useState, useRef, useEffect } from "react";
+import {
+  useCurrentMatchesQuery,
+  useMappoolQuery,
+  type Match,
+} from "@/state/huis";
+import dayjs from "dayjs";
+import { useState, useRef, useEffect, useMemo } from "react";
+import { produce } from "immer";
 
 export function Dashboard() {
   const { data: matches } = useCurrentMatchesQuery();
   const [settings, setSettings] = useSettings();
+  const autoselect = settings.automaticSelect;
+  const selectedMatch = useMemo(() => {
+    const match = matches?.find((m) => m.uid === settings.matchId);
+    return match
+      ? `${match.uid} ${match.player1.name} - ${match.player2.name}`
+      : "Select";
+  }, [matches, settings.matchId]);
+  const countdownDate = dayjs(settings.countdown).format("HH:mm");
+
+  const setAutoselect = (value: boolean) => {
+    setSettings((prev) => ({ ...prev, automaticSelect: value }));
+  };
+
+  const setSelectedScreen = (screen: ScreenName) => {
+    setSettings((prev) => ({
+      ...prev,
+      activeScreen: screen,
+      previousScreen: prev.activeScreen,
+    }));
+  };
+
+  const setSelectedMatch = (match: Match) => {
+    setSettings((prev) => ({
+      ...prev,
+      matchId: match.uid,
+      countdown: match.date,
+    }));
+  };
+
+  const setActivePlayer = (player: "player1" | "player2") => {
+    setSettings((prev) => ({
+      ...prev,
+      activePlayer: player,
+    }));
+  };
 
   // Match ID dropdown
-  const [matchIsOpen, matchSetOpen] = useState(false);
-  const [matchSelected, matchSetSelected] = useState<number>();
+  const [matchIsOpen, setMatchOpen] = useState(false);
   const matchDropdownRef = useRef<HTMLDivElement | null>(null);
-  const matchOptions = matches?.map((match) => match.uid) ?? [];
-
-  // Checkbox
-  const [autoSelect, setAutoSelect] = useState(false);
-
-  // Scene switcher
-  const [selectedScene, _setSelectedScene] = useState<ScreenName>("start");
-  const setSelectedScene = (scene: ScreenName) => {
-    setSettings({ activeScreen: scene, previousScreen: selectedScene });
-    _setSelectedScene(scene);
-  };
-  const scenes = screenNames;
-
-  // Red/Blue buttons
-  const [activePlayer, setActivePlayer] = useState<"red" | "blue">("red");
 
   const { beatmaps } = useMappoolQuery();
-  const pickbanOptions = Object.values(beatmaps)
+  const mappoolOptions = Object.values(beatmaps)
     .flat()
     .map((map) => map.modBracket + map.modBracketIndex);
 
@@ -40,43 +65,53 @@ export function Dashboard() {
   const bansDropdownRef = useRef<HTMLDivElement | null>(null);
   const picksDropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const handleBanConfirm = () => {
-    if (bansSelection === "Confirmed!" || bansSelection === "Select") return;
-    const bans = settings.bans[activePlayer];
-    const newBansActivePlayer = bans.includes(bansSelection)
-      ? bans.filter((b) => b !== bansSelection)
-      : bans.concat([bansSelection]);
-    const newBans = structuredClone(settings.bans);
-    newBans[activePlayer] = newBansActivePlayer;
+  const handleConfirm = (pickOrBan: "bans" | "picks") => {
+    const map = pickOrBan === "bans" ? bansSelection : picksSelection;
+    if (!mappoolOptions.includes(map)) {
+      return;
+    }
 
-    setSettings({ bans: newBans });
-    setBansSelection("Confirmed!");
-    setActivePlayer((p) => (p === "red" ? "blue" : "red"));
-    console.log("Ban confirmed");
+    setSettings(
+      produce((prev) => {
+        const prevSelection = prev[prev.activePlayer];
+        if (!prevSelection[pickOrBan].includes(map)) {
+          prevSelection[pickOrBan].push(map);
+
+          const other = pickOrBan === "bans" ? "picks" : "bans";
+          if (prevSelection[other].includes(map)) {
+            prevSelection[other] = prevSelection[other].filter(
+              (m) => m !== map,
+            );
+          }
+        } else {
+          prevSelection[pickOrBan] = prevSelection[pickOrBan].filter(
+            (m) => m !== map,
+          );
+        }
+
+        prev.activePlayer =
+          prev.activePlayer === "player1" ? "player2" : "player1";
+      }),
+    );
+    pickOrBan === "picks"
+      ? setPicksSelection("Confirmed!")
+      : setBansSelection("Confirmed");
   };
 
-  const handlePickConfirm = () => {
-    if (picksSelection === "Confirmed!" || picksSelection === "Select") return;
-    const picks = settings.picks[activePlayer];
-    const newPicksActivePlayer = picks.includes(picksSelection)
-      ? picks.filter((b) => b !== picksSelection)
-      : picks.concat([picksSelection]);
-    const newPicks = structuredClone(settings.picks);
-    newPicks[activePlayer] = newPicksActivePlayer;
+  const handleCountdownDateChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    let parsedTime = dayjs(e.target.value, "HH:mm");
+    const now = dayjs();
+    if (parsedTime.isBefore(now)) {
+      parsedTime = parsedTime.add(1, "day");
+    }
 
-    setSettings({ picks: newPicks });
-    setPicksSelection("Confirmed!");
-    setActivePlayer((p) => (p === "red" ? "blue" : "red"));
-    console.log("Pick confirmed");
-  };
-
-  const [dateTime, setDateTime] = useState("");
-
-  const handleDateTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setDateTime(value);
-    setSettings({ countdown: new Date(value) });
-    console.log("Selected date and time:", value);
+    setSettings((prev) => ({
+      ...prev,
+      countdown: parsedTime.toDate(),
+    }));
+    console.log("Selected date and time:", parsedTime.toDate());
   };
 
   // Close dropdowns on outside click
@@ -86,7 +121,7 @@ export function Dashboard() {
         matchDropdownRef.current &&
         !matchDropdownRef.current.contains(e.target as Node)
       )
-        matchSetOpen(false);
+        setMatchOpen(false);
       if (
         bansDropdownRef.current &&
         !bansDropdownRef.current.contains(e.target as Node)
@@ -109,38 +144,44 @@ export function Dashboard() {
       {/* Match Select */}
       <div id="match-select">
         <div id="match-select-id" ref={matchDropdownRef}>
-          <div id="match-select-id-text">Select a Match ID:</div>
+          <div id="match-select-id-text">Select a match:</div>
           <div
             id="match-select-id-input"
             className={matchIsOpen ? "open" : ""}
-            onClick={() => matchSetOpen(!matchIsOpen)}
+            onClick={() => setMatchOpen(!matchIsOpen)}
           >
-            {matchSelected ?? "Select"}
+            {selectedMatch}
           </div>
           <div
             className={`match-select-dropdown-options ${matchIsOpen ? "show" : ""}`}
           >
-            {matchOptions.map((opt) => (
+            {matches?.map((match) => (
               <div
-                key={opt}
+                key={match.uid}
                 onClick={() => {
-                  matchSetSelected(opt);
-                  matchSetOpen(false);
-                  setSettings({ matchId: opt });
+                  setSelectedMatch(match);
+                  setMatchOpen(false);
                 }}
               >
-                {opt}
+                {`${match.uid} ${match.player1.name} - ${match.player2.name}`}
               </div>
             ))}
           </div>
         </div>
         <div id="match-select-auto">
-          <div id="match-select-auto-text">Automatic select:</div>
-          <div
+          <label
+            htmlFor="match-select-auto-checkbox"
+            id="match-select-auto-text"
+          >
+            Auto-select match from lobby name:
+          </label>
+          <input
+            type="checkbox"
             id="match-select-auto-checkbox"
-            className={autoSelect ? "checked" : ""}
-            onClick={() => setAutoSelect(!autoSelect)}
-          />
+            name="autoselect"
+            checked={autoselect}
+            onChange={(e) => setAutoselect(e.target.checked)}
+          ></input>
         </div>
       </div>
 
@@ -150,14 +191,14 @@ export function Dashboard() {
       <div id="scene-switcher">
         <div id="scene-switcher-text">Scene Switcher</div>
         <div id="scene-switcher-select">
-          {scenes.map((scene) => (
-            <div
+          {screenNames.map((scene) => (
+            <button
               key={scene}
-              className={`scene-switcher-option ${selectedScene === scene ? "selected" : ""}`}
-              onClick={() => setSelectedScene(scene)}
+              className={`scene-switcher-option ${settings.activeScreen === scene ? "selected" : ""}`}
+              onClick={() => setSelectedScreen(scene)}
             >
-              {scene.charAt(0).toUpperCase() + scene.slice(1)}
-            </div>
+              {scene}
+            </button>
           ))}
         </div>
       </div>
@@ -172,15 +213,19 @@ export function Dashboard() {
         <div id="player-select">
           <button
             id="red-input"
-            className={activePlayer === "red" ? "red active" : "red"}
-            onClick={() => setActivePlayer("red")}
+            className={
+              settings.activePlayer === "player1" ? "red active" : "red"
+            }
+            onClick={() => setActivePlayer("player1")}
           >
             Red Input
           </button>
           <button
             id="blue-input"
-            className={activePlayer === "blue" ? "blue active" : "blue"}
-            onClick={() => setActivePlayer("blue")}
+            className={
+              settings.activePlayer === "player2" ? "blue active" : "blue"
+            }
+            onClick={() => setActivePlayer("player2")}
           >
             Blue Input
           </button>
@@ -200,7 +245,7 @@ export function Dashboard() {
             <div
               className={`ban-select-dropdown-options ${bansOpen ? "show" : ""}`}
             >
-              {pickbanOptions.map((opt) => (
+              {mappoolOptions.map((opt) => (
                 <div
                   key={opt}
                   onClick={() => {
@@ -212,9 +257,9 @@ export function Dashboard() {
                 </div>
               ))}
             </div>
-            <div id="bans-confirm" onClick={handleBanConfirm}>
+            <button id="bans-confirm" onClick={() => handleConfirm("bans")}>
               Confirm
-            </div>
+            </button>
           </div>
 
           <div id="picks" ref={picksDropdownRef}>
@@ -229,7 +274,7 @@ export function Dashboard() {
             <div
               className={`pick-select-dropdown-options ${picksOpen ? "show" : ""}`}
             >
-              {pickbanOptions.map((opt) => (
+              {mappoolOptions.map((opt) => (
                 <div
                   key={opt}
                   onClick={() => {
@@ -241,9 +286,9 @@ export function Dashboard() {
                 </div>
               ))}
             </div>
-            <div id="picks-confirm" onClick={handlePickConfirm}>
+            <button id="picks-confirm" onClick={() => handleConfirm("picks")}>
               Confirm
-            </div>
+            </button>
           </div>
         </div>
       </div>
@@ -255,9 +300,10 @@ export function Dashboard() {
         <div id="countdown-text">Countdown</div>
         <input
           id="countdown-input"
-          type="datetime-local"
-          value={dateTime}
-          onChange={handleDateTimeChange}
+          type="time"
+          value={countdownDate}
+          onChange={handleCountdownDateChange}
+          step={60}
         ></input>
       </div>
     </div>
