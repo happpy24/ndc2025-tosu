@@ -59,7 +59,7 @@ console.log(
   `Server listening at ${server.url}. Dashboard at ${server.url}dashboard`,
 );
 
-if (import.meta.hot.data.openedDashboard === true) {
+if (import.meta.hot.data.openedDashboard !== true) {
   open(server.url.toString() + "dashboard");
   import.meta.hot.data.openedDashboard = true;
 }
