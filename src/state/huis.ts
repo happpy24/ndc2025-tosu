@@ -86,12 +86,14 @@ const matchSchema = z
 
     staff: z.array(staffSchema),
 
-    pickems: z.array(
-      z.object({ pickems_winner: z.number().min(1).max(2).nullable() }),
-    ),
     pickems_rate1: z.number(),
     pickems_rate2: z.number(),
-    pickems_multiplier: z.number(),
+
+    supporters: z.array(
+      z.object({
+        supported_user_id: z.number(),
+      }),
+    ),
   })
   .transform((match) => {
     const getPlayer = (i: 1 | 2) => ({
@@ -102,12 +104,14 @@ const matchSchema = z
       pickemsRate: match[`pickems_rate${i}`].toFixed(2),
       score: match[`team${i}_score`],
       winner: match.winner === i,
-      supporters: 0, // TODO: add
+      supporters: match["supporters"].filter(
+        (s) => s.supported_user_id === match[`player${i}_id`],
+      ).length,
     });
 
     type Player = WithRequired<
       Partial<ReturnType<typeof getPlayer>>,
-      "name" | "avatarUrl" | "pickemsRate"
+      "name" | "avatarUrl" | "pickemsRate" | "supporters" | "seed"
     >;
 
     return {
@@ -120,7 +124,6 @@ const matchSchema = z
       player1: getPlayer(1) as Player,
       player2: getPlayer(2) as Player,
       showMatch: match.is_showmatch,
-      pickemsMultiplier: match.pickems_multiplier,
     };
   });
 
@@ -178,15 +181,26 @@ export function useMatchQuery(): WithRequired<
   const { data, error, isPending } = useCurrentMatchesQuery();
   const [settings] = useSettings();
   const matchId = settings.matchId;
-
   const avatarUrl = getAvatarUrl();
 
   if (isPending) {
     return {
       roundName: "???",
       bracket: "???",
-      player1: { name: "???", avatarUrl, pickemsRate: "0.00" },
-      player2: { name: "???", avatarUrl, pickemsRate: "0.00" },
+      player1: {
+        name: "???",
+        avatarUrl,
+        seed: 0,
+        supporters: 0,
+        pickemsRate: "0.00",
+      },
+      player2: {
+        name: "???",
+        avatarUrl,
+        seed: 0,
+        supporters: 0,
+        pickemsRate: "0.00",
+      },
     };
   }
 
@@ -199,14 +213,22 @@ export function useMatchQuery(): WithRequired<
       player1: {
         name: "Unknown player",
         avatarUrl,
+        seed: 0,
+        supporters: 0,
         pickemsRate: "0.00",
       },
       player2: {
         name: "Unknown player",
         avatarUrl,
+        seed: 0,
+        supporters: 0,
         pickemsRate: "0.00",
       },
     };
+  }
+
+  if (error) {
+    console.error(error);
   }
 
   return match;
