@@ -1,6 +1,5 @@
 import z from "zod";
 import { screenNameSchema } from "./screens";
-import dayjs from "dayjs";
 
 export const playerSchema = z.literal(["player1", "player2"]);
 export type Player = z.infer<typeof playerSchema>;
