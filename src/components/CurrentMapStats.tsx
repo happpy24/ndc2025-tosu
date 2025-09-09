@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { useSettings } from "@/state/dashboard";
 import { useTosu } from "@/state/tosu";
 
@@ -8,11 +9,9 @@ export function CurrentMapStats() {
   return (
     <div
       id="current-map"
-      className={
-        settings.lastPickedBy
-          ? `current-map-picked-${settings.lastPickedBy}`
-          : ""
-      }
+      className={clsx({
+        [`current-map-picked-${settings.lastPickedBy}`]: settings.lastPickedBy,
+      })}
     >
       <img id="beatmap-background" src={beatmap.bgUrl}></img>
       <div id="current-map-info">
