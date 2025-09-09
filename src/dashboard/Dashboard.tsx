@@ -89,6 +89,12 @@ export function Dashboard() {
           );
         }
 
+        if (map.includes("TB")) {
+          prev.lastPickedBy = null;
+        } else {
+          prev.lastPickedBy = prev.activePlayer;
+        }
+
         prev.activePlayer =
           prev.activePlayer === "player1" ? "player2" : "player1";
       }),

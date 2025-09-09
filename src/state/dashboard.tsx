@@ -39,6 +39,7 @@ export function DashboardSettingsProvider({
       bans: [],
       picks: [],
     },
+    lastPickedBy: null,
     activePlayer: "player1",
   });
 
