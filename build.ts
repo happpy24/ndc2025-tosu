@@ -23,6 +23,7 @@ for (const [platform, target] of Object.entries(targets)) {
     outdir: "./dist",
     env: "PUBLIC_*",
     define: define({
+      "process.env.NODE_ENV": "production",
       BUILD_VERSION: version.trim(),
       BUILD_TIME: buildTime,
       GIT_COMMIT: gitCommit.trim(),
