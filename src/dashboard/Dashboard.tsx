@@ -88,6 +88,7 @@ export function Dashboard() {
             (m) => m !== map,
           );
         }
+        prev.lastPickedBy = map.includes("TB") ? null : prev.activePlayer;
 
         prev.activePlayer =
           prev.activePlayer === "player1" ? "player2" : "player1";

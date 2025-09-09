@@ -17,6 +17,7 @@ export const settingsSchema = z.object({
   countdown: z.coerce.date().optional(),
   player1: playerSettingsSchema,
   player2: playerSettingsSchema,
+  lastPickedBy: playerSchema.nullish(),
   activePlayer: playerSchema,
 });
 

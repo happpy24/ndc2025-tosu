@@ -1,19 +1,18 @@
+import clsx from "clsx";
+import { useSettings } from "@/state/dashboard";
 import { useTosu } from "@/state/tosu";
 
 export function CurrentMapStats() {
   const { beatmap } = useTosu();
-
-  function formatTime(ms: number): string {
-    const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    const paddedMinutes = String(minutes).padStart(2, "0");
-    const paddedSeconds = String(seconds).padStart(2, "0");
-    return `${paddedMinutes}:${paddedSeconds}`;
-  }
+  const [settings] = useSettings();
 
   return (
-    <div id="current-map">
+    <div
+      id="current-map"
+      className={clsx({
+        [`current-map-picked-${settings.lastPickedBy}`]: settings.lastPickedBy,
+      })}
+    >
       <img id="beatmap-background" src={beatmap.bgUrl}></img>
       <div id="current-map-info">
         <div id="current-map-name">{beatmap.title}</div>
@@ -51,4 +50,13 @@ export function CurrentMapStats() {
       </div>
     </div>
   );
+}
+
+function formatTime(ms: number): string {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  const paddedMinutes = String(minutes).padStart(2, "0");
+  const paddedSeconds = String(seconds).padStart(2, "0");
+  return `${paddedMinutes}:${paddedSeconds}`;
 }
