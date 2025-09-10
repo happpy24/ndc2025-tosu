@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun --hot src/server.ts",
+    "dev": "bun --hot --console-depth=0 src/server.ts",
     "start": "NODE_ENV=production bun src/server.ts",
     "build": "bun run build.ts"
   },
